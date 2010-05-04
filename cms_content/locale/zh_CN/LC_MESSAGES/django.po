@@ -8,13 +8,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-03 13:07+0800\n"
+"POT-Creation-Date: 2010-05-04 23:33+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:14 admin.py:17
+msgid "title"
+msgstr "标题"
+
+#: admin.py:14
+msgid "user"
+msgstr "作者"
+
+#: admin.py:14
+#, fuzzy
+msgid "category"
+msgstr "分类"
+
+#: admin.py:14
+msgid "belong_to_section"
+msgstr "所属版块"
+
+#: admin.py:14 admin.py:15
+msgid "created"
+msgstr "创建日期"
+
+#: admin.py:14 admin.py:15
+msgid "modified"
+msgstr "修改日期"
+
+#: admin.py:23
+#, fuzzy
+msgid "section"
+msgstr "版块"
 
 #: cms_app.py:8
 msgid "CMS Category"
@@ -40,22 +70,50 @@ msgstr "版块内容描述"
 msgid "Section List"
 msgstr "版块列表"
 
-#: models.py:32
+#: models.py:33
 msgid "Category Name"
 msgstr "分类名称"
 
-#: models.py:33
+#: models.py:34
 msgid "Section"
 msgstr "版块"
 
-#: models.py:34
+#: models.py:35
 msgid "Category Description"
 msgstr "分类内容描述"
 
-#: models.py:40 models.py:41
+#: models.py:41 models.py:42
 msgid "Category List"
 msgstr "分类列表"
 
-#: models.py:60 models.py:61
+#: models.py:52
+#, fuzzy
+msgid "Article Title"
+msgstr "文章列表"
+
+#: models.py:53
+#, fuzzy
+msgid "Article Content"
+msgstr "文章列表"
+
+#: models.py:54
+#, fuzzy
+msgid "Author Name"
+msgstr "分类名称"
+
+#: models.py:55
+msgid "Created Date"
+msgstr "创建日期"
+
+#: models.py:56
+msgid "Last Modified Date"
+msgstr "最后修改日期"
+
+#: models.py:57
+#, fuzzy
+msgid "Category"
+msgstr "分类"
+
+#: models.py:61 models.py:62
 msgid "Article List"
 msgstr "文章列表"
