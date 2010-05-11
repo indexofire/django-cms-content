@@ -6,6 +6,6 @@ from cms_content.models import CMSSection, CMSCategory
 urlpatterns = patterns ('',
     url(r'^$', sections, {'sections': CMSSection.objects.all()}, name='section'),
     url(r'^category/$', categories, {'message': 'sample root page', 'category': CMSCategory.objects.all()}, name='category_index'),
-    url(r'^category/(?P<id>[0-9]+)/$', category_view, name='category_view'),
-    url(r'^(?P<id>[0-9]+)/$', section_view, name='section'),
+    url(r'^(?P<path>.*)/$', category_view, name='category_view'),
+    #url(r'^(?P<id>[0-9]+)/$', section_view, name='section'),
 )
