@@ -7,12 +7,20 @@ from django.contrib.auth.decorators import login_required
 from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.utils import render_to
 
-def categories(request, **kw):
+def sections(request, **kw):
     context = RequestContext(request, kw)
     return render_to_response("cms_content/index.html", context)
 
-def category_view(request, id):
-    return render_to_response('cms_content/category.html', RequestContext(request, {'category':CMSCategory.objects.get(pk=id)}))
+def categories(request, **kw):
+    context = RequestContext(request, kw)
+    return render_to_response("cms_content/category_index.html", context)
+
+def category_view(request, *args):
+#    return render_to_response('cms_content/category.html', RequestContext(request, {'category': CMSCategory.objects.get(pk=id)}))
+    pass
+    
+def section_view(request, *args):
+    return render_to_response('cms_content/section.html', RequestContext(request, {'section': CMSSection.objects.get(pk=id)}))
 
 
 @login_required
@@ -22,4 +30,4 @@ def article_list(request, article_slug):
     article = get_object_or_404(CMSSection, slug=article_slug)
     queryset = CMSArticle.objects.user_objects(request.user).filter(forum=forum)
     paginator = Paginator(queryset, 50)
-    return response(request, 'forum/thread_list.html', {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'forum': forum })
+    return response(request, 'cms_content/article_list.html', {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'forum': forum })

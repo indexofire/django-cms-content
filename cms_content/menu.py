@@ -6,17 +6,28 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 
 from cms.menu_bases import CMSAttachMenu
 from cms.app_base import CMSApp
-from cms_content.models import CMSCategory
+from cms_content.models import CMSSection, CMSCategory
+
+class CMSSectionMenu(Menu):
+    """CMS Section Menu
+    Create a section list menu in pages.
+    """
+    def get_nodes(self, request):
+        nodes = []
+        for section in CMSSection.objects.all():
+            nodes.append(NavigationNode(section.name, section.get_absolute_url(), 'cms_content', section.pk))
+        return nodes
 
 class CMSCategoryMenu(Menu):
-    """
+    """CMS Category Menu
     Create a category list menu in pages.
     """
     def get_nodes(self, request):
         nodes = []
         for cate in CMSCategory.objects.all():
-            nodes.append(NavigationNode(cate.name, cate.get_absolute_url(), 'cmsplugin_category', cate.pk, cate.parent_id, 'cmsplugin_category'))
+            nodes.append(NavigationNode(cate.name, cate.get_absolute_url(), 'cmsplugin_category', cate.pk, cate.section, 'cmsplugin_category'))
 
         return nodes
 
+menu_pool.register_menu(CMSSectionMenu)
 menu_pool.register_menu(CMSCategoryMenu)

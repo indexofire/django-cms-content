@@ -8,8 +8,8 @@ from cms.models.fields import PlaceholderField
 import datetime
 
 class CMSSection(models.Model):
-    """
-    models for CMS's Sections
+    """Models For Django CMS Sections
+    Create a section to contain all category belong to it.
     """
     name = models.CharField(_(u"Section Name"), max_length=20)
     slug = models.CharField(_(u"Slug"), max_length=100)
@@ -23,8 +23,8 @@ class CMSSection(models.Model):
         verbose_name_plural = _(u'Section')
 
     def get_absolute_url(self):
-        #return reverse('section_view', args=[self.pk])
-        pass
+        #return reverse('section_id', args=[self.pk])
+        return "%s/" % self.slug
 
 class CMSCategory(models.Model):
     """
