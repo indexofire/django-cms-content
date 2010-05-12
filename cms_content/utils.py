@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# steal the source from django-annoy: 
+# steal the code from django-annoy: 
 # http://bitbucket.org/offline/django-annoying/
 
 from django.shortcuts import render_to_response
@@ -16,8 +16,7 @@ __all__ = ['render_to', 'signals', 'ajax_request', 'autostrip']
 try:
     from functools import wraps
 except ImportError: 
-    def wraps(wrapped, assigned=('__module__', '__name__', '__doc__'),
-              updated=('__dict__',)):
+    def wraps(wrapped, assigned=('__module__', '__name__', '__doc__'), updated=('__dict__',)):
         def inner(wrapper):
             for attr in assigned:
                 setattr(wrapper, attr, getattr(wrapped, attr))
@@ -28,8 +27,7 @@ except ImportError:
 
 
 def render_to(template=None, mimetype="text/html"):
-    """
-    Decorator for Django views that sends returned dict to render_to_response 
+    """Decorator for Django views that sends returned dict to render_to_response 
     function.
 
     Template name can be decorator parameter or TEMPLATE item in returned 

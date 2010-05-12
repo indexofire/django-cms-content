@@ -43,7 +43,8 @@ class CMSCategory(models.Model):
         verbose_name_plural = _(u'Category')
 
     def get_absolute_url(self):
-        return reverse('category_view', args=[self.pk])
+        #return reverse('category_view', args=[self.pk])
+        return "%s/" % self.slug
 
 
 class CMSArticle(models.Model):

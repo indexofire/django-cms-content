@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -22,12 +22,20 @@ def section_view(request, *args):
     return render_to_response('cms_content/section.html', RequestContext(request, {'section': CMSSection.objects.get(pk=id)}))
 
 @render_to('cms_content/category_list.html')
-def category_view(request, category_slug):
+def category_view(request, slug):
     request_page = request.GET.get('page', 1)
-    category = get_object_or_404(CMSSection, slug=category_slug)
-    queryset = CMSCategory.objects.filter(name=category)
-    paginator = Paginator(queryset, 50)
-    return response(request, {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'category': category})
+    section = get_object_or_404(CMSSection, slug=slug)
+    queryset = CMSCategory.objects.filter(section=section)
+    paginator = Paginator(queryset, 10)
+    return {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'section': section, 'category_list': queryset,}
+
+@render_to('cms_content/article_list.html')
+def article_view(request, path):
+    request_page = request.GET.get('page', 1)
+    category = get_object_or_404(CMSCategory, slug=path)
+    queryset = CMSArticle.objects.filter(category=category)
+    paginator = Paginator(queryset, 10)
+    return {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'section': section, 'category_list': queryset,}
 
 
 @login_required

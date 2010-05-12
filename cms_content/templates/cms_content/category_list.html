@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-2
+
+<h1>{{ section }}</h1>
+<ul>
+  {% for category in category_list %}
+  <li><a href="{{ category.get_absolute_url }}">{{ category }}</a>:<span>{{ category.description }}</span></li>
+  {% endfor %}
+</ul>
+{{ page }} | current page:{{ request_page }}
 {% endblock %}
 
