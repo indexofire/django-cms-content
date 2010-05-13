@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<h1>{{ section }} - {{ category }}</h1>
+<ul>
+  {% for article in article_list %}
+  <li>{{ article.user }}:<a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+  {% endfor %}
+</ul>
 {% endblock %}
 

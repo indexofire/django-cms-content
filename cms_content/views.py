@@ -29,14 +29,26 @@ def category_view(request, slug):
     paginator = Paginator(queryset, 10)
     return {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'section': section, 'category_list': queryset,}
 
-@render_to('cms_content/article_list.html')
-def article_view(request, path):
+
+def article_list(request, slug, *path):
     request_page = request.GET.get('page', 1)
+    section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
     queryset = CMSArticle.objects.filter(category=category)
     paginator = Paginator(queryset, 10)
-    return {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'section': section, 'category_list': queryset,}
+    return render_to_response('cms_content/article_list.html',
+                               {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'category': category, 'section': section, 'article_list': queryset,},
+                               context_instance=RequestContext(request)
+                               )
 
+def article_view(request, slug, path, id):
+    section = get_object_or_404(CMSSection, slug=slug)
+    category = get_object_or_404(CMSCategory, slug=path)
+    queryset = CMSArticle.objects.get(id=id)
+    return render_to_response('cms_content/article.html',
+                               {'category': category, 'section': section, 'article': queryset,},
+                               context_instance=RequestContext(request)
+                               )
 
 @login_required
 @render_to('article_list.html')

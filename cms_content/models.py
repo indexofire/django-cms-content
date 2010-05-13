@@ -76,5 +76,6 @@ class CMSArticle(models.Model):
     #    self.category.save()
 
     def get_absolute_url(self):
-        return reverse('article_view', args=[self.pk])
+        #return reverse('article_view', args=[self.pk])
+        return "%s/" % self.id
 
