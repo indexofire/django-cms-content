@@ -7,6 +7,6 @@ urlpatterns = patterns ('',
     url(r'^$', sections, {'sections': CMSSection.objects.all()}, name='section'),
     #url(r'^category/$', categories, {'message': 'sample root page', 'category': CMSCategory.objects.all()}, name='category_index'),
     url(r'^(?P<slug>\w*)/$', category_view, name='category_view'),
-    url(r'^(?P<sect_slug>\w*)/(?P<cate_slug>\w*)/$', article_list),
+    url(r'^(?P<slug>\w*)/(?P<path>\w*)/$', article_list),
     url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<id>[0-9]+)/$', article_view),
 )
