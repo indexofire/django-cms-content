@@ -7,10 +7,13 @@ from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.forms import CMSArticleAdminForm
 
 class CMSSectionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    list_filter = ('created', 'modified')
     pass
 
 class CMSCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'section')
+    list_filter = ('created', 'modified')
     pass
 
 class CMSArticleAdmin(admin.ModelAdmin):

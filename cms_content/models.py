@@ -8,12 +8,14 @@ from cms.models.fields import PlaceholderField
 import datetime
 
 class CMSSection(models.Model):
-    """Models For Django CMS Sections
+    """Models For Django CMS Sections:
     Create a section to contain all category belong to it.
     """
     name = models.CharField(_(u"Section Name"), max_length=20)
     slug = models.CharField(_(u"Slug"), max_length=100)
     description = models.TextField(_(u"Section Description"))
+    created = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
+    modified = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -27,13 +29,15 @@ class CMSSection(models.Model):
         return "%s/" % self.slug
 
 class CMSCategory(models.Model):
-    """
-    models for CMS's Categories
+    """Models for CMS's Categories:
+    Create a category which is belong to a section.
     """
     name = models.CharField(_(u"Category Name"), max_length=40)
     slug = models.CharField(_(u"Slug"), max_length=100)
     section = models.ForeignKey(CMSSection, verbose_name=_(u"Section"), blank=True, null=True)
     description = models.TextField(_(u"Category Description"))
+    created = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
+    modified = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -48,8 +52,7 @@ class CMSCategory(models.Model):
 
 
 class CMSArticle(models.Model):
-    """
-    models for CMS's Articles
+    """Models for CMS's Articles:
     """
     title = models.CharField(_(u"Article Title"), max_length=100)
     content = models.TextField(_(u"Article Content"))
