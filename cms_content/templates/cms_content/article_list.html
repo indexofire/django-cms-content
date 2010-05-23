@@ -4,7 +4,7 @@
 <h1>{{ section }} - {{ category }}</h1>
 <ul>
   {% for article in article_list %}
-  <li>{{ article.user }}:<a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+  <li><h3>{{ article.created_by }}:<a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3></li>
   {% endfor %}
 </ul>
 {% endblock %}

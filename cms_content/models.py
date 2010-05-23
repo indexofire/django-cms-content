@@ -53,21 +53,25 @@ class CMSCategory(models.Model):
 
 class CMSArticle(models.Model):
     """Models for CMS's Articles:
+    one article in one category.
     """
     title = models.CharField(_(u"Article Title"), max_length=100)
+    slug = models.CharField(_(u"Slug"), max_length=100)
     content = models.TextField(_(u"Article Content"))
-    user = models.ForeignKey(User, verbose_name=_(u"Author Name"))
-    created = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
-    modified = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
-    category = models.ForeignKey(CMSCategory, verbose_name=_(u"Category"), blank=True, null=True)
+    created_by = models.ForeignKey(User, verbose_name=_(u"Author Name"), related_name=_(u"author"))
+    created_date = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
+    last_modified_by = models.ForeignKey(User, verbose_name=_(u"Last Modified By"), related_name=_(u"revisor"))
+    last_modified_date = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
+    category = models.ForeignKey(CMSCategory, verbose_name=_(u"Category"))
+    is_published = models.BooleanField(_(u"Publish It"))
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['-created_by']
         verbose_name = _(u'Article')
         verbose_name_plural = _(u'Article')
 
     def __unicode__(self):
-        return u'%s - %s' % (self.user.username, self.title)
+        return u'%s - %s' % (self.created_by.username, self.title)
 
     #def save(self, *args, **kwargs):
     #    self.modified = datetime.datetime.now()
