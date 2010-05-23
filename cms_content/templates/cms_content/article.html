@@ -3,7 +3,7 @@
 
 {% block content %}
 <h2 style="padding:20px;">{{ article.title }}</h2>
-<pre style="padding: 20px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">
-{{ article.content }}
-</pre>
+<div style="padding:20px;">
+{{ article.content|safe }}
+</div>
 {% endblock %}
