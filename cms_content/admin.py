@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
+from django.conf.urls.defaults import *
 from django.utils.translation import ugettext as _
 from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.forms import CMSArticleAdminForm
+from cms_content.views import article_view
 from datetime import datetime
 
 
@@ -49,21 +51,26 @@ class CMSArticleAdmin(admin.ModelAdmin):
     #readonly_fields = ('user',)
     #list_editable = ('category',)
     form = CMSArticleAdminForm
-    
+
     def belong_to_section(self, obj):
         article = CMSArticle.objects.select_related().get(pk=obj.id)
         return article.category.section
     belong_to_section.short_description = 'section'
-    
-    #def article_author(self, request):
-    #    return request.user
-    #article_author.short_description = 'Author'
-    
+
     def save_model(self, request, obj, form, change):
-        obj.last_modified_by = request.user
-        obj.last_modified_date = datetime.now()
+        print "save model"
+        if change:
+            obj.last_modified_by = request.user
+            obj.last_modified_date = datetime.now()
         obj.save()
 
+    def get_urls(self):
+        urls = super(CMSArticleAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(r'^article/$', article_view, name="article_view"),
+        )
+        return my_urls + urls
+        
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
 admin.site.register(CMSArticle, CMSArticleAdmin)
