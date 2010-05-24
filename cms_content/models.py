@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from cms.models.fields import PlaceholderField
 
-import datetime
-
 class CMSSection(models.Model):
     """Models For Django CMS Sections:
     Create a section to contain all category belong to it.
@@ -58,9 +56,9 @@ class CMSArticle(models.Model):
     title = models.CharField(_(u"Article Title"), max_length=100)
     slug = models.CharField(_(u"Slug"), max_length=100)
     content = models.TextField(_(u"Article Content"))
-    created_by = models.ForeignKey(User, verbose_name=_(u"Author Name"), related_name=_(u"author"))
+    created_by = models.ForeignKey(User, verbose_name=_(u"Author Name"), related_name="author")
     created_date = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
-    last_modified_by = models.ForeignKey(User, verbose_name=_(u"Last Modified By"), related_name=_(u"revisor"))
+    last_modified_by = models.ForeignKey(User, verbose_name=_(u"Last Modified By"), related_name="revisor")
     last_modified_date = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
     category = models.ForeignKey(CMSCategory, verbose_name=_(u"Category"))
     is_published = models.BooleanField(_(u"Publish It"))
