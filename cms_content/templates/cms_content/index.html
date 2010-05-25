@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n cms_tags %}
 
+<div style="padding: 10px">
 {% block content %}
 <ul>
 {% for section in sections %}
@@ -8,3 +9,4 @@
 {% endfor %}
 </ul>
 {% endblock %}
+</div>
