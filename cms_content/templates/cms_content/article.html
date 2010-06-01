@@ -2,8 +2,14 @@
 {% load i18n cms_tags %}
 
 {% block content %}
-<h2 style="padding:20px;">{{ article.title }}</h2>
-<div style="padding:20px;">
-{{ article.content|safe }}
+<div class="span-18" style="padding:20px;border-right:1px dashed #ACACAC">
+  <h2 >{{ article.title }}</h2>
+  <h5>Author: {{ article.created_by }} | Created Time: {{ article.created_date }}</h5>
+  <div>
+  {{ article.content|safe }}
+  </div>
+</div>
+<div class="span-6 last">
+  
 </div>
 {% endblock %}
