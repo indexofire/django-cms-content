@@ -23,11 +23,11 @@ class CMSSectionMenu(Menu):
             nodes.append(NavigationNode(section.name, '/cms/'+section.get_absolute_url(), section.pk))
             count += 1
             for category in CMSCategory.objects.select_related('section').filter(section__pk=section.pk):
-                num = count
-                nodes.append(NavigationNode(category.name, '/cms/'+section.get_absolute_url()+category.get_absolute_url(), num, category.section.pk))
+                parent = count
+                nodes.append(NavigationNode(category.name, '/cms/'+section.get_absolute_url()+category.get_absolute_url(), parent, category.section.pk))
                 count += 1
                 for article in CMSArticle.objects.select_related('category').filter(category__pk=category.pk):
-                    nodes.append(NavigationNode(article.title, '/cms/'+section.get_absolute_url()+category.get_absolute_url()+article.get_absolute_url(), count, num))
+                    nodes.append(NavigationNode(article.title, '/cms/'+section.get_absolute_url()+category.get_absolute_url()+article.get_absolute_url(), count, parent))
                     count += 1
 
         return nodes
