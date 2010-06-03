@@ -13,35 +13,27 @@ class CMSSectionMenu(Menu):
     """CMS Section Menu
     Create a section list menu in pages.
     """
-    #name = _("CMS Content")
+    #name = _("CMS Content Section Menu")
 
     def get_nodes(self, request):
         nodes = []
         count = 1
+        sections = CMSSection.objects.all()
 
-        for section in CMSSection.objects.all():
+        for section in sections:
             nodes.append(NavigationNode(section.name, '/cms/'+section.get_absolute_url(), section.pk))
             count += 1
-            for category in CMSCategory.objects.select_related('section').filter(section__pk=section.pk):
+            categories = CMSCategory.objects.select_related('section').filter(section__pk=section.pk)
+            for category in categories:
                 parent = count
                 nodes.append(NavigationNode(category.name, '/cms/'+section.get_absolute_url()+category.get_absolute_url(), parent, category.section.pk))
                 count += 1
-                for article in CMSArticle.objects.select_related('category').filter(category__pk=category.pk):
+                # maybe it's not a good idea if there are alot articles read in memory
+                articles = CMSArticle.objects.select_related('category').filter(category__pk=category.pk).iterator()
+                for article in articles:
                     nodes.append(NavigationNode(article.title, '/cms/'+section.get_absolute_url()+category.get_absolute_url()+article.get_absolute_url(), count, parent))
                     count += 1
 
         return nodes
 
-class CMSCategoryMenu(Menu):
-    """CMS Category Menu
-    Create a category list menu in pages.
-    """
-    def get_nodes(self, request):
-        nodes = []
-        for cate in CMSCategory.objects.all():
-            nodes.append(NavigationNode(cate.name, cate.get_absolute_url(), 'cmsplugin_category', cate.pk, cate.section, 'cmsplugin_category'))
-
-        return nodes
-
 menu_pool.register_menu(CMSSectionMenu)
-menu_pool.register_menu(CMSCategoryMenu)

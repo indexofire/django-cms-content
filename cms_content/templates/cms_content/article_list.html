@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ section }} - {{ category }}</h1>
+<div class="span-18" style="padding:20px;border-right:1px dashed #ACACAC">
+<h2>{{ section }} - {{ category }}</h2>
 <ul>
   {% for article in article_list %}
-  <li><h3>{{ article.created_by }}:<a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3></li>
+  <li>
+    <h5>
+    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+    <span> | Author: {{ article.created_by }}</span>
+    </h5>
+  </li>
   {% endfor %}
 </ul>
+</div>
 {% endblock %}
 
