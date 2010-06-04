@@ -61,7 +61,7 @@ class CMSArticle(models.Model):
     last_modified_by = models.ForeignKey(User, verbose_name=_(u"Last Modified By"), related_name="revisor")
     last_modified_date = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
     category = models.ForeignKey(CMSCategory, verbose_name=_(u"Category"))
-    is_published = models.BooleanField(_(u"Publish It"))
+    is_published = models.BooleanField(_(u"Published"))
 
     class Meta:
         ordering = ['-created_by']
