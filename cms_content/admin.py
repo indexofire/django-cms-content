@@ -32,10 +32,16 @@ class CMSSectionAdmin(admin.ModelAdmin):
     inlines = [CMSCategoryInline,]
 
 class CMSCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'section')
-    list_filter = ('created', 'modified')
+    #list_display = ('name', 'section')
+    #list_filter = ('created', 'modified')
     prepopulated_fields = {"slug": ("name",)}
-    inlines = [CMSArticleInline,]
+    #inlines = [CMSArticleInline,]
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'section':
+            kwargs["queryset"] = CMSSection.objects.filter(slug="python")
+            return db_field.formfield(**kwargs)
+        return super(CMSCategoryAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 class CMSArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_by', 'category', 'belong_to_section', 'created_date', 'last_modified_by', 'last_modified_date', 'is_published')
@@ -44,7 +50,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     #list_display_links = ('title', )
     search_fields = ('title', 'content')
-    #readonly_fields = ('user',)
+    #readonly_fields = ('title',)
     #list_editable = ('category',)
     actions = ['make_publish', 'translate_content']
     form = CMSArticleAdminForm
@@ -63,7 +69,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super(CMSArticleAdmin, self).get_urls()
         my_urls = patterns('',
-            url(r'^article/$', article_view, name="article_view"),
+            url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<id>[0-9]+)/$', article_view),
         )
         return my_urls + urls
 
@@ -75,7 +81,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     def translate_content(self, request, queryset):
         self.message_user(request, "The article(s) had been translated!")
         pass
-    translate_content.short_description = _(u"Translate the article")
+    translate_content.short_description = _(u"Translate the article by google")
 
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
