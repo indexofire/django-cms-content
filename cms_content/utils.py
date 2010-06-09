@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# steal the code from django-annoy: 
+# steal some of the code from django-annoy: 
 # http://bitbucket.org/offline/django-annoying/
-
+import gc
 from django.shortcuts import render_to_response
 from django import forms
 from django.template import RequestContext
@@ -11,7 +11,6 @@ from django.http import HttpResponse
 from django.utils import simplejson
 
 __all__ = ['render_to', 'signals', 'ajax_request', 'autostrip']
-
 
 try:
     from functools import wraps
@@ -86,7 +85,7 @@ def render_to(template=None, mimetype="text/html"):
 
 
 class Signals(object):
-    '''
+    """
     Convenient wrapper for working with Django's signals (or any other
     implementation using same API).
 
@@ -110,7 +109,7 @@ class Signals(object):
     In any case defined function will remain as is, without any changes.
 
     (c) 2008 Alexander Solovyov, new BSD License
-    '''
+    """
     def __init__(self):
         self._signals = {}
 
@@ -195,3 +194,23 @@ def autostrip(cls):
         setattr(field_object, 'clean', clean_func)
     return cls
 
+
+def queryset_iterator(queryset, chunksize=1000):
+    """Iterate over a Django Queryset ordered by the primary key
+
+    This method loads a maximum of chunksize (default: 1000) rows in it's
+    memory at the same time while django normally would load all rows in it's
+    memory. Using the iterator() method only causes it to not preload all the
+    classes.
+
+    Note that the implementation of the iterator does not support ordered query
+    sets.
+    """
+    pk = 0
+    last_pk = queryset.order_by('-pk')[0].pk
+    queryset = queryset.order_by('pk')
+    while pk < last_pk:
+        for row in queryset.filter(pk__gt=pk)[:chunksize]:
+            pk = row.pk
+            yield row
+        gc.collect()

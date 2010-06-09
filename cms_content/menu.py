@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse, NoReverseMatch
-
 from cms.menu_bases import CMSAttachMenu
 from cms.app_base import CMSApp
 from menus.base import Menu, NavigationNode
 from menus.menu_pool import menu_pool
-
-from cms_content.models import CMSSection, CMSCategory, CMSArticle
+from cms_content.models import *
+from cms_content.utils import queryset_iterator
 
 class CMSSectionMenu(Menu):
     """CMS Section Menu
@@ -18,7 +18,7 @@ class CMSSectionMenu(Menu):
     def get_nodes(self, request):
         nodes = []
         count = 1
-        sections = CMSSection.objects.all()
+        sections = queryset_iterator(CMSSection.objects.all())
 
         for section in sections:
             nodes.append(NavigationNode(section.name, '/cms/'+section.get_absolute_url(), section.pk))

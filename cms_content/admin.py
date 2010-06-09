@@ -9,6 +9,7 @@ from cms_content.views import article_view
 from datetime import datetime
 from cms_content.glanguage import Translator
 
+
 class CMSArticleInline(admin.StackedInline):
     """Article Inline
     Create an article inline form to support add articles in category interface.
