@@ -7,7 +7,7 @@ from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.forms import CMSArticleAdminForm
 from cms_content.views import article_view
 from datetime import datetime
-from cms_content.glanguage import Translator
+from cms_content.utils.translator import Translator
 
 
 class CMSArticleInline(admin.StackedInline):

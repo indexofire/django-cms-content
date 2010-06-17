@@ -1,17 +1,15 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
-JQUERY_URL = getattr(settings,'WYMEDITOR_JQUERY_URL','cms_content/js/jquery.js')
-JS_URL = getattr(settings,'WYMEDITOR_JS_URL','cms_content/js/wymeditor/')
 
 class WYMEditor(forms.Textarea):
     class Media:
         js = (
-            #'%s' % JQUERY_URL,
             'admin/js/jquery.min.js',
-            '%sjquery.wymeditor.pack.js' % JS_URL,
-            #'%splugins/jquery.wymeditor.filebrowser.js' % JS_URL,
+            'cms_content/js/wymeditor/jquery.wymeditor.pack.js',
         )
 
     def __init__(self, language=None, attrs=None):
@@ -27,6 +25,7 @@ class WYMEditor(forms.Textarea):
             jQuery('#id_%s').wymeditor({
                 updateSelector: '.submit-row input[type=submit]',
                 updateEvent: 'click',
+                skin: 'default',
                 lang: '%s',
                 postInitDialog: function (wym, wdw) {
                     wymeditor_filebrowser(wym, wdw);
