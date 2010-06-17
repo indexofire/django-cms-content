@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from cms_content.widgets import WYMEditor
+from cms_content.widgets.wymeditor import WYMEditor
 from cms_content.models import CMSArticle
 
 class CMSArticleAdminForm(forms.ModelForm):

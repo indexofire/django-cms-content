@@ -7,7 +7,7 @@ from cms.app_base import CMSApp
 from menus.base import Menu, NavigationNode
 from menus.menu_pool import menu_pool
 from cms_content.models import *
-from cms_content.utils import queryset_iterator
+from cms_content.utils.queryset import queryset_iterator
 
 class CMSSectionMenu(Menu):
     """CMS Section Menu

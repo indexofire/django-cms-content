@@ -1,55 +1,38 @@
-#!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright (C) 2009, DaNmarner danmarner(at)gmail dot com
+# The source code is from DaNmarner. Copyright (C) 2009, danmarner@gmail.com
 #
 # Originally written by Peteris Krumins (peter@catonmat.net)
 # http://www.catonmat.net/blog/python-library-for-google-translate/
 #
 # Code is licensed under MIT license.
+#
+# It's a wrapper for Google AJAX Langugae API with GAE support. The utility
+# being used in django cms_ontent as an action to translate articles.
+#
 
-''' A wrapper for Google AJAX Langugae API with GAE support '''
 import urllib2
 from urllib import quote_plus
 
 try:
-    import simplejson
+    import simplejson as json
 except ImportError:
     try:
-        from django.utils import simplejson
+        from django.utils import simplejson as json
     except ImportError:
         pass
 
-# support Google App Engine.  GAE does not have a working urllib.urlopen.
-try:
-    from google.appengine.api import urlfetch
-
-    def urlread(url, data=None):
-        if data is not None:
-            headers = {"Content-type": "application/x-www-form-urlencoded"}
-            method = urlfetch.POST
-        else:
-            headers = {}
-            method = urlfetch.GET
-
-        result = urlfetch.fetch(url, method=method,
-                                payload=data, headers=headers)
-        
-        if result.status_code == 200:
-            return result.content
-        else:
-            raise urllib2.URLError("fetch error url=%s, code=%d" % (url, result.status_code))
-
-except ImportError:
-    def urlread(url, data=None):
-        res = urllib2.urlopen(url, data=data)
-        return res.read()
+def urlread(url, data=None):
+    res = urllib2.urlopen(url, data=data)
+    return res.read()
  
-
 class TranslationError(Exception):
     pass
 
 class Translator(object):
-    ''' Wrapper for Google AJAX Language API.'''
+    """
+    Wrapper for Google AJAX Language API.
+    """
 
     translate_url = "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=%(message)s&langpair=%(from)s%%7C%(to)s"
     detect_url = "http://ajax.googleapis.com/ajax/services/language/detect?v=1.0&q=%(message)s"
@@ -75,7 +58,7 @@ class Translator(object):
 
         try:
             translation = self.urlread(real_url)
-            data = simplejson.loads(translation)
+            data = json.loads(translation)
 
             if data['responseStatus'] != 200:
                 raise TranslationError, "Failed translating: %s" % data['responseDetails']
@@ -100,7 +83,7 @@ class Translator(object):
 
         try:
             detection = self.urlread(real_url)
-            data = simplejson.loads(detection)
+            data = json.loads(detection)
 
             if data['responseStatus'] != 200:
                 raise DetectError, "Failed detecting language: %s" % data['responseDetails']
