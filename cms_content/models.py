@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from cms.models.fields import PlaceholderField
 
+
 class CMSSection(models.Model):
-    """Models For Django CMS Sections:
+    """
+    Models For Django CMS Sections:
     Create a section to contain all category belong to it.
     """
     name = models.CharField(_(u"Section Name"), max_length=20)
@@ -27,7 +29,8 @@ class CMSSection(models.Model):
         return "%s/" % self.slug
 
 class CMSCategory(models.Model):
-    """Models for CMS's Categories:
+    """
+    Models for CMS's Categories:
     Create a category which is belong to a section.
     """
     name = models.CharField(_(u"Category Name"), max_length=40)
@@ -50,7 +53,8 @@ class CMSCategory(models.Model):
 
 
 class CMSArticle(models.Model):
-    """Models for CMS's Articles:
+    """
+    Models for CMS's Articles:
     one article in one category.
     """
     title = models.CharField(_(u"Article Title"), max_length=100)
@@ -82,5 +86,5 @@ class CMSArticle(models.Model):
 
     def get_absolute_url(self):
         #return reverse('article_view', args=[self.pk])
-        return "%s/" % self.id
+        return "%s/" % self.slug
 

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.utils.render import render_to
 
+
 def sections(request, **kw):
     context = RequestContext(request, kw)
     return render_to_response("cms_content/index.html", context)
@@ -39,8 +40,8 @@ def article_list(request, slug, path):
     return {'page': paginator.page(request_page), 'paginator': paginator, 'request_page': int(request_page), 'category': category, 'section': section, 'article_list': queryset,}
 
 @render_to('cms_content/article.html')
-def article_view(request, slug, path, id):
+def article_view(request, slug, path, name):
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
-    queryset = CMSArticle.objects.get(id=id)
+    queryset = CMSArticle.objects.get(slug=name)
     return {'category': category, 'section': section, 'article': queryset,}
