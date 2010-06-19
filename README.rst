@@ -40,6 +40,8 @@ Install the app is simple like any other django app, you just need to insert
        ...
    )
 
+copy or link media/cms_content folder to your media folder.
+
 Adding a page in admin and giving a name of it, for example 'content', and it 
 has a root page whose name is 'cms'. so the url for the cms will be /cms/content/
 as default. revise the value of CMS_CONTENT_URL to it in cms_content/settings.py
@@ -48,4 +50,11 @@ as default. revise the value of CMS_CONTENT_URL to it in cms_content/settings.py
 
    CMS_CONTENT_URL = '/cms/content/'
 
-Now, open your browser visit the content.
+in admin, create your sections and categories, then add articles. After that 
+open your browser, visit /cms/content/ URL, you will see the content.
+
+2.2 Setup
+*****************************
+
+the default WYSIWYG editor is WYMEditor. You can use TinyMCE via changing widget
+in forms.py.
