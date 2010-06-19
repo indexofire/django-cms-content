@@ -44,4 +44,8 @@ Adding a page in admin and giving a name of it, for example 'content', and it
 has a root page whose name is 'cms'. so the url for the cms will be /cms/content/
 as default. revise the value of CMS_CONTENT_URL to it in cms_content/settings.py
 
+::
+
+   CMS_CONTENT_URL = '/cms/content/'
+
 Now, open your browser visit the content.
