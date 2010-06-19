@@ -10,7 +10,6 @@ from menus.menu_pool import menu_pool
 
 from cms_content import settings
 from cms_content.models import *
-from cms_content.utils.queryset import queryset_iterator
 
 
 class CMSSectionMenu(CMSAttachMenu):
@@ -23,7 +22,7 @@ class CMSSectionMenu(CMSAttachMenu):
     def get_nodes(self, request):
         nodes = []
         count = 1
-        sections = queryset_iterator(CMSSection.objects.all())
+        sections = CMSSection.objects.all()
 
         for section in sections:
             nodes.append(NavigationNode(section.name,
