@@ -32,11 +32,13 @@ comes from joomla_ , a PHP CMS program.
 Install the app is simple like any other django app, you just need to insert
 `cms_content` into your INSTALLED_APP of your project settings file like this:
 
-| INSTALLED_APPS = (
-|    ...
-|    'cms_content',
-|     ...
-| )
+::
+
+   INSTALLED_APPS = (
+       ...
+       'cms_content',
+       ...
+   )
 
 Adding a page in admin and giving a name of it, for example 'content', and it 
 has a root page whose name is 'cms'. so the url for the cms will be /cms/content/
