@@ -2,6 +2,9 @@
 Django CMS 2.0 Content App
 ============================
 
+.. contents::
+
+
 1. Introduction
 ----------------------------
 
@@ -30,7 +33,7 @@ comes from joomla_ , a PHP CMS program.
 Install the app is simple like any other django app, you just need to insert
 `cms_content` into your INSTALLED_APP of your project settings file like this:
 
-.. code:
+.. :
 
    INSTALLED_APPS = (
        ...
