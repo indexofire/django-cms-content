@@ -33,16 +33,10 @@ class CMSSectionAdmin(admin.ModelAdmin):
     inlines = [CMSCategoryInline,]
 
 class CMSCategoryAdmin(admin.ModelAdmin):
-    #list_display = ('name', 'section')
-    #list_filter = ('created', 'modified')
+    list_display = ('name', 'section', 'description')
+    list_filter = ('created', 'modified')
     prepopulated_fields = {"slug": ("name",)}
     #inlines = [CMSArticleInline,]
-    
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'section':
-            kwargs["queryset"] = CMSSection.objects.filter(slug="python")
-            return db_field.formfield(**kwargs)
-        return super(CMSCategoryAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 class CMSArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_by', 'category', 'belong_to_section', 'created_date', 'last_modified_by', 'last_modified_date', 'is_published')
