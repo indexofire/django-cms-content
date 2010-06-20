@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
-{% load i18n cms_tags %}
+{% load i18n cms_tags pygmentize %}
 
 {% block content %}
+<link href="/media/cms_content/css/pygments.css" rel="stylesheet" type="text/css" />
 <div class="span-18" style="padding:20px;border-right:1px dashed #ACACAC">
   <h2 >{{ article.title }}</h2>
   <h5>Author: {{ article.created_by }} | Created Time: {{ article.created_date }}</h5>
   <div>
-  {{ article.content|safe }}
+  {{ article.content|safe|pygmentize }}
   </div>
 </div>
 <div class="span-6 last">
