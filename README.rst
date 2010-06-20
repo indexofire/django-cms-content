@@ -58,5 +58,21 @@ open your browser, visit /cms/content/ URL, you will see the all your articles.
 2.2 Setup
 *****************************
 
-the default WYSIWYG editor is WYMEditor. You can use TinyMCE via changing widget
+The default WYSIWYG editor is WYMEditor. You can use TinyMCE via changing widget
 in forms.py.
+
+If your site is nothing about programing or you don't want to use code highlight,
+please remove templatetag *pygmentize* and *pygments.css* file in 
+template/cms_content/article.html
+
+2.3 Dependencies
+*****************************
+
+Because default WYSIWYG editor 'WYMEditor' was supported pygments code highlight,
+so django-cms-2.0-content has dependencies:
+
+* BeautifulSoup_
+* Pygments_
+
+.. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
+.. _Pygments: http://pygments.org/
