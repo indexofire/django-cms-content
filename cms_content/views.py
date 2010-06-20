@@ -30,7 +30,7 @@ def article_list(request, slug, path):
     request_page = request.GET.get('page', 1)
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
-    queryset = CMSArticle.objects.filter(category=category)
+    queryset = CMSArticle.objects.filter(category=category).exclude(is_published=False)
     paginator = Paginator(queryset, 10)
     return {'page': paginator.page(request_page),
         'paginator': paginator,
