@@ -47,8 +47,6 @@ class CMSSectionMenu(CMSAttachMenu):
                         parent)
                     )
                     count += 1
-        #for node in nodes:
-        #    print node
         return nodes
 
 menu_pool.register_menu(CMSSectionMenu)

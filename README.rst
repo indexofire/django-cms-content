@@ -42,16 +42,18 @@ Install the app is simple like any other django app, you just need to insert
 
 copy or link media/cms_content folder to your media folder.
 
-Adding a page in admin and giving a name of it, for example 'content', and it 
-has a root page whose name is 'cms'. so the url for the cms will be /cms/content/
-as default. revise the value of CMS_CONTENT_URL to it in cms_content/settings.py
+Adding a page in admin and giving a name of it, for example 'content'. set 
+*attached menu* to CMS Content Menu and *application* to CMS Section in the
+page's advanced settings. And if the content page has a root page whose name is 
+'cms', then the url for the cms will be /cms/content/ as default. revise the 
+value of CMS_CONTENT_URL to it in cms_content/settings.py
 
 ::
 
    CMS_CONTENT_URL = '/cms/content/'
 
 in admin, create your sections and categories, then add articles. After that 
-open your browser, visit /cms/content/ URL, you will see the content.
+open your browser, visit /cms/content/ URL, you will see the all your articles.
 
 2.2 Setup
 *****************************
