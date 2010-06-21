@@ -26,7 +26,7 @@ class CMSSectionMenu(CMSAttachMenu):
 
         for section in sections:
             nodes.append(NavigationNode(section.name,
-                settings.CMS_CONTENT_URL+section.get_absolute_url(),
+                settings.ROOT_URL+section.get_absolute_url(),
                 section.pk)
             )
             count += 1
@@ -34,7 +34,7 @@ class CMSSectionMenu(CMSAttachMenu):
             for category in categories:
                 parent = count
                 nodes.append(NavigationNode(category.name,
-                    settings.CMS_CONTENT_URL+section.get_absolute_url()+category.get_absolute_url(),
+                    settings.ROOT_URL+section.get_absolute_url()+category.get_absolute_url(),
                     parent,
                     category.section.pk)
                 )
@@ -42,7 +42,7 @@ class CMSSectionMenu(CMSAttachMenu):
                 articles = CMSArticle.objects.select_related('category').filter(category__pk=category.pk).iterator()
                 for article in articles:
                     nodes.append(NavigationNode(article.title,
-                        settings.CMS_CONTENT_URL+section.get_absolute_url()+category.get_absolute_url()+article.get_absolute_url(),
+                        settings.ROOT_URL+section.get_absolute_url()+category.get_absolute_url()+article.get_absolute_url(),
                         count,
                         parent)
                     )
