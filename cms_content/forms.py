@@ -6,7 +6,6 @@ from cms_content.models import CMSArticle
 from cms_content import widgets
 
 
-
 class CMSArticleAdminForm(forms.ModelForm):
     widget = getattr(widgets, EDITOR)
     content = forms.CharField(widget=widget)

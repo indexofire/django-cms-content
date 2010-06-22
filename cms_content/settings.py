@@ -7,6 +7,9 @@ from django.conf import settings
 ROOT_URL = getattr(settings, 'CMS_CONTENT_ROOT_URL', '/cms/content/')
 
 # config code highlight templatetags
+CODE_HIGHLIGHT = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT', True)
+CODE_HIGHLIGHT_CSS = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_CSS', 'code_highlight')
+CODE_HIGHLIGHT_LINENOS = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_LINENOS', False)
 
 
 # config Article's Editor in admin
