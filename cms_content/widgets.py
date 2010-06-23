@@ -2,6 +2,8 @@
 from django import forms
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.utils.html import conditional_escape
+from django.utils.encoding import force_unicode
 
 
 class WYMEditor(forms.Textarea):
@@ -22,8 +24,8 @@ class WYMEditor(forms.Textarea):
     
     Usage:
     Copy or link media/cms_content to your project `MEDIA_ROOT` folder. The 
-    widget will display in admin if you define `EDITOR = 'WYMEditor'` in 
-    cms_content's settings.py file.
+    widget will display in admin if you define `CMS_CONTENT_EDITOR = 'WYMEditor'`
+    in your project's settings.py file.
     """
     class Media:
         js = (
@@ -67,8 +69,8 @@ class TinyMCE(forms.Textarea):
     
     Usage:
     Copy or link media/cms_content to your project `MEDIA_ROOT` folder. The 
-    widget will display in admin if you define `EDITOR = 'TinyMCE'` in 
-    cms_content's settings.py file as well as the default is 'WYMEditor'
+    widget will display in admin if you define `CMS_CONTENT_EDITOR = 'TinyMCE'`
+    in project's settings.py file. The default value is 'WYMEditor'.
     
     You can customize your configuration in tiny_mce_setup.js. All configuration
     info was at http://wiki.moxiecode.com/index.php/TinyMCE:Configuration.
@@ -90,3 +92,50 @@ class TinyMCE(forms.Textarea):
     def render(self, name, value, attrs=None):
         rendered = super(TinyMCE, self).render(name, value, attrs)
         return rendered
+
+
+class MarkItUp(forms.Textarea):
+    """
+    MarkItUp Widget For Admin Form.
+
+    Introduction:
+    markItUp! is a JavaScript plugin built on the jQuery library. It allows you
+    to turn any textarea into a markup editor. Html, Textile, Wiki Syntax,
+    Markdown, BBcode or even your own Markup system can be easily implemented.
+    See also: http://markitup.jaysalvat.com/
+
+    Usage:
+    Copy or link media/cms_content to your project `MEDIA_ROOT` folder. The 
+    widget will display in admin if you define `CMS_CONTENT_EDITOR = 'MarkItUp'`
+    in project's settings.py file. The default value is 'WYMEditor'.
+    """
+    class Media:
+        js = (
+            'admin/js/jquery.min.js',
+            'cms_content/js/markitup/jquery.markitup.pack.js',
+            'cms_content/js/markitup/sets/default/set.js',
+        )
+        css = {
+            'all': (
+                'cms_content/js/markitup/sets/default/style.css',
+                'cms_content/js/markitup/skins/markitup/style.css',
+            )
+        }
+    
+    def __init__(self, language=None, attrs=None):
+        self.language = language or settings.LANGUAGE_CODE[:2]
+        self.attrs = {'class': 'tinymce'}
+        if attrs:
+            self.attrs.update(attrs)
+        super(MarkItUp, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        rendered = super(MarkItUp, self).render(name, value, attrs)
+        final_attrs = self.build_attrs(attrs, name=name)
+        return mark_safe(u'''<script type="text/javascript" >
+            $(document).ready(function() {
+                $("#markItUp").markItUp(mySettings);
+            });</script><textarea id="markItUp" class="markitup_editor" %s>%s
+            </textarea>''' % (forms.util.flatatt(final_attrs),
+            conditional_escape(force_unicode(value)))
+        )
