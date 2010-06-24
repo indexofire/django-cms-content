@@ -10,5 +10,5 @@ urlpatterns = patterns ('',
     url(r'^$', section_list, {'sections': CMSSection.objects.all()}, name='section'),
     url(r'^(?P<slug>\w*)/$', category_list, name='category_list'),
     url(r'^(?P<slug>\w*)/(?P<path>\w*)/$', article_list),
-    url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<name>[\w-]*)/$', article_view),
+    url(r'^(?P<slug>[-\w]+)/(?P<path>[-\w]+)/(?P<name>[-\w]+)/$', article_view),
 )
