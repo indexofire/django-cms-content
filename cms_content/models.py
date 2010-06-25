@@ -25,8 +25,9 @@ class CMSSection(models.Model):
         verbose_name_plural = _(u'Section')
 
     def get_absolute_url(self):
-        #return reverse('section_id', args=[self.pk])
+        #return reverse('section_list', args=[self.slug])
         return "%s/" % self.slug
+
 
 class CMSCategory(models.Model):
     """
@@ -40,15 +41,15 @@ class CMSCategory(models.Model):
     created = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
     modified = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
 
-    def __unicode__(self):
-        return self.name
-
     class Meta:
         verbose_name = _(u'Category')
         verbose_name_plural = _(u'Category')
 
+    def __unicode__(self):
+        return self.name
+
     def get_absolute_url(self):
-        #return reverse('category_view', args=[self.pk])
+        #return reverse('category_view', args=[self.slug])
         return "%s/" % self.slug
 
 
@@ -75,16 +76,6 @@ class CMSArticle(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.created_by.username, self.title)
 
-    #def save(self, *args, **kwargs):
-    #    self.modified = datetime.datetime.now()
-    #    super(CMSArticle, self).save(*args, **kwargs)
-    #    if not CMSArticle.objects.filter(category__pk__exact=self.category.pk).count():
-    #        self.category.delete()
-    #        return None
-    #    self.category.latest_post = self
-    #    self.category.save()
-
     def get_absolute_url(self):
-        #return reverse('article_view', args=[self.pk])
+        #return reverse('article_view', args=[self.slug])
         return "%s/" % self.slug
-
