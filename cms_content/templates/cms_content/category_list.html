@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="span-18" style="padding:20px;border-right:1px dashed #ACACAC">
+<div class="span-18">
+<div style="padding:10px">
   <h2>{{ section }}</h2>
   <ul>
   {% for category in category_list %}
@@ -10,5 +11,12 @@
   </ul>
 
   {{ page }} | current page:{{ request_page }}
+</div>
+</div>
+
+<div class="span-6 last">
+<div style="padding:10px">
+category list
+</div>
 </div>
 {% endblock content%}

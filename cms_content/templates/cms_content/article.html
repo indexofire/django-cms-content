@@ -2,12 +2,17 @@
 {% load i18n cms_tags code_highlight %}
 
 {% block content %}
-<div class="span-18" style="padding:20px;border-right:1px dashed #ACACAC">
+<div class="span-18">
+<div style="padding:10px">
   <h2 >{{ article.title }}</h2>
   <h5>Author: {{ article.created_by }} | Created Time: {{ article.created_date }}</h5>
   {{ article.content|safe|code_highlight }}
 </div>
-<div class="span-4">
+</div>
+
+<div class="span-6 last">
+<div style="padding:10px">
   <p>hello world!</p>
+</div>
 </div>
 {% endblock %}
