@@ -1,0 +1,208 @@
+/* ----------
+ * Page Style
+ * ----------
+ * Global CSS
+ * ----------
+ * Author: Mark Renton <indexofire@gmail.com>
+ * ------------------------------------------
+ */
+
+body {
+    /*background: #DDD url("../img/bg.jpg") repeat-x;*/
+    background: #EFEFEF;
+}
+
+.shadow-box {
+    background: #FEFFFF;
+    border-radius: 1px;
+    box-shadow: 0px 0px 3px #ACACAC;
+    -webkit-border-radius: 1px;
+    -webkit-box-shadow: 0px 0px 3px #ACACAC;
+    -moz-border-radius: 1px;
+    -moz-box-shadow: 0px 0px 3px #ACACAC;
+    /* behavior: url(/media/global/css/ie-css3.htc); */
+}
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+#header {
+    height: 60px;
+    line-height: 60px;
+    margin: 10px auto 5px;
+    padding: 5px 0px;
+    width: 950px;
+}
+
+#logo {
+    background: url("../img/logo.png") no-repeat;
+    cursor: pointer;
+    float: left;
+    height: 60px;
+    width: 200px;
+}
+/* the settings of article's readmore link's */
+a {
+    text-decoration: none;
+}
+
+a:link,
+a:visited {
+    color: #222;
+}
+a:hover {
+    color: #222;
+}
+
+/* border-bottom: 3px solid #5D5D57; */
+
+/* Header Background */
+#header_bg {
+    background: #606162;
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: block;
+    position: absolute;
+    z-index: -1;
+}
+
+/* Main Menu Settings */
+#main_menu ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#main_menu ul li {
+    float: left;
+    margin-right: 20px;
+}
+
+#main_menu ul li a.menu {
+    
+}
+
+#main_menu ul li.menu_selected a.menu,
+#main_menu ul li a.ancestor {
+
+}
+
+#main_menu ul li a.menu:hover {
+    color: #3C3C3C;
+    background: #ACACAC;
+    display: block;
+}
+
+#main_menu ul li a.ancestor,
+#main_menu ul li.menu_selected,
+#main_menu ul li.menu_selected a,
+#main_menu ul li.menu_selected a:visited {
+    color: #3C3C3C;
+    text-decoration: underline;
+    display: block;
+}
+
+#main_menu ul li.menu_selected a:hover {
+    color: #3C3C3C;
+    background: #F0F0F0;
+    display: block;
+}
+
+/* Login Menu */
+#login {
+
+}
+
+#head_icon {
+    height: 60px;
+    display: block;
+    background: #FFFFFF;
+    margin: 0px 5px;
+}
+
+/* Breadcrumb Settings */
+#breadcrumb {
+    padding: 0px 6px;
+}
+
+#breadcrumb ul {
+    float: left;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+#breadcrumb ul li {
+    float: left;
+    display: block;
+    padding: 4px;
+}
+
+#breadcrumb ul li a{
+    text-decoration: none;
+    float: left;
+    color: #E99D01;
+}
+
+#breadcrumb .menu span {
+    color: #F5F5EE;
+    text-shadow: black 1px 1px 0px;
+    display: block;
+    float: left;
+    display: block;
+}
+
+
+/* Page Footer Settings */
+#footer {
+    background: #ABAAA1;
+    height: 200px;
+    display: block;
+    padding-top: 30px;
+}
+
+#footer div.det {
+    color: #797971;
+    display: block;
+}
+
+
+/* SubNav Menu Settings */
+#nav_sub {
+
+}
+
+#nav_sub ul {
+
+}
+
+#nav_sub ul li {
+
+}
+
+.mybox {
+    background: white;
+    border: 1px solid #CDCCC3;
+    padding: 1px;
+}
+
+.place_boxer {
+    background: url("/media/global/img/box_bg.png") repeat-x 0px 0px;
+    padding: 25px;
+    margin: 0px;
+    display: block;
+}
+
+.place_boxer img {
+    border: 0px;
+    padding-bottom: 20px;
+}
+
+
+.entryPost {
+}
