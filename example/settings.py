@@ -6,7 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Mark Renton', 'indexofire@gmail.com'),
+    #('administrator', 'administrator@localhost.com'),
 )
 MANAGERS = ADMINS
 
@@ -31,6 +31,7 @@ MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media/')
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 
+# Change to you own KEY
 SECRET_KEY = 'f89543m_$!8095423mgfa841$!_+63256349-9-*$!*)#@!_49'
 
 TEMPLATE_LOADERS = (

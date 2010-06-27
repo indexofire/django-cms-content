@@ -11,21 +11,13 @@
   <link href="{{ MEDIA_URL }}global/css/style.css" rel="stylesheet" type="text/css" />
   <!--[if lt IE 8]><link rel="stylesheet" href="{{ MEDIA_URL }}global/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
-  <script src="{{ MEDIA_URL }}global/js/jfastmenu.js" type="text/javascript"></script>
 </head>
-<script type="text/javascript">
-//<![CDATA[
-$(document).ready(function(){
-	$.jFastMenu("#main_menu");
-});
-//]]>
-</script>
-<body>
 
+<body>
 <!-- head start -->
 <div id="header">
   <div class="left">
-    <a id="logo" href="/" target="_self"></a>
+    <h1><a id="logo" href="/" target="_self">MYSITE</a></h1>
   </div>
   <div class="right">
     <div id="main_menu">
@@ -45,23 +37,20 @@ $(document).ready(function(){
     <div id="breadcrumb">
       <ul>{% show_breadcrumb %}</ul>
     </div>
-    <div class="span-24 last" style="border-bottom: 1px dashed #ACACAC; display: block;"></div>
-    <div class="span-24 last" style="border-bottom: 1px dashed #ACACAC; display: block;">
+    <div class="span-24 last">
       {% block content %}{% endblock content %}
     </div>
   </div>
-  <div class="span-24 last" style="height:30px">
+  <div class="span-24 last">
   </div>
 </div>
 <!-- main ends -->
-
-<div style="height:60px"></div>
 
 <!-- foot start -->
 <div id="footer">
   <div class="det">
   <div class="container">
-    copyright <a href="mailto:indexofire@gmail.com">Mark Renton</a>
+    copyright <a href="mailto:webmaster@localhost.com">Administrator</a>
   </div>
   </div>
 </div>

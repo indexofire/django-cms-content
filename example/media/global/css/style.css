@@ -38,7 +38,7 @@ body {
 }
 
 #logo {
-    background: url("../img/logo.png") no-repeat;
+    /*background: url("../img/logo.png") no-repeat;*/
     cursor: pointer;
     float: left;
     height: 60px;
