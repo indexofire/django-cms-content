@@ -6,7 +6,7 @@
 <div style="padding:10px">
   <h2 >{{ article.title }}</h2>
   <h5>Author: {{ article.created_by }} | Created Time: {{ article.created_date }}</h5>
-  {{ article.content|safe|code_highlight }}
+  {{ article.content|code_highlight }}
 </div>
 </div>
 

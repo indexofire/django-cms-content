@@ -10,7 +10,7 @@ ROOT_URL = getattr(settings, 'CMS_CONTENT_ROOT_URL', '/cms/content/')
 CODE_HIGHLIGHT = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT', True)
 CODE_HIGHLIGHT_CSS = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_CSS', 'code_highlight')
 CODE_HIGHLIGHT_LINENOS = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_LINENOS', False)
-
+CODE_HIGHLIGHT_DEFAULT = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_DEFAULT', 'text')
 
 # config Article's Editor in admin
 # right now there are two choice: `WYMEditor` or `TinyMCE`
