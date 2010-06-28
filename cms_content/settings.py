@@ -17,3 +17,6 @@ CODE_HIGHLIGHT_DEFAULT = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_DEFAULT',
 # if you want to use TinyMCE as your editor, put CMS_CONTENT_EDITOR = 'TinyMCE'
 # in your project's settings.py
 EDITOR = getattr(settings, 'CMS_CONTENT_EDITOR', 'WYMEditor')
+
+# comment spam setting
+AKISMET_API_KEY = '773ea92115d8'

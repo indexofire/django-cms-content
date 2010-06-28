@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.contrib.comments.signals import comment_was_posted
 from django.utils.translation import ugettext as _
-from cms.models.fields import PlaceholderField
 
 
 class CMSSection(models.Model):
@@ -67,6 +69,9 @@ class CMSArticle(models.Model):
     last_modified_date = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
     category = models.ForeignKey(CMSCategory, verbose_name=_(u"Category"))
     is_published = models.BooleanField(_(u"Published"))
+    read_count = models.IntegerField(_(u"Read Number"), blank=True, null=True)
+    pub_start_date = models.DateTimeField(_(u"Article Publish Start Date"), blank=True, null=True)
+    pub_end_date = models.DateTimeField(_(u"Article Publish End Date"), blank=True, null=True)
 
     class Meta:
         ordering = ['-created_by']
@@ -79,3 +84,36 @@ class CMSArticle(models.Model):
     def get_absolute_url(self):
         #return reverse('article_view', args=[self.slug])
         return "%s/" % self.slug
+
+
+def on_comment_was_posted(sender, comment, request, *args, **kwargs):
+    # spam checking can be enabled/disabled per the comment's target Model
+    # if comment.content_type.model_class() != Entry:
+    #    return
+
+    try:
+        from akismet import Akismet
+    except:
+        return
+
+    ak = Akismet(
+        key=settings.AKISMET_API_KEY,
+        blog_url='http://%s/' % Site.objects.get(pk=settings.SITE_ID).domain
+    )
+    if ak.verify_key():
+        data = {
+            'user_ip': request.META.get('REMOTE_ADDR', '127.0.0.1'),
+            'user_agent': request.META.get('HTTP_USER_AGENT', ''),
+            'referrer': request.META.get('HTTP_REFERER', ''),
+            'comment_type': 'comment',
+            'comment_author': comment.user_name.encode('utf-8'),
+        }
+
+    if ak.comment_check(comment.comment.encode('utf-8'), data=data, build_data=True):
+        comment.flags.create(
+            user=comment.content_object.author,
+            flag='spam'
+        )
+        comment.is_public = False
+        comment.save()
+comment_was_posted.connect(on_comment_was_posted)

@@ -26,7 +26,6 @@ def code_highlight(content):
         else:
             css = u'''<link href="%scms_content/css/code_highlight_div.css"
                 rel="stylesheet" type="text/css" />''' % settings.MEDIA_URL
-        print content
         try:
             soup = BeautifulSoup(content)
             code_blocks = soup.findAll(u'pre')
@@ -46,7 +45,7 @@ def code_highlight(content):
                 format = HtmlFormatter(cssclass=CODE_HIGHLIGHT_CSS, 
                     linenos=CODE_HIGHLIGHT_LINENOS)
                 code.replaceWith(highlight(code.string, lexer, format))
-            return mark_safe(force_unicode(soup).replace('&amp;', '&') + css)
+            return mark_safe(css + force_unicode(soup).replace('&amp;', '&'))
         except:
             return content
     else:

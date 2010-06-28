@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
-{% load i18n cms_tags code_highlight %}
+{% load i18n cms_tags code_highlight comments %}
 
 {% block content %}
 <div class="span-18">
 <div style="padding:10px">
   <h2 >{{ article.title }}</h2>
   <h5>Author: {{ article.created_by }} | Created Time: {{ article.created_date }}</h5>
-  {{ article.content|code_highlight|safe }}
+  {{ article.content|code_highlight }}
+  <p>comments:</p> <hr />
+  {% render_comment_list for article %}
+  <hr />
+  {% render_comment_form for article %}
 </div>
 </div>
 
