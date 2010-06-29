@@ -3,19 +3,19 @@
 
 {% block content %}
 <div class="span-18">
-<div style="padding:10px">
+<div style="padding:10px 15px">
   <h2 >{{ article.title }}</h2>
   <h5>Author: {{ article.created_by }} | Created Time: {{ article.created_date }}</h5>
   {{ article.content|code_highlight }}
-  <p>comments:</p> <hr />
+  <h3>comments:</h3>
+  <p>There are {% get_comment_count for article as comment_count %}{{ comment_count }} comments</p>
   {% render_comment_list for article %}
-  <hr />
   {% render_comment_form for article %}
 </div>
 </div>
 
 <div class="span-6 last">
-<div style="padding:10px">
+<div style="padding:10px 15px">
   <p>hello world!</p>
 </div>
 </div>
