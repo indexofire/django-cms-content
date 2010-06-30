@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django.core.paginator import Paginator
@@ -6,7 +9,8 @@ from django.contrib.auth.decorators import login_required
 
 from cms_content.models import *
 from cms_content.utils.render import render_to
-
+from cms_content.forms import CMSArticleFrontendForm
+from cms_content.settings import ROOT_URL
 
 def section_list(request, **kw):
     context = RequestContext(request, kw)
@@ -40,7 +44,7 @@ def article_list(request, slug, path):
         'article_list': queryset,
     }
 
-@render_to('cms_content/article.html')
+@render_to('cms_content/article_view.html')
 def article_view(request, slug, path, name):
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
@@ -49,3 +53,26 @@ def article_view(request, slug, path, name):
         'section': section,
         'article': queryset,
     }
+
+@login_required
+@render_to('cms_content/article_add.html')
+def article_add(request):
+    if request.method=="POST":
+        form = CMSArticleFrontendForm(request.POST)
+        if form.is_valid():
+            article = CMSArticle.objects.create(
+                title = form.cleaned_data['title'],
+                content = form.cleaned_data['content'], 
+                slug = form.cleaned_data['slug'], 
+                category = form.cleaned_data['category'],
+                created_by = request.user,
+                created_date = datetime.now(),
+                last_modified_by = request.user,
+                last_modified_date = datetime.now(),
+                is_published = True,
+            )
+            article.save()
+        return HttpResponseRedirect(ROOT_URL)
+    else:
+        article_form = CMSArticleFrontendForm()
+        return {'form': article_form, 'request': request }
