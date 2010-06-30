@@ -2,18 +2,20 @@
 {% load i18n cms_tags %}
 
 {% block content %}
-<div class="span-18">
+<div class="span-24 last">
 <div style="padding:10px 15px">
-<form action="" method="POST">{% csrf_token %}
-  {{ form }}
-<input type="submit" name="post" class="submit-post" value="Post">
+<form action="." method="POST">{% csrf_token %}
+<table class="addarticle">
+  {{ form.as_table }}
+  <tr>
+    <td></td>
+    <td>
+      <input type="submit" name="post" class="submit-post" value="Post">
+      <input type="submit" name="post" class="submit-post" value="Preview">
+    </td>
+  </tr>
+</table>
 </form>
-</div>
-</div>
-
-<div class="span-6 last">
-<div style="padding:10px 15px">
-  <p>hello world!</p>
 </div>
 </div>
 {% endblock %}

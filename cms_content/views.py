@@ -72,9 +72,11 @@ def article_add(request):
                 is_published = True,
             )
             article.save()
+        else:
+            print 'error'
         return HttpResponseRedirect(ROOT_URL)
     else:
-        article_form = CMSArticleFrontendForm()
+        article_form = CMSArticleFrontendForm(initial={'title':'your article title'})
         return {'form': article_form, 'request': request }
 
 def article_delete(request, slug, path, name):

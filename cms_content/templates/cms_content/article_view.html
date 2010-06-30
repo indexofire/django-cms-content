@@ -28,8 +28,14 @@
   
   <h3>comments:</h3>
   <p>There are {% get_comment_count for article as comment_count %}{{ comment_count }} comments</p>
-  {% render_comment_list for article %}
+  {% get_comment_list for article as comment_list %}
+  {% for comment in comment_list %}
+  <p>Posted by: {{ comment.user_name }} on {{ comment.submit_date }}</p>
+  <p>Comment: {{ comment.comment }}</p>
+  {% endfor %}
+<!--{% render_comment_list for article %}-->
   {% render_comment_form for article %}
+  
 </div>
 </div>
 
