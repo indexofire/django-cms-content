@@ -76,3 +76,9 @@ def article_add(request):
     else:
         article_form = CMSArticleFrontendForm()
         return {'form': article_form, 'request': request }
+
+def article_delete(request, slug, path, name):
+    if request.user.is_superuser:
+        article = CMSArticle.objects.get(slug=name)
+        article.delete()
+        return HttpResponseRedirect(ROOT_URL)
