@@ -2,13 +2,11 @@
 {% load i18n cms_tags %}
 
 {% block content %}
-<div class="span-24 last">
-<div style="padding:10px 15px">
 <form action="." method="POST">{% csrf_token %}
-<table class="addarticle">
+<table class="addarticle" style="margin:0px">
   {{ form.as_table }}
-  <tr>
-    <td></td>
+  <tr class="required">
+    <th width="100px"></th>
     <td>
       <input type="submit" name="post" class="submit-post" value="Post">
       <input type="submit" name="post" class="submit-post" value="Preview">
@@ -16,6 +14,4 @@
   </tr>
 </table>
 </form>
-</div>
-</div>
 {% endblock %}

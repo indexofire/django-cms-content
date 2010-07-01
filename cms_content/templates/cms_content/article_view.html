@@ -2,12 +2,7 @@
 {% load i18n cms_tags code_highlight comments %}
 
 {% block content %}
-
-
-
-<div class="span-18">
-<div style="padding:10px 15px">
-
+<div>
   <h2>{{ article.title }}</h2>
   <h5>{% trans 'Author' %}: <a href="">{{ article.created_by }}</a> | 
   Created Time: {{ article.created_date|date:"Y.m.d" }}</h5>
@@ -35,13 +30,5 @@
   {% endfor %}
 <!--{% render_comment_list for article %}-->
   {% render_comment_form for article %}
-  
-</div>
-</div>
-
-<div class="span-6 last">
-<div style="padding:10px 15px">
-  <p>hello world!</p>
-</div>
 </div>
 {% endblock %}
