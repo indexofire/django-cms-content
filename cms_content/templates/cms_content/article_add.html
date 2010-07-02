@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n cms_tags %}
 
+{% block scripts %}
+  <script src="{{ MEDIA_URL }}cms_content/js/wymeditor/jquery.wymeditor.pack.js"></script>
+{% endblock scripts %}
+
 {% block content %}
 <form action="." method="POST">{% csrf_token %}
 <table class="addarticle" style="margin:0px">

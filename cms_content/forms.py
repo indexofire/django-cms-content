@@ -6,9 +6,10 @@ from cms_content.models import *
 from cms_content import widgets
 
 
+WIDGET = getattr(widgets, EDITOR)
+
 class CMSArticleAdminForm(forms.ModelForm):
-    widget = getattr(widgets, EDITOR)
-    content = forms.CharField(widget=widget)
+    content = forms.CharField(widget=WIDGET)
     
     class Meta:
         model = CMSArticle
@@ -16,6 +17,8 @@ class CMSArticleAdminForm(forms.ModelForm):
 class CMSArticleFrontendForm(forms.ModelForm):
     error_css_class = 'error'
     required_css_class = 'required'
+    content = forms.CharField(widget=WIDGET)
+    
     class Meta:
         model = CMSArticle
         fields = ('title', 'slug', 'content', 'category')
