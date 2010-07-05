@@ -8,19 +8,7 @@
   Created Time: {{ article.created_date|date:"Y.m.d" }}</h5>
   
   {{ article.content|code_highlight }}
-  
-  {% if request.user.is_staff %}
-    <div id="admin-toolbar">
-    {% if article %}
-      <a href="{{ article.get_admin_change_url }}">Edit</a> |
-      <a href="{{ article.get_admin_delete_url }}">Delete</a> |
-      <a href="{{ article.get_admin_history_url }}">History</a> |
-      <a href="{{ article.get_admin_add_url }}">Add another {{ article.get_verbose_name }}</a> |
-      <a href="{{ article.get_admin_changelist_url }}">Manage {{ article.get_verbose_name_plural }}</a>
-      {% endif %}
-    </div>
-  {% endif %}
-  
+
   <h3>comments:</h3>
   <p>There are {% get_comment_count for article as comment_count %}{{ comment_count }} comments</p>
   {% get_comment_list for article as comment_list %}
@@ -31,4 +19,19 @@
 <!--{% render_comment_list for article %}-->
   {% render_comment_form for article %}
 </div>
+{% endblock %}
+
+{% block topbar %}
+{{ block.super }}
+  {% if request.user.is_staff %}
+  <div id="admin-toolbar">
+    {% if article %}
+    <a href="{{ article.get_admin_change_url }}">{% trans "Edit" %}</a> |
+    <a href="{{ article.get_admin_delete_url }}">Delete</a> |
+    <a href="{{ article.get_admin_history_url }}">History</a> |
+    <a href="{{ article.get_admin_add_url }}">{% trans "Add another" %} {{ article.get_verbose_name }}</a> |
+    <a href="{{ article.get_admin_changelist_url }}">Manage {{ article.get_verbose_name_plural }}</a> |
+    {% endif %}
+  </div>
+  {% endif %}
 {% endblock %}

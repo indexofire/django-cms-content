@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n menu_tags %}
 
 {% block content %}
+<div class="span-6">
+  <div id="menutree" class="shadow-box">
+    <ul>{% show_menu 1 100 0 100 %}</ul>
+  </div>
+</div>
+
+<div class="span-18 last">
+<div class="shadow-box" style="padding:10px">
   <h2>{{ section }}</h2>
   <table style="border:1px solid #696969; border-spacing:1px 1px; border-collapse:separate;">
   <tr>
@@ -16,4 +24,6 @@
   {% endfor %}
   </table>
   {{ page }} | current page:{{ request_page }}
+</div>
+</div>
 {% endblock content%}

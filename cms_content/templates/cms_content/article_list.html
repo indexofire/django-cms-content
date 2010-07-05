@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="span-18">
-<div style="padding:10px">
+<div>
 <h2>{{ section }} - {{ category }}</h2>
 <ul>
   {% for article in article_list %}
@@ -14,13 +13,6 @@
   </li>
   {% endfor %}
 </ul>
-</div>
-</div>
-
-<div class="span-6 last">
-<div style="padding:10px">
-  articles
-</div>
 </div>
 {% endblock %}
 
