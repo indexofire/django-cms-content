@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+{{ block.super }}
+
+<div class="span-18 last">
 <h2>{{ section }} - {{ category }}</h2>
 <ul>
   {% for article in article_list %}
@@ -16,3 +18,7 @@
 </div>
 {% endblock %}
 
+{% block panel %}
+<a href="../../add/">add article</a> | 
+<a href="../../delete/">delete article</a>
+{% endblock panel %}

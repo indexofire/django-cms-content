@@ -2,10 +2,8 @@
 {% load i18n cms_tags menu_tags %}
 
 {% block content %}
-<div class="span-6">
-  <div id="menutree">
-    <ul>{% show_menu 1 100 0 100 %}</ul>
-  </div>
+<div class="span-4">
+  <div id="menu_tree"><ul>{% show_menu 1 2 0 2 %}</ul></div>
 </div>
 
 <div class="span-18 last">
@@ -17,3 +15,9 @@
   </ul>
 </div>
 {% endblock %}
+
+
+{% block panel %}
+<a href="add/">add article</a> | 
+<a href="delete/">delete article</a>
+{% endblock panel %}
