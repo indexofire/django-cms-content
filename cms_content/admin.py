@@ -49,6 +49,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     #list_editable = ('category',)
     actions = ['make_publish', 'translate_content']
     form = CMSArticleAdminForm
+    exclude = ('pub_start_date', 'pub_end_date', 'read_count')
 
     def belong_to_section(self, obj):
         article = CMSArticle.objects.select_related().get(pk=obj.id)
