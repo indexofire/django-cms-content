@@ -71,7 +71,7 @@
 table.code_highlighttable {
     background: #FFFFFF;
     display: block;
-    border: 1px solid #636465;
+    border: 1px solid #E6E6E6;
     overflow: auto;
     width: 100%;
     margin-bottom: 10px;
@@ -99,13 +99,11 @@ td.code div.code_highlight pre{
 
 /* line number setting */
 td.linenos div.linenodiv {
-    background: #696969;
-    color: #ECECEC;
-    padding-right: 4px;
+    background: #EFEEED;
+    color: #3C3C3C;
+    border-right: 1px solid #E6E6E6;
+    padding-right: 6px;
     text-align: right;
-    width: 30px;
+    width: 28px;
     float: left;
-}
-td.linenos div.linenodiv pre {
-    color: #ECECEC;
 }

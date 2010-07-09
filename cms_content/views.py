@@ -6,12 +6,14 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
 
 from cms_content.models import *
 from cms_content.utils.render import render_to
 from cms_content.forms import CMSArticleFrontendForm
 from cms_content.settings import ROOT_URL
 
+@cache_page(60*30)
 def section_list(request, **kw):
     context = RequestContext(request, kw)
     return render_to_response("cms_content/section_list.html", context)

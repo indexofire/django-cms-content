@@ -1,20 +1,33 @@
-{% extends 'base.html' %}
+{% extends 'cms_content.html' %}
+{% load i18n menu_tags %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
 
 {% block content %}
-{{ block.super }}
+<div class="span-4">
+  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu 1 1 0 0 %}</ul></div>
+</div>
 
-<div class="span-18 last">
-<h2>{{ section }} - {{ category }}</h2>
-<ul>
+<div class="span-20 last">
+  <div style="padding: 0px 10px 10px 0px">
+  <h2>{{ section }} - {{ category }}</h2>
+  <table class="cms_article">
+  <tr class="title">
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Author" %}</th>
+    <th>{% trans "Published Date" %}</th>
+  </tr>
   {% for article in article_list %}
-  <li>
-    <h5>
-    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-    <span> | Author: {{ article.created_by }}</span>
-    </h5>
-  </li>
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+    <td><a href="/user/{{ article.created_by }}">{{ article.created_by }}</td>
+    <td>{{ article.created_date|date:"Y.m.d" }}</td>
+  </tr>
   {% endfor %}
-</ul>
+  </table>
+  </div>
 </div>
 {% endblock %}
 

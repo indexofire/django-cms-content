@@ -1,10 +1,16 @@
-{% extends 'base.html' %}
-{% load i18n cms_tags code_highlight comments %}
+{% extends 'cms_content.html' %}
+{% load i18n menu_tags cms_tags code_highlight comments %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
 
 {% block content %}
-{{ block.super }}
+<div class="span-4">
+  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu 1 1 0 0 %}</ul></div>
+</div>
 
-<div class="span-16 last">
+<div class="span-20 last">
   <div style="padding: 10px">
   <h2>{{ article.title }}</h2>
   <h5>{% trans 'Author' %}: <a href="">{{ article.created_by }}</a> | 
