@@ -26,13 +26,13 @@ class CMSSectionMenu(CMSAttachMenu):
             nodes.append(NavigationNode(section.name, url, section.pk))
             categories = CMSCategory.objects.select_related('section').filter(section__pk=section.pk)
             for category in categories:
-                url = ROOT_URL + section.get_absolute_url() + category.get_absolute_url()
+                url = category.get_absolute_url()
                 parent = count
                 nodes.append(NavigationNode(category.name, url, parent, category.section_id))
                 count += 1
                 articles = CMSArticle.objects.select_related('category').filter(category__pk=category.pk)
                 for article in articles:
-                    url = ROOT_URL + section.get_absolute_url() + category.get_absolute_url() + article.get_absolute_url()
+                    url = article.get_absolute_url()
                     nodes.append(NavigationNode(article.title, url, count, parent))
                     count += 1
         return nodes

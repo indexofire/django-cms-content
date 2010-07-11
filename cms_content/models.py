@@ -87,10 +87,15 @@ class CMSCategory(models.Model):
     def __unicode__(self):
         return self.name
 
+    @models.permalink
     def get_absolute_url(self):
         #mode = getattr(settings, "LIST_MODE", "table")
         #return reverse('category_%s' % mode, args=[self.slug])
-        return "%s/" % self.slug
+        return ("article_list", None, {
+            "slug": self.section.slug,
+            "path": self.slug,
+            },
+        )
 
 
 class CMSArticle(models.Model):
@@ -172,9 +177,15 @@ class CMSArticle(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.created_by.username, self.title)
 
+    @models.permalink
     def get_absolute_url(self):
         #return reverse('article_view', args=[self.slug])
-        return "%s/" % self.slug
+        return ("article_view", None, {
+            "slug": self.category.section.slug,
+            "path": self.category.slug,
+            "name": self.slug,
+            }
+        )
 
 
 def on_comment_was_posted(sender, comment, request, *args, **kwargs):
