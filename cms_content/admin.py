@@ -12,7 +12,8 @@ from cms_content.utils.translator import Translator
 
 
 class CMSArticleInline(admin.StackedInline):
-    """Article Inline
+    """Article Inline Admin
+    
     Create an article inline form to support add articles in category interface.
     """
     model = CMSArticle
@@ -20,7 +21,8 @@ class CMSArticleInline(admin.StackedInline):
     verbose_name = _(u'Article Name')
 
 class CMSCategoryInline(admin.StackedInline):
-    """Category Inline
+    """Category Inline Admin
+    
     Create a category inline form to support add categories in section interface.
     """
     model = CMSCategory
@@ -57,7 +59,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
     #readonly_fields = ('title',)
     #list_editable = ('category',)
-    actions = ['make_publish', 'translate_content']
+    actions = ['make_publish', 'make_draft', 'translate_content']
     form = CMSArticleAdminForm
     exclude = ('pub_start_date', 'pub_end_date', 'hits')
 
@@ -75,14 +77,33 @@ class CMSArticleAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super(CMSArticleAdmin, self).get_urls()
         my_urls = patterns('',
-            url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<id>[0-9]+)/$', article_view),
+            url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<id>[0-9]+)/$', 
+                article_view,
+                name="article_view"),
         )
         return my_urls + urls
 
     def make_publish(self, request, queryset):
-        article_num = queryset.update(is_published = True)
-        self.message_user(request, "%s article(s) marked as published!" % article_num)
+        """Mark Article Published
+        
+        Make selected articles to be published.
+        """
+        article_num = queryset.update(pub_status="pub")
+        self.message_user(request,
+            "%s article(s) marked as published!" % article_num
+        )
     make_publish.short_description = _(u"Make the article published")
+    
+    def make_draft(self, request, queryset):
+        """Mark Article as draft
+        
+        Make seclected articles to be draft.
+        """
+        article_num = queryset.update(pub_status="dra")
+        self.message_user(request,
+            "%s article(s) marked as draft!" % article_num
+        )
+    make_draft.short_description = _(u"Make the article as draft")
 
     def translate_content(self, request, queryset):
         self.message_user(request, "The article(s) had been translated!")
