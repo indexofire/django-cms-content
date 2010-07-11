@@ -18,5 +18,9 @@ CODE_HIGHLIGHT_DEFAULT = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_DEFAULT',
 # in your project's settings.py
 EDITOR = getattr(settings, 'CMS_CONTENT_EDITOR', 'WYMEditor')
 
+# paginator
+CATEGORY_PERPAGE = getattr(settings, 'CMS_CONTENT_CATEGORY_PERPAGE', 10)
+ARTICLE_PERPAGE = getattr(settings, 'CMS_CONTENT_ARTICLE_PERPAGE', 10)
+
 # comment spam setting
 AKISMET_API_KEY = '773ea92115d8'

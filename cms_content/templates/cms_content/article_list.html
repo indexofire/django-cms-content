@@ -19,7 +19,7 @@
     <th>{% trans "Author" %}</th>
     <th>{% trans "Published Date" %}</th>
   </tr>
-  {% for article in article_list %}
+  {% for article in articles %}
   <tr class="{% cycle 'row1' 'row2' %}">
     <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
     <td><a href="/user/{{ article.created_by }}">{{ article.created_by }}</td>

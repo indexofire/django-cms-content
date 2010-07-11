@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
 from django.contrib import admin
 from django.conf.urls.defaults import *
 from django.utils.translation import ugettext as _
+
 from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.forms import CMSArticleAdminForm
 from cms_content.views import article_view
-from datetime import datetime
 from cms_content.utils.translator import Translator
 
 
@@ -28,19 +29,28 @@ class CMSCategoryInline(admin.StackedInline):
 
 class CMSSectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
-    list_filter = ('created', 'modified')
+    list_filter = ('created_date',)
     prepopulated_fields = {"slug": ("name",)}
     inlines = [CMSCategoryInline,]
 
 class CMSCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'section', 'description')
-    list_filter = ('created', 'modified')
+    list_filter = ('created_date',)
     prepopulated_fields = {"slug": ("name",)}
     #inlines = [CMSArticleInline,]
 
 class CMSArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_by', 'category', 'belong_to_section', 'created_date', 'last_modified_by', 'last_modified_date', 'is_published')
-    list_filter = ('created_date', 'last_modified_date', 'is_published')
+    list_display = (
+        'title',
+        'created_by',
+        'category',
+        'belong_to_section',
+        'created_date',
+        'last_modified_by',
+        'last_modified_date',
+        'pub_status',
+    )
+    list_filter = ('created_date', 'last_modified_date', 'pub_status')
     list_per_page = 20
     prepopulated_fields = {"slug": ("title",)}
     #list_display_links = ('title', )
@@ -49,7 +59,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     #list_editable = ('category',)
     actions = ['make_publish', 'translate_content']
     form = CMSArticleAdminForm
-    exclude = ('pub_start_date', 'pub_end_date', 'read_count')
+    exclude = ('pub_start_date', 'pub_end_date', 'hits')
 
     def belong_to_section(self, obj):
         article = CMSArticle.objects.select_related().get(pk=obj.id)

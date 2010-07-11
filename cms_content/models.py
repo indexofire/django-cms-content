@@ -9,20 +9,36 @@ from django.utils.translation import ugettext as _
 
 
 class CMSSection(models.Model):
+    """Models For Django CMS Sections:
+
+    Section is the first level of cms_content structure which contains category.
+    Create a section first before to build your categories belong.
     """
-    Models For Django CMS Sections:
-    Create a section to contain all category belong to it.
-    """
-    name = models.CharField(_(u"Section Name"), max_length=20)
-    slug = models.CharField(_(u"Slug"), max_length=100)
-    description = models.TextField(_(u"Section Description"))
-    created = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
-    modified = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
+
+    name = models.CharField(
+        _(u"Section Name"),
+        max_length=255,
+        blank=False,
+    )
+    slug = models.CharField(
+        _(u"Slug"),
+        max_length=255,
+        blank=False,
+    )
+    description = models.TextField(
+        _(u"Section Description"),
+        blank=False,
+    )
+    created_date = models.DateTimeField(
+        _(u"Created Date"),
+        auto_now_add=True,
+    )
 
     def __unicode__(self):
         return self.name
 
     class Meta:
+        ordering = ['-created_date']
         verbose_name = _(u'Section')
         verbose_name_plural = _(u'Section')
 
@@ -32,18 +48,39 @@ class CMSSection(models.Model):
 
 
 class CMSCategory(models.Model):
+    """Models for CMS's Categories:
+
+    Category is the second level of cms_content structure. Before publish any
+    article, create a category to which is belong a section.
     """
-    Models for CMS's Categories:
-    Create a category which is belong to a section.
-    """
-    name = models.CharField(_(u"Category Name"), max_length=40)
-    slug = models.CharField(_(u"Slug"), max_length=100)
-    section = models.ForeignKey(CMSSection, verbose_name=_(u"Section"), blank=True, null=True)
-    description = models.TextField(_(u"Category Description"))
-    created = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
-    modified = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
+
+    name = models.CharField(
+        _(u"Category Name"),
+        max_length=255,
+        blank=False,
+    )
+    slug = models.CharField(
+        _(u"Slug"),
+        max_length=255,
+        blank=False,
+    )
+    section = models.ForeignKey(
+        CMSSection,
+        verbose_name=_(u"Section"),
+        related_name="category_of_section",
+        blank=False,
+    )
+    description = models.TextField(
+        _(u"Category Description"),
+        blank=False,
+    )
+    created_date = models.DateTimeField(
+        _(u"Created Date"),
+        auto_now_add=True,
+    )
 
     class Meta:
+        ordering = ['-created_date']
         verbose_name = _(u'Category')
         verbose_name_plural = _(u'Category')
 
@@ -51,30 +88,84 @@ class CMSCategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        #return reverse('category_view', args=[self.slug])
+        #mode = getattr(settings, "LIST_MODE", "table")
+        #return reverse('category_%s' % mode, args=[self.slug])
         return "%s/" % self.slug
 
 
 class CMSArticle(models.Model):
+    """Models for CMS's Articles:
+
+    Article is the third level of cms_content structure. Every article contains
+    the content you write.
     """
-    Models for CMS's Articles:
-    one article in one category.
-    """
-    title = models.CharField(_(u"Article Title"), max_length=100)
-    slug = models.CharField(_(u"Slug"), max_length=100)
-    content = models.TextField(_(u"Article Content"))
-    created_by = models.ForeignKey(User, verbose_name=_(u"Author Name"), related_name="author")
-    created_date = models.DateTimeField(_(u"Created Date"), auto_now_add=True)
-    last_modified_by = models.ForeignKey(User, verbose_name=_(u"Last Modified By"), related_name="revisor")
-    last_modified_date = models.DateTimeField(_(u"Last Modified Date"), auto_now=True)
-    category = models.ForeignKey(CMSCategory, verbose_name=_(u"Category"))
-    is_published = models.BooleanField(_(u"Published"))
-    read_count = models.IntegerField(_(u"Read Number"), blank=True, null=True)
-    pub_start_date = models.DateTimeField(_(u"Article Publish Start Date"), blank=True, null=True)
-    pub_end_date = models.DateTimeField(_(u"Article Publish End Date"), blank=True, null=True)
+    
+    PUB_STATUS = (
+        (_(u'pub'), u'published'),
+        (_(u'del'), u'deleted'),
+        (_(u'dra'), u'draft'),
+    )
+    
+    title = models.CharField(
+        _(u"Article Title"),
+        max_length=255,
+        blank=False,
+    )
+    slug = models.CharField(
+        _(u"Slug"),
+        max_length=255,
+        blank=False,
+    )
+    content = models.TextField(
+        _(u"Article Content"),
+        blank=False,
+    )
+    created_by = models.ForeignKey(
+        User,
+        verbose_name=_(u"Author Name"),
+        related_name="cms_article_author",
+        blank=False,
+    )
+    created_date = models.DateTimeField(
+        _(u"Created Date"),
+        auto_now_add=True,
+    )
+    last_modified_by = models.ForeignKey(
+        User,
+        verbose_name=_(u"Last Modified By"),
+        related_name="cms_article_revisor",
+    )
+    last_modified_date = models.DateTimeField(
+        _(u"Last Modified Date"),
+        auto_now=False,
+    )
+    category = models.ForeignKey(
+        CMSCategory,
+        verbose_name=_(u"Category"),
+        related_name="article_of_category",
+    )
+    pub_status = models.CharField(
+        _(u"Article Publish Status"),
+        max_length=3,
+        choices=PUB_STATUS,
+    )
+    hits = models.IntegerField(
+        _(u"Article His Number"),
+        default=1,
+    )
+    pub_start_date = models.DateTimeField(
+        _(u"Article Publish Start Date"),
+        blank=True,
+        null=True,
+    )
+    pub_end_date = models.DateTimeField(
+        _(u"Article Publish End Date"),
+        blank=True,
+        null=True,
+    )
 
     class Meta:
-        ordering = ['-created_by']
+        ordering = ['-created_date']
         verbose_name = _(u'Article')
         verbose_name_plural = _(u'Article')
 
@@ -87,9 +178,12 @@ class CMSArticle(models.Model):
 
 
 def on_comment_was_posted(sender, comment, request, *args, **kwargs):
-    # spam checking can be enabled/disabled per the comment's target Model
-    # if comment.content_type.model_class() != Entry:
-    #    return
+    """Spam checking can be enabled/disabled per the comment's target Model
+
+    Usage:
+    if comment.content_type.model_class() != Entry:
+        return
+    """
 
     try:
         from akismet import Akismet

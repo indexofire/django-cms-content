@@ -11,7 +11,8 @@ from django.views.decorators.cache import cache_page
 from cms_content.models import *
 from cms_content.utils.render import render_to
 from cms_content.forms import CMSArticleFrontendForm
-from cms_content.settings import ROOT_URL
+from cms_content.settings import ROOT_URL, CATEGORY_PERPAGE, ARTICLE_PERPAGE
+
 
 @cache_page(60*30)
 def section_list(request, **kw):
@@ -22,13 +23,14 @@ def section_list(request, **kw):
 def category_list(request, slug):
     request_page = request.GET.get('page', 1)
     section = get_object_or_404(CMSSection, slug=slug)
-    queryset = CMSCategory.objects.filter(section=section)
-    paginator = Paginator(queryset, 10)
-    return {'page': paginator.page(request_page),
+    categories = CMSCategory.objects.filter(section=section)
+    paginator = Paginator(categories, CATEGORY_PERPAGE)
+    return {
+        'page': paginator.page(request_page),
         'paginator': paginator,
         'request_page': int(request_page),
         'section': section,
-        'category_list': queryset,
+        'categories': categories,
     }
 
 @render_to('cms_content/article_list.html')
@@ -36,24 +38,29 @@ def article_list(request, slug, path):
     request_page = request.GET.get('page', 1)
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
-    queryset = CMSArticle.objects.filter(category=category).exclude(is_published=False)
-    paginator = Paginator(queryset, 10)
-    return {'page': paginator.page(request_page),
+    articles = CMSArticle.objects.filter(category=category).\
+        filter(pub_status="pub")
+    paginator = Paginator(articles, ARTICLE_PERPAGE)
+    return {
+        'page': paginator.page(request_page),
         'paginator': paginator,
         'request_page': int(request_page),
         'category': category,
         'section': section,
-        'article_list': queryset,
+        'articles': articles,
     }
 
 @render_to('cms_content/article_view.html')
 def article_view(request, slug, path, name):
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
-    queryset = CMSArticle.objects.get(slug=name)
-    return {'category': category,
+    article = CMSArticle.objects.get(slug=name)
+    article.hits += 1
+    article.save()
+    return {
         'section': section,
-        'article': queryset,
+        'category': category,
+        'article': article,
     }
 
 @login_required
@@ -75,11 +82,17 @@ def article_add(request):
             )
             article.save()
         else:
-            print 'error'
+            from django.core.exceptions import ValidationError
+            raise ValidationError('Error')
         return HttpResponseRedirect(ROOT_URL)
     else:
-        article_form = CMSArticleFrontendForm(initial={'title':'your article title'})
-        return {'form': article_form, 'request': request }
+        article_form = CMSArticleFrontendForm(
+            initial={'title':'your article title'},
+        )
+        return {
+            'form': article_form,
+            'request': request,
+        }
 
 def article_delete(request, slug, path, name):
     if request.user.is_superuser:
