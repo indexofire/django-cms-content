@@ -2,6 +2,7 @@
 from datetime import datetime
 
 from django.http import HttpResponseRedirect
+from django.db.models import F
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django.core.paginator import Paginator
@@ -55,7 +56,7 @@ def article_view(request, slug, path, name):
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
     article = CMSArticle.objects.get(slug=name)
-    article.hits += 1
+    article.hits = F('hits') + 1
     article.save()
     return {
         'section': section,
