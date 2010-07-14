@@ -11,8 +11,8 @@ from cms_content.models import *
 
             
 class CMSSectionMenu(CMSAttachMenu):
-    """
-    CMS Section Menu
+    """CMS Section Menu
+    
     Create a section list menu in pages.
     """
     name = _("CMS Content Menu")
