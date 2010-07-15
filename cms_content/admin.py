@@ -11,6 +11,14 @@ from cms_content.views import article_view
 from cms_content.utils.translator import Translator
 
 
+__all__ = [
+    'CMSArticleInline',
+    'CMSCategoryInline',
+    'CMSSectionAdmin',
+    'CMSCategoryAdmin',
+    'CMSArticleAdmin',
+]
+
 class CMSArticleInline(admin.StackedInline):
     """Article Inline Admin
     

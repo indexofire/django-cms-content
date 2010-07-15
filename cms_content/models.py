@@ -8,6 +8,8 @@ from django.contrib.comments.signals import comment_was_posted
 from django.utils.translation import ugettext as _
 
 
+__all__ = ['CMSSection', 'CMSCategory', 'CMSArticle']
+
 class CMSSection(models.Model):
     """Models For Django CMS Sections:
 
