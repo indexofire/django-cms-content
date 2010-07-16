@@ -1,8 +1,8 @@
-{% extends 'cms_content.html' %}
+{% extends 'base.html' %}
 {% load i18n menu_tags cms_tags code_highlight comments %}
 
 {% block scripts %}
-{{ block.super }}
+<link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
 {% endblock scripts %}
 
 {% block content %}
