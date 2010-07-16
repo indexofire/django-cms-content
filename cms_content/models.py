@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.comments.signals import comment_was_posted
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 __all__ = ['CMSSection', 'CMSCategory', 'CMSArticle']

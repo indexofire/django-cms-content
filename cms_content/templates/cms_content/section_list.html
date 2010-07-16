@@ -1,7 +1,9 @@
-{% extends 'cms_content.html' %}
+{% extends 'base.html' %}
 {% load i18n cms_tags menu_tags %}
 
-{% block scripts %}{{ block.super }}{% endblock scripts %}
+{% block scripts %}
+<link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
+{% endblock scripts %}
 
 {% block content %}
 <div class="span-4">
