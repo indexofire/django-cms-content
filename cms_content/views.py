@@ -16,9 +16,16 @@ from cms_content.settings import ROOT_URL, CATEGORY_PERPAGE, ARTICLE_PERPAGE
 
 
 @cache_page(60*30)
-def section_list(request, **kw):
-    context = RequestContext(request, kw)
-    return render_to_response("cms_content/section_list.html", context)
+@render_to('cms_content/section_list.html')
+def section_list(request):
+    request_page = request.GET.get('page', 1)
+    sections = CMSSection.objects.all()
+    paginator = Paginator(sections, 10)
+    return {
+        'sections': sections,
+        'paginator': paginator,
+        'page': paginator.page(request_page), # add 1 query
+    }
 
 @render_to('cms_content/category_list.html')
 def category_list(request, slug):

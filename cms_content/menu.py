@@ -21,6 +21,7 @@ class CMSSectionMenu(CMSAttachMenu):
         nodes=[]
         sections = CMSSection.objects.all()
         count = sections.count() + 1
+        sections = list(sections)
         for section in sections:
             url = ROOT_URL + section.get_absolute_url()
             nodes.append(NavigationNode(section.name, url, section.pk))
