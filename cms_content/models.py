@@ -106,13 +106,13 @@ class CMSArticle(models.Model):
     Article is the third level of cms_content structure. Every article contains
     the content you write.
     """
-    
+
     PUB_STATUS = (
         (_(u'pub'), u'published'),
         (_(u'del'), u'deleted'),
         (_(u'dra'), u'draft'),
     )
-    
+
     title = models.CharField(
         _(u"Article Title"),
         max_length=255,

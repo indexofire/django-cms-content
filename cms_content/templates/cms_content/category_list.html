@@ -7,12 +7,12 @@
 
 {% block content %}
 <div class="span-4">
-  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu 1 2 0 0 %}</ul></div>
+  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li></ul></div>
 </div>
 
 <div class="span-20 last">
   <div style="padding: 0px 10px 10px 0px">
-  <h2>{{ section }}</h2>
+  <h2>{{ category.section }}</h2>
   <table class="cms_category">
   <tr class="title">
     <th>{% trans "Name" %}</th>

@@ -7,13 +7,13 @@ from menus.base import NavigationNode
 from menus.menu_pool import menu_pool
 
 from cms_content.settings import ROOT_URL
-from cms_content.models import *
+from cms_content.models import CMSSection, CMSCategory, CMSArticle
 
             
-class CMSSectionMenu(CMSAttachMenu):
-    """CMS Section Menu
+class CMSContentMenu(CMSAttachMenu):
+    """CMS Content Menu
     
-    Create a section list menu in pages.
+    Append a cms_content menu list in pages.
     """
     name = _("CMS Content Menu")
 
@@ -39,4 +39,4 @@ class CMSSectionMenu(CMSAttachMenu):
         return nodes
 
 
-menu_pool.register_menu(CMSSectionMenu)
+menu_pool.register_menu(CMSContentMenu)

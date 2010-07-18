@@ -15,11 +15,11 @@ from cms_content.forms import CMSArticleFrontendForm
 from cms_content.settings import ROOT_URL, CATEGORY_PERPAGE, ARTICLE_PERPAGE
 
 
-@cache_page(60*30)
+#@cache_page(60*30)
 @render_to('cms_content/section_list.html')
 def section_list(request):
     request_page = request.GET.get('page', 1)
-    sections = CMSSection.objects.all()
+    sections = list(CMSSection.objects.all())
     paginator = Paginator(sections, 10)
     return {
         'sections': sections,
@@ -27,14 +27,15 @@ def section_list(request):
         'page': paginator.page(request_page), # add 1 query
     }
 
+#@cache_page(60*30)
 @render_to('cms_content/category_list.html')
 def category_list(request, slug):
     request_page = request.GET.get('page', 1)
-    section = get_object_or_404(CMSSection, slug=slug)
-    categories = CMSCategory.objects.filter(section=section)
-    paginator = Paginator(categories, CATEGORY_PERPAGE)
+    section = get_object_or_404(CMSSection, slug=slug) # add 1 query
+    categories = CMSCategory.objects.select_related(depth=1).filter(section=section) # add 0 query
+    paginator = Paginator(categories, CATEGORY_PERPAGE) # add 0 query
     return {
-        'page': paginator.page(request_page),
+        'page': paginator.page(request_page), # add 1 query
         'paginator': paginator,
         'request_page': int(request_page),
         'section': section,
@@ -46,14 +47,15 @@ def article_list(request, slug, path):
     request_page = request.GET.get('page', 1)
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
-    articles = CMSArticle.objects.filter(category=category).\
-        filter(pub_status="pub")
+    #category = CMSCategory.objects.select_related(depth=1).filter(slug=path)
+    articles = list(CMSArticle.objects.select_related(depth=1).filter(category=category).\
+        filter(pub_status="pub"))
     paginator = Paginator(articles, ARTICLE_PERPAGE)
     return {
         'page': paginator.page(request_page),
         'paginator': paginator,
         'request_page': int(request_page),
-        'category': category,
+        'category': articles[0].category,
         'section': section,
         'articles': articles,
     }
@@ -62,7 +64,7 @@ def article_list(request, slug, path):
 def article_view(request, slug, path, name):
     section = get_object_or_404(CMSSection, slug=slug)
     category = get_object_or_404(CMSCategory, slug=path)
-    article = CMSArticle.objects.get(slug=name)
+    article = CMSArticle.objects.select_related(depth=1).get(slug=name)
     article.hits = F('hits') + 1
     article.save()
     return {
