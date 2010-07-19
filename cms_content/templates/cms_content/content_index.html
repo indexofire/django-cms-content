@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n menu_tags %}
+
+{% block scripts %}
+<link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
+{% endblock scripts %}
+
+{% block content %}
+<div class="span-4">
+  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu_below_id "cms" %}</ul></div>
+</div>
+
+<div class="span-20 last">
+  <div style="padding: 0px 10px 10px 0px">
+    <h2>CMS Content</h2>
+    {% for article in articles %}
+    <div>{{ article.title }}</div>
+    <div>{{ article.content }}</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content%}
+
+{% block panel %}
+<a href="../add/">add article</a> | 
+<a href="../delete/">delete article</a>
+{% endblock panel %}

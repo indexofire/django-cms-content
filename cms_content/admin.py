@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 from cms_content.models import CMSSection, CMSCategory, CMSArticle
 from cms_content.forms import CMSArticleAdminForm
-from cms_content.views import article_view
+#from cms_content.views import article_view
 from cms_content.utils.translator import Translator
 
 
@@ -82,14 +82,14 @@ class CMSArticleAdmin(admin.ModelAdmin):
             obj.last_modified_date = datetime.now()
         obj.save()
 
-    def get_urls(self):
-        urls = super(CMSArticleAdmin, self).get_urls()
-        my_urls = patterns('',
-            url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<id>[0-9]+)/$', 
-                article_view,
-                name="article_view"),
-        )
-        return my_urls + urls
+    #def get_urls(self):
+    #    urls = super(CMSArticleAdmin, self).get_urls()
+    #    my_urls = patterns('',
+    #        url(r'^(?P<slug>\w*)/(?P<path>\w*)/(?P<id>[0-9]+)/$', 
+    #            article_view,
+    #            name="article_view"),
+    #    )
+    #    return my_urls + urls
 
     def make_publish(self, request, queryset):
         """Mark Article Published

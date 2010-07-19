@@ -44,9 +44,9 @@ class CMSSection(models.Model):
         verbose_name = _(u'Section')
         verbose_name_plural = _(u'Section')
 
+    @models.permalink
     def get_absolute_url(self):
-        #return reverse('section_list', args=[self.slug])
-        return "%s/" % self.slug
+        return reverse('section_detail', (self.slug,))
 
 
 class CMSCategory(models.Model):
@@ -93,9 +93,8 @@ class CMSCategory(models.Model):
     def get_absolute_url(self):
         #mode = getattr(settings, "LIST_MODE", "table")
         #return reverse('category_%s' % mode, args=[self.slug])
-        return ("article_list", None, {
-            "slug": self.section.slug,
-            "path": self.slug,
+        return ("category_detail", None, {
+            "slug": self.slug,
             },
         )
 
@@ -181,11 +180,11 @@ class CMSArticle(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        #return reverse('article_view', args=[self.slug])
-        return ("article_view", None, {
-            "slug": self.category.section.slug,
-            "path": self.category.slug,
-            "name": self.slug,
+        return ("article_detail", (), {
+            "year": self.created_date.strftime('%Y'),
+            "month": self.created_date.strftime('%m'),
+            "day": self.created_date.strftime('%d'),
+            "slug": self.slug,
             }
         )
 

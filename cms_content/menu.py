@@ -23,7 +23,8 @@ class CMSContentMenu(CMSAttachMenu):
         count = sections.count() + 1
         sections = list(sections)
         for section in sections:
-            url = ROOT_URL + section.get_absolute_url()
+            print section.get_absolute_url()
+            url = section.get_absolute_url()
             nodes.append(NavigationNode(section.name, url, section.pk))
             categories = CMSCategory.objects.select_related('section').filter(section__pk=section.pk)
             for category in categories:
