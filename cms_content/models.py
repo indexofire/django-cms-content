@@ -10,6 +10,16 @@ from django.utils.translation import ugettext_lazy as _
 
 __all__ = ['CMSSection', 'CMSCategory', 'CMSArticle']
 
+class CMSMenuID(models.Model):
+    """All CMS_Content entries' menu id"""
+    menuid = models.IntegerField(blank=False)
+    parent = models.IntegerField(blank=True)
+    
+    class Meta:
+        #ordering = ['-menu']
+        verbose_name = _(u'Menu ID')
+        verbose_name_plural = _(u'Menu ID')
+
 class CMSSection(models.Model):
     """Models For Django CMS Sections:
 
@@ -35,6 +45,7 @@ class CMSSection(models.Model):
         _(u"Created Date"),
         auto_now_add=True,
     )
+    menu = models.OneToOneField(CMSMenuID)
 
     def __unicode__(self):
         return self.name
@@ -80,6 +91,7 @@ class CMSCategory(models.Model):
         _(u"Created Date"),
         auto_now_add=True,
     )
+    menu = models.OneToOneField(CMSMenuID)
 
     class Meta:
         ordering = ['-created_date']
@@ -169,7 +181,8 @@ class CMSArticle(models.Model):
         blank=True,
         null=True,
     )
-
+    menu = models.OneToOneField(CMSMenuID)
+    
     class Meta:
         ordering = ['-created_date']
         verbose_name = _(u'Article')

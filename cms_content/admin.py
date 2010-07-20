@@ -40,14 +40,23 @@ class CMSCategoryInline(admin.StackedInline):
 class CMSSectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     list_filter = ('created_date',)
+    exclude = ('menu',)
     prepopulated_fields = {"slug": ("name",)}
     inlines = [CMSCategoryInline,]
+    
+    def save_model(self, request, obj, form, change):
+        menu_num = CMSMenuID.objects.count() + 1
+        obj.menu = CMSMenuID(menuid=menu_num)
+        obj.save()
 
 class CMSCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'section', 'description')
     list_filter = ('created_date',)
     prepopulated_fields = {"slug": ("name",)}
     #inlines = [CMSArticleInline,]
+    
+    #def save_model(self, request, obj, form, change):
+    #    obj.menu = CMSMenuID(menuid=
 
 class CMSArticleAdmin(admin.ModelAdmin):
     list_display = (

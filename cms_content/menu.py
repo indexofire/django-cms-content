@@ -27,15 +27,17 @@ class CMSContentMenu(CMSAttachMenu):
             nodes.append(NavigationNode(section.name, url, section.pk))
             categories = CMSCategory.objects.select_related('section').filter(section__pk=section.pk)
             for category in categories:
-                url = category.get_absolute_url()
+                url = "cms"
                 parent = count
-                nodes.append(NavigationNode(category.name, url, parent, category.section_id))
+                nodes.append(NavigationNode(category.name, url, parent, 1))
                 count += 1
                 articles = CMSArticle.objects.select_related('category').filter(category__pk=category.pk)
                 for article in articles:
-                    url = article.get_absolute_url()
+                    url = "cms"
                     nodes.append(NavigationNode(article.title, url, count, parent))
                     count += 1
+        for node in nodes:
+            print node
         return nodes
 
 
