@@ -18,10 +18,9 @@ class LatestArticlePlugin(CMSPluginBase):
     render_template = 'cms_content/plugins/latest_article.html'
     
     def render(self, context, instance, placeholder):
-        articles = CMSArticle.objects.all()
-        articles = articles[:instance.article_num]
-        context.update({'articles': articles,
-            'root': ROOT_URL,
+        articles = CMSArticle.objects.filter()[:instance.article_num]
+        context.update({
+            'articles': articles,
             'object': instance,
             'placeholder': placeholder,
             }

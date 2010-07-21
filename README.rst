@@ -12,8 +12,10 @@ mptt_ to manage different pages to control the level relationships of your
 contents.
 
 1. It's complicated if you have too many relationship of these pages.
+
 2. Without pagination as default settings like django-page-cms, the admin
 interface rendering speed will be slowed down by js render perfermence.
+
 3. Because the menu tags will produce a lot of queries(for cache menu) when the 
 web server restart or pages are added. cms_content could be used to avoid these
 queries.
@@ -94,3 +96,10 @@ so django-cms-2.0-content has dependencies:
 
 .. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
 .. _Pygments: http://pygments.org/
+
+
+2.4 Plugins
+*****************************
+
+Latest Articles Plugin works now. Top Hit Articles Plugin is being working. 
+There is a plan to add a Top Rate Articles Plugin into cms_content.

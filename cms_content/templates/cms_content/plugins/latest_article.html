@@ -1,13 +1,17 @@
 {% load i18n %}
+
+
+<div>what's new</div>
+<p>{{ placeholder }}</p>{{ object }}
 <ol>
   {% for article in articles %}
   <li>
-    <a href="{{ root }}{{ article.category.section.get_absolute_url}}{{ article.category.get_absolute_url }}{{ article.get_absolute_url }}" title="{{ entry.title }}">{{ article.title }}</a>
+    <a href="{{ article.get_absolute_url }}" title="{{ article.title }}">{{ article.title }}</a> | 
     {{ article.last_modified_date|date:"Y.m.d" }}
   </li>
   {% empty %}
   <li>
-    {% trans "Not yet entries." %}
+    {% trans "No Articles." %}
   </li>
   {% endfor %}
 </ul>
