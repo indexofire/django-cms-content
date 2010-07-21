@@ -5,7 +5,7 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
 from cms_content.models import CMSArticle
-from cms_content.plugins.models import LatestArticle
+from cms_content.plugins.models import LatestArticle, TopHitArticlePlugin
 from cms_content.settings import ROOT_URL
 
 
@@ -14,11 +14,11 @@ class LatestArticlePlugin(CMSPluginBase):
     This Plugin will get latest articles.
     """
     model = LatestArticle
-    name = _('Latest Article')
+    name = _(u'Latest Article')
     render_template = 'cms_content/plugins/latest_article.html'
     
     def render(self, context, instance, placeholder):
-        articles = CMSArticle.objects.filter()[:instance.article_num]
+        articles = CMSArticle.objects.all()[:instance.article_num]
         context.update({
             'articles': articles,
             'object': instance,
@@ -27,4 +27,16 @@ class LatestArticlePlugin(CMSPluginBase):
         )
         return context
 
+class TopHitArticlePlugin(CMSPluginBase):
+    """
+    This Plugin will get most hits articles.
+    """
+    model = TopHitArticle
+    name = _(u'Top Hits Article')
+    render_template = 'cms_content/plugins/tophit_article.html'
+    
+    def render(self, context, instance, placeholder):
+        pass
+
+plugin_pool.register_plugin(TopHitArticlePlugin):
 plugin_pool.register_plugin(LatestArticlePlugin)
