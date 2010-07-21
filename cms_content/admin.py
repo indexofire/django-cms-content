@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.conf.urls.defaults import *
 from django.utils.translation import ugettext as _
 
-from cms_content.models import CMSSection, CMSCategory, CMSArticle
+from cms_content.models import CMSMenuID, CMSSection, CMSCategory, CMSArticle
 from cms_content.forms import CMSArticleAdminForm
 #from cms_content.views import article_view
 from cms_content.utils.translator import Translator
@@ -18,6 +18,10 @@ __all__ = [
     'CMSCategoryAdmin',
     'CMSArticleAdmin',
 ]
+
+def delete_objects(modeladmin, request, queryset):
+    queryset.delete()
+delete_objects.short_description = _(u"delete the objects")
 
 class CMSArticleInline(admin.StackedInline):
     """Article Inline Admin
@@ -43,20 +47,30 @@ class CMSSectionAdmin(admin.ModelAdmin):
     exclude = ('menu',)
     prepopulated_fields = {"slug": ("name",)}
     inlines = [CMSCategoryInline,]
+    actions = [delete_objects,]
     
     def save_model(self, request, obj, form, change):
-        menu_num = CMSMenuID.objects.count() + 1
-        obj.menu = CMSMenuID(menuid=menu_num)
-        obj.save()
+        if not change:
+            menu_num = CMSMenuID.objects.count() + 1
+            obj.menu = CMSMenuID.objects.create(menuid=menu_num)
+            obj.save()
 
 class CMSCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'section', 'description')
     list_filter = ('created_date',)
+    exclude = ('menu',)
     prepopulated_fields = {"slug": ("name",)}
     #inlines = [CMSArticleInline,]
     
-    #def save_model(self, request, obj, form, change):
-    #    obj.menu = CMSMenuID(menuid=
+    def save_model(self, request, obj, form, change):
+        if not change:
+            menu_num = CMSMenuID.objects.count() + 1
+            obj.menu = CMSMenuID.objects.create(menuid=menu_num, parent=obj.section.menu.menuid)
+            obj.save()
+        else:
+            obj.menu = CMSMenuID.objects.get(menuid=obj.menu.menuid)
+            obj.menu.parent = obj.section.menu.menuid
+            obj.menu.save()
 
 class CMSArticleAdmin(admin.ModelAdmin):
     list_display = (
@@ -78,7 +92,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     #list_editable = ('category',)
     actions = ['make_publish', 'make_draft', 'translate_content']
     form = CMSArticleAdminForm
-    exclude = ('pub_start_date', 'pub_end_date', 'hits')
+    exclude = ('pub_start_date', 'pub_end_date', 'hits', 'menu')
 
     def belong_to_section(self, obj):
         article = CMSArticle.objects.select_related().get(pk=obj.id)
@@ -86,10 +100,19 @@ class CMSArticleAdmin(admin.ModelAdmin):
     belong_to_section.short_description = 'section'
 
     def save_model(self, request, obj, form, change):
-        if change:
-            obj.last_modified_by = request.user
-            obj.last_modified_date = datetime.now()
-        obj.save()
+        if not change:
+            menu_num = CMSMenuID.objects.count() + 1
+            obj.menu = CMSMenuID.objects.create(menuid=menu_num, parent=obj.category.menu.menuid)
+            obj.save()
+        else:
+            obj.menu = CMSMenuID.objects.get(menuid=obj.menu.menuid)
+            obj.menu.parent = obj.category.menu.menuid
+            obj.menu.save()
+        
+        #if change:
+        #    obj.last_modified_by = request.user
+        #    obj.last_modified_date = datetime.now()
+        #obj.save()
 
     #def get_urls(self):
     #    urls = super(CMSArticleAdmin, self).get_urls()
@@ -130,3 +153,4 @@ class CMSArticleAdmin(admin.ModelAdmin):
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
 admin.site.register(CMSArticle, CMSArticleAdmin)
+admin.site.register(CMSMenuID)

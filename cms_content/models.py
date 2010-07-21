@@ -8,12 +8,12 @@ from django.contrib.comments.signals import comment_was_posted
 from django.utils.translation import ugettext_lazy as _
 
 
-__all__ = ['CMSSection', 'CMSCategory', 'CMSArticle']
+__all__ = ['CMSMenuID', 'CMSSection', 'CMSCategory', 'CMSArticle']
 
 class CMSMenuID(models.Model):
     """All CMS_Content entries' menu id"""
-    menuid = models.IntegerField(blank=False)
-    parent = models.IntegerField(blank=True)
+    menuid = models.IntegerField(blank=False,null=False)
+    parent = models.IntegerField(blank=True,null=True)
     
     class Meta:
         #ordering = ['-menu']
@@ -55,6 +55,10 @@ class CMSSection(models.Model):
         verbose_name = _(u'Section')
         verbose_name_plural = _(u'Section')
 
+    @property
+    def url(self):
+        return self.slug
+    
     @models.permalink
     def get_absolute_url(self):
         return reverse('section_detail', (self.slug,))
@@ -101,6 +105,10 @@ class CMSCategory(models.Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def url(self):
+        return self.slug
+    
     @models.permalink
     def get_absolute_url(self):
         #mode = getattr(settings, "LIST_MODE", "table")
@@ -191,6 +199,15 @@ class CMSArticle(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.created_by.username, self.title)
 
+    @property
+    def url(self):
+        return "%s/%s/%s/%s" % (
+            self.created_date.strftime('%Y'),
+            self.created_date.strftime('%m'),
+            self.created_date.strftime('%d'),
+            self.slug,
+            )
+            
     @models.permalink
     def get_absolute_url(self):
         return ("article_detail", (), {
