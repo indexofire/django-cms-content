@@ -36,7 +36,8 @@ class TopHitArticlePlugin(CMSPluginBase):
     render_template = 'cms_content/plugins/tophit_article.html'
     
     def render(self, context, instance, placeholder):
-        pass
+        context.update({})
+        return context
 
 plugin_pool.register_plugin(TopHitArticlePlugin)
 plugin_pool.register_plugin(LatestArticlePlugin)
