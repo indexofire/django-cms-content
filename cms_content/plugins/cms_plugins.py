@@ -38,5 +38,5 @@ class TopHitArticlePlugin(CMSPluginBase):
     def render(self, context, instance, placeholder):
         pass
 
-plugin_pool.register_plugin(TopHitArticlePlugin):
+plugin_pool.register_plugin(TopHitArticlePlugin)
 plugin_pool.register_plugin(LatestArticlePlugin)
