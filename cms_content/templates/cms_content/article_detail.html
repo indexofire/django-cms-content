@@ -13,7 +13,7 @@
 <div class="span-20 last">
   <div style="padding: 10px">
   <h2>{{ article.title }}</h2>
-  <h5>{% trans 'Author' %}: <a href="">{{ article.created_by }}</a> | 
+  <h5>{% trans 'Author' %}: <a href="{% url profiles_profile_detail article.created_by %}">{{ article.created_by }}</a> | 
   Created Time: {{ article.created_date|date:"Y.m.d" }}</h5>
   
   {{ article.content|code_highlight }}
