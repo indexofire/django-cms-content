@@ -19,10 +19,6 @@ __all__ = [
     'CMSArticleAdmin',
 ]
 
-def delete_objects(modeladmin, request, queryset):
-    queryset.delete()
-delete_objects.short_description = _(u"delete the objects")
-
 class CMSArticleInline(admin.StackedInline):
     """Article Inline Admin
     
@@ -46,8 +42,7 @@ class CMSSectionAdmin(admin.ModelAdmin):
     list_filter = ('created_date',)
     exclude = ('menu',)
     prepopulated_fields = {"slug": ("name",)}
-    inlines = [CMSCategoryInline,]
-    actions = [delete_objects,]
+    #inlines = [CMSCategoryInline,]
     
     def save_model(self, request, obj, form, change):
         if not change:
@@ -107,12 +102,9 @@ class CMSArticleAdmin(admin.ModelAdmin):
         else:
             obj.menu = CMSMenuID.objects.get(menuid=obj.menu.menuid)
             obj.menu.parent = obj.category.menu.menuid
-            obj.menu.save()
-        
-        #if change:
-        #    obj.last_modified_by = request.user
-        #    obj.last_modified_date = datetime.now()
-        #obj.save()
+            obj.last_modified_by = request.user
+            obj.last_modified_date = datetime.now()
+            obj.save()
 
     #def get_urls(self):
     #    urls = super(CMSArticleAdmin, self).get_urls()
@@ -153,4 +145,3 @@ class CMSArticleAdmin(admin.ModelAdmin):
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
 admin.site.register(CMSArticle, CMSArticleAdmin)
-admin.site.register(CMSMenuID)

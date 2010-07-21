@@ -15,7 +15,7 @@
     <h2>CMS Content</h2>
     {% for article in articles %}
     <div>{{ article.title }}</div>
-    <div>{{ article.content }}</div>
+    <div>{{ article.content|safe }}</div>
     {% endfor %}
   </div>
 </div>

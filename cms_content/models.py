@@ -16,7 +16,6 @@ class CMSMenuID(models.Model):
     parent = models.IntegerField(blank=True,null=True)
     
     class Meta:
-        #ordering = ['-menu']
         verbose_name = _(u'Menu ID')
         verbose_name_plural = _(u'Menu ID')
 

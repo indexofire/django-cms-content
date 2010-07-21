@@ -14,6 +14,9 @@ contents.
 1. It's complicated if you have too many relationship of these pages.
 2. Without pagination as default settings like django-page-cms, the admin
 interface rendering speed will be slowed down by js render perfermence.
+3. Because the menu tags will produce a lot of queries(for cache menu) when the 
+web server restart or pages are added. cms_content could be used to avoid these
+queries.
 
 Well, luckily django-cms-2.0 has the ability to extend or integrate other app
 into it. So I create this app to build a simple three levels relationship which
@@ -58,10 +61,12 @@ open your browser, visit /cms/content/ URL, you will see the all your articles.
 2.2 Setup
 *****************************
 
+You can add these in settings.py
+
 2.2.1 WYSIWYG Editor:
 
-The default WYSIWYG editor is WYMEditor. You can use TinyMCE instead by adding
-CMS_CONTENT_EDITOR in your project settings.py
+The default WYSIWYG editor is `WYMEditor`. You can use `TinyMCE` or `MarkItUp` 
+by adding `CMS_CONTENT_EDITOR` in your project settings.py
 
 ::
 
@@ -77,7 +82,6 @@ your settings.py
    CMS_CONTENT_CODE_HIGHLIGHT = True
    CMS_CONTENT_CODE_HIGHLIGHT_CSS = 'code_highlight'
    CMS_CONTENT_CODE_HIGHLIGHT_LINENOS = True
-
 
 2.3 Dependencies
 *****************************
