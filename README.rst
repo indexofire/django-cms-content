@@ -15,9 +15,11 @@ contents.
 page is and what relationships of these pages. Although Using static level to
 display content will be hard to render pages by different templates to some
 extend, I think the content itself is the hardcore not the templates.
+
 2.Without pagination as default settings like django-page-cms, the admin
 interface of django-cms use jquery to render tree. So the speed will be kind of
 slow by js render perfermence if you have a bunch of pages.
+
 3.The current version of django-cms(2.1.0 beta) menu tags will make a lot of
 queries(for caching menu) when the web server restart or pages are added. 
 Although the cache will be recached in every 3600 seconds default, I think it's
