@@ -7,6 +7,7 @@ from django.contrib.sites.models import Site
 from django.contrib.comments.signals import comment_was_posted
 from django.utils.translation import ugettext_lazy as _
 
+from cms_content.settings import ROOT_URL
 
 __all__ = ['CMSMenuID', 'CMSSection', 'CMSCategory', 'CMSArticle']
 
@@ -56,7 +57,7 @@ class CMSSection(models.Model):
 
     @property
     def url(self):
-        return self.slug
+        return ROOT_URL + 'section/' + self.slug
     
     @models.permalink
     def get_absolute_url(self):
@@ -106,12 +107,10 @@ class CMSCategory(models.Model):
 
     @property
     def url(self):
-        return self.slug
+        return ROOT_URL + 'category/' + self.slug
     
     @models.permalink
     def get_absolute_url(self):
-        #mode = getattr(settings, "LIST_MODE", "table")
-        #return reverse('category_%s' % mode, args=[self.slug])
         return ("category_detail", None, {
             "slug": self.slug,
             },
@@ -200,7 +199,7 @@ class CMSArticle(models.Model):
 
     @property
     def url(self):
-        return "%s/%s/%s/%s" % (
+        return ROOT_URL + 'article/' + "%s/%s/%s/%s" % (
             self.created_date.strftime('%Y'),
             self.created_date.strftime('%m'),
             self.created_date.strftime('%d'),

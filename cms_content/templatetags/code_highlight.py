@@ -6,11 +6,9 @@ from django.utils.encoding import force_unicode
 from django.template.defaultfilters import stringfilter
 
 from cms_content.settings import *
-
 from pygments import highlight
 from pygments.lexers import guess_lexer, PythonLexer, LEXERS, get_lexer_by_name
 from pygments.formatters import HtmlFormatter
-
 from BeautifulSoup import BeautifulSoup
 
 

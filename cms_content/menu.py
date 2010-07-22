@@ -21,17 +21,31 @@ class CMSContentMenu(CMSAttachMenu):
         nodes = []
         sections = list(CMSSection.objects.all().select_related(depth=1))
         categories = list(CMSCategory.objects.all().select_related(depth=1))
-        articles = list(CMSArticle.objects.all().select_related(depth=1))
+        articles = list(CMSArticle.objects.all()[:2].select_related(depth=1))
         
         for section in sections:
-            url = ROOT_URL + 'section/' + section.url
-            nodes.append(NavigationNode(section.name, url, section.menu.menuid))
+            nodes.append(NavigationNode(
+                section.name,
+                section.url,
+                section.menu.menuid,
+                )
+            )
         for category in categories:
-            url = ROOT_URL + 'category/' + category.url
-            nodes.append(NavigationNode(category.name, url, category.menu.menuid, category.menu.parent))
+            nodes.append(NavigationNode(
+                category.name,
+                category.url,
+                category.menu.menuid,
+                category.menu.parent,
+                )
+            )
         for article in articles:
-            url = ROOT_URL + 'article/' + article.url
-            nodes.append(NavigationNode(article.title, url, article.menu.menuid, article.menu.parent))
+            nodes.append(NavigationNode(
+                article.title,
+                article.url,
+                article.menu.menuid,
+                article.menu.parent,
+                )
+            )
         return nodes
 
 
