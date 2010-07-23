@@ -14,28 +14,15 @@ contents.
 1.1 Why this?
 *****************************
 
-- It's complicated if you have too many pages. Sometime you don't remember what
-page is and what relationships of these pages. Although Using static level to
-display content will be hard to render pages by different templates to some
-extend, I think the content itself is the hardcore not the templates.
+- It's complicated if you have too many pages. Sometime you don't remember what page is and what relationships of these pages. Although Using static level to display content will be hard to render pages by different templates to some extend, I think the content itself is the hardcore not the templates.
 
-- Without pagination as default settings like django-page-cms, the admin
-interface of django-cms use jquery to render tree. So the speed will be kind of
-slow by js render perfermence if you have a bunch of pages.
+- Without pagination as default settings like django-page-cms, the admin interface of django-cms use jquery to render tree. So the speed will be kind of slow by js render perfermence if you have a bunch of pages.
 
-- The current version of django-cms(2.1.0 beta) menu tags will make a lot of
-queries(for caching menu) when the web server restart or pages are added. 
-Although the cache will be recached in every 3600 seconds default, I think it's
-not a good choice to build the menu if your site is based on a lot of pages. The
-more pages your site have, the more queries made when caching menu. cms_content 
-could be used to avoid these queries because you don't need to add pages every
-time to add new content.
+- The current version of django-cms(2.1.0 beta) menu tags will make a lot of queries(for caching menu) when the web server restart or pages are added. Although the cache will be recached in every 3600 seconds default, I think it's not a good choice to build the menu if your site is based on a lot of pages. The more pages your site have, the more queries made when caching menu. cms_content could be used to avoid these queries because you don't need to add pages every time to add new content.
 
-django-cms-2.0 has the ability to extend or integrate other app into it. So this
-app was being built as a simple three levels relationship content management 
-which idea comes from joomla_ , a PHP CMS program.
+django-cms-2.0 has the ability to extend or integrate other app into it. So this app was being built as a simple three levels relationship content management which idea comes from joomla_ , a PHP CMS program.
 
-.. _`Django CMS 2.0`: http://www.django-cms.org
+.. _`Django CMS`: http://www.django-cms.org
 .. _mptt: http://code.google.com/p/django-mptt/
 .. _joomla: http://www.joomla.org
 
