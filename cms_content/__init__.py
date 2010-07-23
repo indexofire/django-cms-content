@@ -27,5 +27,5 @@ models.Model.get_admin_add_url = get_admin_add_url
 models.Model.get_verbose_name = lambda self: self._meta.verbose_name
 models.Model.get_verbose_name_plural = lambda self: self._meta.verbose_name_plural
 
-version = ('0', '0', '2', 'alpha')
+version = ('0', '0', '5', 'beta')
 
