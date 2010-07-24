@@ -57,7 +57,7 @@ class CMSSection(models.Model):
 
     @property
     def url(self):
-        return ROOT_URL + 'section/' + self.slug
+        return "%s%s/%s/" % (ROOT_URL, 'section', self.slug)
     
     @models.permalink
     def get_absolute_url(self):
@@ -107,7 +107,7 @@ class CMSCategory(models.Model):
 
     @property
     def url(self):
-        return ROOT_URL + 'category/' + self.slug
+        return "%s%s/%s/" % (ROOT_URL, 'category', self.slug)
     
     @models.permalink
     def get_absolute_url(self):
@@ -199,7 +199,7 @@ class CMSArticle(models.Model):
 
     @property
     def url(self):
-        return ROOT_URL + 'article/' + "%s/%s/%s/%s" % (
+        return ROOT_URL + 'article/' + "%s/%s/%s/%s/" % (
             self.created_date.strftime('%Y'),
             self.created_date.strftime('%m'),
             self.created_date.strftime('%d'),

@@ -19,7 +19,6 @@ CODE_HIGHLIGHT_DEFAULT = getattr(settings, 'CMS_CONTENT_CODE_HIGHLIGHT_DEFAULT',
 EDITOR = getattr(settings, 'CMS_CONTENT_EDITOR', 'WYMEditor')
 
 # paginator
-CATEGORY_PERPAGE = getattr(settings, 'CMS_CONTENT_CATEGORY_PERPAGE', 10)
 ARTICLE_PERPAGE = getattr(settings, 'CMS_CONTENT_ARTICLE_PERPAGE', 10)
 
 # comment spam setting
