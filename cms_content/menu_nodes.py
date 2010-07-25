@@ -15,8 +15,11 @@ def cache_nodes(request, queryset):
     site_id = Site.objects.get_current().pk
     prefix = getattr(settings, "CMS_CACHE_PREFIX", "menu_cache_")
     key = "%smenu_nodes_%s_%s" % (prefix, lang, site_id)
-
+    cached_nodes = cache.get(key, None)
+    if cached_nodes:
+        cached_nodes = list(cached_nodes)
     article_nodes = []
+
     for article in queryset:
         article_nodes.append(NavigationNode(
             article.title,
@@ -26,12 +29,17 @@ def cache_nodes(request, queryset):
             )
         )
 
+    if str(article_nodes[0]) in str(cached_nodes):
+        return
+
     nodes = menu_pool.get_nodes(request)
     for node in nodes:
         if node.title == article.category.slug:
             parent_node = node
             break
-            
+        else:
+            parent_node = None
+
     for node in article_nodes:
         node.parent = parent_node
         node.namespace = parent_node.namespace

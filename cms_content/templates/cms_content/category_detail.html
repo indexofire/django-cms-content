@@ -31,7 +31,7 @@
   </table>
   <div class="pagination">
     <span class="step-links">
-      {% if pages.has_previous %}<a href="?page={{ contacts.previous_page_number }}">{% trans "previous" %}</a>{% endif %}
+      {% if pages.has_previous %}<a href="?page={{ pages.previous_page_number }}">{% trans "previous" %}</a>{% endif %}
       <span class="current">Page {{ pages.number }} of {{ pages.paginator.num_pages }}</span>
       {% if pages.has_next %}<a href="?page={{ pages.next_page_number }}">{% trans "next" %}</a>{% endif %}
     </span>

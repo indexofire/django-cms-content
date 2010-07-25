@@ -63,8 +63,8 @@ def category_detail(request, slug):
     except ValueError:
         request_page = 1
     try:
-        queryset = articles[(request_page-1)*ARTICLE_PERPAGE:request_page*ARTICLE_PERPAGE]
         article_page = paginator.page(request_page)
+        queryset = articles[(request_page-1)*ARTICLE_PERPAGE:request_page*ARTICLE_PERPAGE]
     except (EmptyPage, InvalidPage):
         article_page = paginator.page(paginator.num_pages)
         queryset = articles[(paginator.num_pages-1)*ARTICLE_PERPAGE:paginator.num_pages*ARTICLE_PERPAGE]
