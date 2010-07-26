@@ -2,7 +2,7 @@
 from django import forms
 
 from cms_content.settings import EDITOR
-from cms_content.models import *
+from cms_content.models import CMSArticle
 from cms_content import widgets
 
 
@@ -21,4 +21,4 @@ class CMSArticleFrontendForm(forms.ModelForm):
     
     class Meta:
         model = CMSArticle
-        fields = ('title', 'slug', 'content', 'category')
+        fields = ('title', 'slug', 'content', 'category', 'menu')

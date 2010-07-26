@@ -19,7 +19,7 @@ def cache_nodes(request, queryset):
         
         cached_nodes = cache.get(key, None)
         if cached_nodes:
-            cached_nodes = list(cached_nodes)
+            cached_nodes = str(cached_nodes)
             
         article_nodes = []
         for article in queryset:
@@ -31,7 +31,7 @@ def cache_nodes(request, queryset):
                 )
             )
 
-        if str(article_nodes[0]) in str(cached_nodes):
+        if str(article_nodes[0]) in cached_nodes:
             return
 
         nodes = menu_pool.get_nodes(request)

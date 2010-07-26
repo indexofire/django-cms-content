@@ -104,7 +104,8 @@ def article_add(request):
                 created_date = datetime.now(),
                 last_modified_by = request.user,
                 last_modified_date = datetime.now(),
-                is_published = True,
+                pub_status = 'pub',
+                menu = form.cleaned_data['menu'],
             )
             article.save()
         else:
@@ -120,7 +121,7 @@ def article_add(request):
             'request': request,
         }
 
-def article_delete(request, slug, path, name):
+def article_del(request, slug, path, name):
     if request.user.is_superuser:
         article = CMSArticle.objects.get(slug=name)
         article.delete()

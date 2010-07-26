@@ -29,6 +29,6 @@ urlpatterns = patterns ('cms_content.views',
     url(r'^category/(?P<slug>[-\w]+)/$', 'category_detail', name='category_detail'),
     #show the article view
     url(r'^article/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$', 'article_detail', name='article_detail'),
-    #url(r'^article/add/$', 'article_add', name='article_add'),
-    #url(r'^article/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/del/$', 'article_del', name='article_del'),
+    url(r'^article/add/$', 'article_add', name='article_add'),
+    url(r'^article/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/del/$', 'article_del', name='article_del'),
 )

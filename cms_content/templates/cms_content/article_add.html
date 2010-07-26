@@ -6,7 +6,7 @@
 {% endblock scripts %}
 
 {% block content %}
-<form action="." method="POST">{% csrf_token %}
+<form action="{% url article_add %}" method="POST">{% csrf_token %}
 <table class="addarticle" style="margin:0px">
   {{ form.as_table }}
   <tr class="required">

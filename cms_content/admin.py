@@ -5,10 +5,11 @@ from django.contrib import admin
 from django.conf.urls.defaults import *
 from django.utils.translation import ugettext as _
 
-from cms_content.models import CMSMenuID, CMSSection, CMSCategory, CMSArticle
+from cms_content.models import CMSMenuID
+from cms_content.models import CMSSection
+from cms_content.models import CMSCategory
+from cms_content.models import CMSArticle
 from cms_content.forms import CMSArticleAdminForm
-#from cms_content.views import article_view
-from cms_content.utils.translator import Translator
 
 
 __all__ = [
@@ -49,6 +50,8 @@ class CMSSectionAdmin(admin.ModelAdmin):
             menu_num = CMSMenuID.objects.count() + 1
             obj.menu = CMSMenuID.objects.create(menuid=menu_num)
             obj.save()
+        else:
+            obj.save()
 
 class CMSCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'section', 'description')
@@ -65,7 +68,7 @@ class CMSCategoryAdmin(admin.ModelAdmin):
         else:
             obj.menu = CMSMenuID.objects.get(menuid=obj.menu.menuid)
             obj.menu.parent = obj.section.menu.menuid
-            obj.menu.save()
+            obj.save()
 
 class CMSArticleAdmin(admin.ModelAdmin):
     list_display = (
@@ -136,11 +139,6 @@ class CMSArticleAdmin(admin.ModelAdmin):
             "%s article(s) marked as draft!" % article_num
         )
     make_draft.short_description = _(u"Make the article as draft")
-
-    def translate_content(self, request, queryset):
-        self.message_user(request, "The article(s) had been translated!")
-        pass
-    translate_content.short_description = _(u"Translate the article by google")
 
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
