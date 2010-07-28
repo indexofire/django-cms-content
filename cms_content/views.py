@@ -15,6 +15,7 @@ from cms_content.forms import CMSArticleFrontendForm
 from cms_content.settings import ROOT_URL, ARTICLE_PERPAGE
 from cms_content.menu_nodes import cache_nodes
 
+
 @render_to('cms_content/content_index.html')
 def content_index(request):
     articles = CMSArticle.objects.all()[:10]
