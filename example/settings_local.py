@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 gettext = lambda s: s
 
 # django-cms-2.0 Settings:
@@ -18,10 +17,9 @@ LANGUAGES = (
     ('zh-cn', gettext("Chinese")),
 )
 CMS_TEMPLATES = (
-    ('base.html', gettext('default')),
+    ('index.html', gettext('index')),
+    ('default.html', gettext('default')),
     ('col_two.html', gettext('two columns')),
-    ('col_three.html', gettext('three columns')),
-    ('nav_playground.html', gettext('navigation examples')),
 )
 CMS_PLACEHOLDER_CONF = {
     'col_sidebar': {
@@ -54,7 +52,7 @@ CMS_PLACEHOLDER_CONF = {
 }
 
 # south
-SOUTH_TESTS_MIGRATE = False
+#SOUTH_TESTS_MIGRATE = False
 
 # cms_content
 CMS_CONTENT_EDITOR = 'WYMEditor'
