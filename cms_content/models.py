@@ -9,7 +9,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from cms_content.settings import ROOT_URL
 
-__all__ = ['CMSMenuID', 'CMSSection', 'CMSCategory', 'CMSArticle']
+
+__all__ = [
+    'CMSMenuID',
+    'CMSSection',
+    'CMSCategory',
+    'CMSArticle',
+]
 
 class CMSMenuID(models.Model):
     """All CMS_Content entries' menu id"""
@@ -135,14 +141,17 @@ class CMSArticle(models.Model):
         max_length=255,
         blank=False,
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         _(u"Slug"),
         max_length=255,
         blank=False,
+        unique=True,
+        help_text=_(u"Article's Name Used In URL"),
     )
     content = models.TextField(
         _(u"Article Content"),
         blank=False,
+        help_text=_(u"Article's Content"),
     )
     created_by = models.ForeignKey(
         User,
@@ -205,7 +214,21 @@ class CMSArticle(models.Model):
             self.created_date.strftime('%d'),
             self.slug,
             )
-            
+
+    @property
+    def previous_article(self):
+        """Return the previous article"""
+        articles = CMSArticle.objects.filter(created_date_lt=self.created_date)
+        if articles:
+            return articles[0]
+    
+    @property
+    def next_article(self):
+        """Return the next article"""
+        articles = CMSArticle.objects.filter(created_date_gt=self.created_date)
+        if articles:
+            return articles[0]
+    
     @models.permalink
     def get_absolute_url(self):
         return ("article_detail", (), {
@@ -221,7 +244,7 @@ def on_comment_was_posted(sender, comment, request, *args, **kwargs):
     """Spam checking can be enabled/disabled per the comment's target Model
 
     Usage:
-    if comment.content_type.model_class() != Entry:
+    if comment.content_type.model_class() != CMSArticle:
         return
     """
 
