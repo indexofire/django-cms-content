@@ -8,6 +8,7 @@ from django.contrib.comments.signals import comment_was_posted
 from django.utils.translation import ugettext_lazy as _
 
 from cms_content.settings import ROOT_URL
+from cms_content.settings import UPLOAD_TO
 
 
 __all__ = [
@@ -18,13 +19,14 @@ __all__ = [
 ]
 
 class CMSMenuID(models.Model):
-    """All CMS_Content entries' menu id"""
+    """All CMS_Content object's menu id for django-cms get_nodes"""
     menuid = models.IntegerField(blank=False,null=False)
     parent = models.IntegerField(blank=True,null=True)
     
     class Meta:
         verbose_name = _(u'Menu ID')
         verbose_name_plural = _(u'Menu ID')
+
 
 class CMSSection(models.Model):
     """Models For Django CMS Sections:
@@ -38,17 +40,25 @@ class CMSSection(models.Model):
         max_length=255,
         blank=False,
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         _(u"Slug"),
         max_length=255,
         blank=False,
+        unique=True,
+        help_text=_(u"Section's Slug"),
     )
     description = models.TextField(
         _(u"Section Description"),
         blank=False,
     )
+    image = models.ImageField(
+        _(u"Image"),
+        upload_to=UPLOAD_TO,
+        blank=True,
+        help_text=_(u"Section Image Display in Pages"),
+    )
     created_date = models.DateTimeField(
-        _(u"Created Date"),
+        _(u"Create Time"),
         auto_now_add=True,
     )
     menu = models.OneToOneField(CMSMenuID)
@@ -67,7 +77,7 @@ class CMSSection(models.Model):
     
     @models.permalink
     def get_absolute_url(self):
-        return reverse('section_detail', (self.slug,))
+        return ('cms_content_section_detail', (self.slug,))
 
 
 class CMSCategory(models.Model):
@@ -82,10 +92,12 @@ class CMSCategory(models.Model):
         max_length=255,
         blank=False,
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         _(u"Slug"),
         max_length=255,
         blank=False,
+        unique=True,
+        help_text=_(u"Category's Slug"),
     )
     section = models.ForeignKey(
         CMSSection,
@@ -97,19 +109,25 @@ class CMSCategory(models.Model):
         _(u"Category Description"),
         blank=False,
     )
+    image = models.ImageField(
+        _(u"Image"),
+        upload_to=UPLOAD_TO,
+        blank=True,
+        help_text=_(u"Category Image Display in Pages"),
+    )
     created_date = models.DateTimeField(
-        _(u"Created Date"),
+        _(u"Create Time"),
         auto_now_add=True,
     )
     menu = models.OneToOneField(CMSMenuID)
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         ordering = ['-created_date']
         verbose_name = _(u'Category')
         verbose_name_plural = _(u'Category')
-
-    def __unicode__(self):
-        return self.name
 
     @property
     def url(self):
@@ -117,10 +135,7 @@ class CMSCategory(models.Model):
     
     @models.permalink
     def get_absolute_url(self):
-        return ("category_detail", None, {
-            "slug": self.slug,
-            },
-        )
+        return reverse("cms_content_category_detail", (self.slug,))
 
 
 class CMSArticle(models.Model):
@@ -135,7 +150,7 @@ class CMSArticle(models.Model):
         (_(u'del'), u'deleted'),
         (_(u'dra'), u'draft'),
     )
-
+    
     title = models.CharField(
         _(u"Article Title"),
         max_length=255,
@@ -146,13 +161,14 @@ class CMSArticle(models.Model):
         max_length=255,
         blank=False,
         unique=True,
-        help_text=_(u"Article's Name Used In URL"),
+        help_text=_(u"Article's Slug"),
     )
     content = models.TextField(
         _(u"Article Content"),
         blank=False,
         help_text=_(u"Article's Content"),
     )
+
     created_by = models.ForeignKey(
         User,
         verbose_name=_(u"Author Name"),
@@ -207,15 +223,6 @@ class CMSArticle(models.Model):
         return u'%s - %s' % (self.created_by.username, self.title)
 
     @property
-    def url(self):
-        return ROOT_URL + 'article/' + "%s/%s/%s/%s/" % (
-            self.created_date.strftime('%Y'),
-            self.created_date.strftime('%m'),
-            self.created_date.strftime('%d'),
-            self.slug,
-            )
-
-    @property
     def previous_article(self):
         """Return the previous article"""
         articles = CMSArticle.objects.filter(created_date_lt=self.created_date)
@@ -229,12 +236,21 @@ class CMSArticle(models.Model):
         if articles:
             return articles[0]
     
+    @property
+    def url(self):
+        return ROOT_URL + 'article/' + "%s/%s/%s/%s/" % (
+            self.created_date.strftime('%Y'),
+            self.created_date.strftime('%m'),
+            self.created_date.strftime('%d'),
+            self.slug,
+            )
+    
     @models.permalink
     def get_absolute_url(self):
-        return ("article_detail", (), {
-            "year": self.created_date.strftime('%Y'),
-            "month": self.created_date.strftime('%m'),
-            "day": self.created_date.strftime('%d'),
+        return ("cms_content_article_detail", (), {
+            "year": int(self.created_date.strftime('%Y')),
+            "month": int(self.created_date.strftime('%m')),
+            "day": int(self.created_date.strftime('%d')),
             "slug": self.slug,
             }
         )

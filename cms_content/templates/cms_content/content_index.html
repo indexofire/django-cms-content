@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n menu_tags %}
 
-{% block scripts %}
+{% block extra_head %}
 <link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
-{% endblock scripts %}
+{% endblock extra_head %}
 
 {% block content %}
 <div class="span-4">
@@ -14,14 +14,14 @@
   <div style="padding: 0px 10px 10px 0px">
     <h2>CMS Content</h2>
     {% for article in articles %}
-    <div>{{ article.title }}</div>
-    <div>{{ article.content|safe }}</div>
+    <div><a href="{{ article.get_absolute_url }}" target="_self"><h3>{{ article.title }}</h3></a></div>
+    <div>{{ article.content|safe|truncatewords_html:10 }}</div>1{{ article.get_absolute_url }}1
     {% endfor %}
   </div>
 </div>
 {% endblock content%}
 
 {% block panel %}
-<a href="../add/">add article</a> | 
+<a href="">add article</a> | 
 <a href="../delete/">delete article</a>
 {% endblock panel %}

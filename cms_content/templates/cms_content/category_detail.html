@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n menu_tags %}
 
-{% block scripts %}
+{% block extra_head %}
 <link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
-{% endblock scripts %}
+{% endblock extra_head %}
 
 {% block content %}
 <div class="span-4">
@@ -22,7 +22,7 @@
   </tr>
   {% for article in articles %}
   <tr class="{% cycle 'row1' 'row2' %}">
-    <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+    <td><a href="{{ article.url }}">{{ article.title }}</a></td>
     <td><a href="/user/{{ article.created_by }}">{{ article.created_by }}</td>
     <td>{{ article.created_date|date:"Y.m.d" }}</td>
     <td>{{ article.hits }}</td>

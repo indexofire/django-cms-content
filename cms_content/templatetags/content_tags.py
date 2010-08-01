@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
-from django import template
+from django.template import Library
 from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django.template.defaultfilters import stringfilter
 
-from cms_content.settings import *
+
 from pygments import highlight
-from pygments.lexers import guess_lexer, PythonLexer, LEXERS, get_lexer_by_name
+from pygments.lexers import LEXERS
+from pygments.lexers import PythonLexer
+from pygments.lexers import guess_lexer
+from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
+
 from BeautifulSoup import BeautifulSoup
 
 
-register = template.Library()
+register = Library()
+from settings import *
 
-@register.filter(name='code_highlight')
+@register.filter
 @stringfilter
 def code_highlight(content):
     if CODE_HIGHLIGHT:

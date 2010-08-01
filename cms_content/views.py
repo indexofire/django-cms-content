@@ -3,22 +3,26 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.db.models import F
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404
 from django.template.context import RequestContext
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.paginator import Paginator
+from django.core.paginator import InvalidPage
+from django.core.paginator import EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 
 from cms_content.models import *
 from cms_content.utils.render import render_to
 from cms_content.forms import CMSArticleFrontendForm
-from cms_content.settings import ROOT_URL, ARTICLE_PERPAGE
+from cms_content.settings import ROOT_URL
+from cms_content.settings import ARTICLE_PERPAGE
 from cms_content.menu_nodes import cache_nodes
 
 
 @render_to('cms_content/content_index.html')
 def content_index(request):
-    articles = CMSArticle.objects.all()[:10]
+    articles = list(CMSArticle.objects.all())[:10]
     return {
         'articles': articles,
     }

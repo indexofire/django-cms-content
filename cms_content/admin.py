@@ -40,7 +40,6 @@ class CMSCategoryInline(admin.StackedInline):
 
 class CMSSectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
-    list_filter = ('created_date',)
     exclude = ('menu',)
     prepopulated_fields = {"slug": ("name",)}
     #inlines = [CMSCategoryInline,]
@@ -55,7 +54,6 @@ class CMSSectionAdmin(admin.ModelAdmin):
 
 class CMSCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'section', 'description')
-    list_filter = ('created_date',)
     exclude = ('menu',)
     prepopulated_fields = {"slug": ("name",)}
     #inlines = [CMSArticleInline,]
