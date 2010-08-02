@@ -5,7 +5,6 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django.template.defaultfilters import stringfilter
 
-
 from pygments import highlight
 from pygments.lexers import LEXERS
 from pygments.lexers import PythonLexer

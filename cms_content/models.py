@@ -248,10 +248,10 @@ class CMSArticle(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ("cms_content_article_detail", (), {
-            "year": int(self.created_date.strftime('%Y')),
-            "month": int(self.created_date.strftime('%m')),
-            "day": int(self.created_date.strftime('%d')),
-            "slug": self.slug,
+            "year": self.created_date.year,
+            "month": self.created_date.month,
+            "day": self.created_date.day,
+            "slug": str(self.slug),
             }
         )
 
