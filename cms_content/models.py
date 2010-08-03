@@ -135,7 +135,7 @@ class CMSCategory(models.Model):
     
     @models.permalink
     def get_absolute_url(self):
-        return reverse("cms_content_category_detail", (self.slug,))
+        return ("cms_content_category_detail", (self.slug,))
 
 
 class CMSArticle(models.Model):
@@ -244,17 +244,16 @@ class CMSArticle(models.Model):
             self.created_date.strftime('%d'),
             self.slug,
             )
-    
+
     @models.permalink
     def get_absolute_url(self):
-        return ("cms_content_article_detail", (), {
-            "year": self.created_date.year,
-            "month": self.created_date.month,
-            "day": self.created_date.day,
-            "slug": str(self.slug),
+        return ('cms_content_article_detail', None, {
+            "year":  self.created_date.strftime('%Y'),
+            "month": self.created_date.strftime('%m'),
+            "day":   self.created_date.strftime('%d'),
+            "slug":  self.slug,
             }
         )
-
 
 def on_comment_was_posted(sender, comment, request, *args, **kwargs):
     """Spam checking can be enabled/disabled per the comment's target Model
