@@ -15,13 +15,13 @@
     <h2>CMS Content</h2>
     {% for article in articles %}
     <div><a href="{{ article.get_absolute_url }}" target="_self"><h3>{{ article.title }}</h3></a></div>
-    <div>{{ article.content|safe|truncatewords_html:10 }}</div>1{{ article.get_absolute_url }}1
+    <div>{{ article.content|safe|truncatewords_html:10 }}</div>
     {% endfor %}
   </div>
 </div>
 {% endblock content%}
 
 {% block panel %}
-<a href="">add article</a> | 
+<a href="{% url cms_content_article_add %}">add article</a> | 
 <a href="../delete/">delete article</a>
 {% endblock panel %}
