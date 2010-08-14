@@ -20,12 +20,21 @@ __all__ = [
 
 class CMSMenuID(models.Model):
     """All CMS_Content object's menu id for django-cms get_nodes"""
-    menuid = models.IntegerField(blank=False,null=False)
-    parent = models.IntegerField(blank=True,null=True)
+    menuid = models.IntegerField(blank=False, null=False)
+    parent = models.IntegerField(blank=True, null=True)
+    type = models.CharField(blank=False, null=False, max_length=20)
     
     class Meta:
         verbose_name = _(u'Menu ID')
         verbose_name_plural = _(u'Menu ID')
+
+    def menu_entry(self):
+        """show the entry of the menu's url"""
+        if self.parent is None:
+            return "<a href='%s'>%s</a>" % (self.cmssection.url, self.cmssection)
+        if self.type == 'cmscategory':
+            return self.cmscategory.url
+        return self.cmsarticle.url
 
 
 class CMSSection(models.Model):
@@ -194,7 +203,7 @@ class CMSArticle(models.Model):
         related_name="article_of_category",
     )
     pub_status = models.CharField(
-        _(u"Article Publish Status"),
+        _(u"Article Status"),
         max_length=3,
         choices=PUB_STATUS,
     )
@@ -254,6 +263,7 @@ class CMSArticle(models.Model):
             "slug":  self.slug,
             }
         )
+
 
 def on_comment_was_posted(sender, comment, request, *args, **kwargs):
     """Spam checking can be enabled/disabled per the comment's target Model

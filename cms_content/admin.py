@@ -47,7 +47,10 @@ class CMSSectionAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if not change:
             menu_num = CMSMenuID.objects.count() + 1
-            obj.menu = CMSMenuID.objects.create(menuid=menu_num)
+            obj.menu = CMSMenuID.objects.create(
+                menuid=menu_num,
+                type='cmssection',
+            )
             obj.save()
         else:
             obj.save()
@@ -61,7 +64,11 @@ class CMSCategoryAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if not change:
             menu_num = CMSMenuID.objects.count() + 1
-            obj.menu = CMSMenuID.objects.create(menuid=menu_num, parent=obj.section.menu.menuid)
+            obj.menu = CMSMenuID.objects.create(
+                menuid=menu_num,
+                parent=obj.section.menu.menuid,
+                type='cmscategory',
+            )
             obj.save()
         else:
             obj.menu = CMSMenuID.objects.get(menuid=obj.menu.menuid)
@@ -91,16 +98,21 @@ class CMSArticleAdmin(admin.ModelAdmin):
     exclude = ('pub_start_date', 'pub_end_date', 'hits', 'menu')
 
     def belong_to_section(self, obj):
-        article = CMSArticle.objects.select_related().get(pk=obj.id)
-        return article.category.section
+        return obj.category.section
     belong_to_section.short_description = 'section'
 
     def save_model(self, request, obj, form, change):
         if not change:
+            # create a article
             menu_num = CMSMenuID.objects.count() + 1
-            obj.menu = CMSMenuID.objects.create(menuid=menu_num, parent=obj.category.menu.menuid)
+            obj.menu = CMSMenuID.objects.create(
+                menuid=menu_num,
+                parent=obj.category.menu.menuid,
+                type='cmsarticle',
+            )
             obj.save()
         else:
+            # change the article
             obj.menu = CMSMenuID.objects.get(menuid=obj.menu.menuid)
             obj.menu.parent = obj.category.menu.menuid
             obj.last_modified_by = request.user
@@ -138,6 +150,13 @@ class CMSArticleAdmin(admin.ModelAdmin):
         )
     make_draft.short_description = _(u"Make the article as draft")
 
+
+class CMSMenuIDAdmin(admin.ModelAdmin):
+    list_display = ('menuid', 'parent', 'menu_entry')
+    list_per_page = 20
+
+
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
 admin.site.register(CMSArticle, CMSArticleAdmin)
+admin.site.register(CMSMenuID, CMSMenuIDAdmin)

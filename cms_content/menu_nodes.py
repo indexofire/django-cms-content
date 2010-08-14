@@ -44,7 +44,8 @@ def cache_nodes(request, queryset):
 
         for node in article_nodes:
             node.parent = parent_node
-            node.namespace = parent_node.namespace
+            if parent_node.namespace:
+                node.namespace = parent_node.namespace
             nodes.append(node)
 
         duration = getattr(settings, "MENU_CACHE_DURATION", 60*60)
