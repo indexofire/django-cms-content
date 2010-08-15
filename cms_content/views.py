@@ -43,8 +43,8 @@ def section_list(request):
 @render_to('cms_content/section_detail.html')
 def section_detail(request, slug):
     #request_page = request.GET.get('page', 1)
-    section = CMSSection.objects.get(slug=slug) # add 1 query
-    categories = CMSCategory.objects.select_related(depth=1).filter(section=section) # add 0 query
+    section = CMSSection.objects.get(slug=slug)
+    categories = CMSCategory.objects.select_related(depth=1).filter(section=section)
     #paginator = Paginator(categories, CATEGORY_PERPAGE) # add 0 query
     return {
         #'page': paginator.page(request_page), # add 1 query
@@ -61,8 +61,7 @@ def category_detail(request, slug):
     
     """
     category = CMSCategory.objects.select_related(depth=1).get(slug=slug)
-    articles = list(CMSArticle.objects.select_related(depth=1).\
-        filter(category=category).filter(pub_status="pub"))
+    articles = list(CMSArticle.objects.select_related(depth=1).filter(category=category).filter(pub_status="pub"))
     paginator = Paginator(articles, ARTICLE_PERPAGE)
     try:
         request_page = int(request.GET.get('page', 1))

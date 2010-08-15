@@ -12,8 +12,9 @@
 
 <div class="span-20 last">
   <div style="padding: 0px 10px 10px 0px">
-  <h2>{{ section }} - {{ category }}</h2>
-  <table class="cms_article">
+  <h2>{{ section.name }} - {{ category.name }}</h2>
+  <h3>created: {{ category.created_date }}</h3>
+  <table class="cms_article_table_list">
   <tr class="title">
     <th>{% trans "Article Title" %}</th>
     <th>{% trans "Author" %}</th>

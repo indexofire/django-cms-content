@@ -74,20 +74,20 @@
     background: #E5ECF9;
 }
 
-.cms_article {
+.cms_article_table_list {
     border: 1px solid #E3E3E3; 
     border-spacing: 0px 0px; 
     border-collapse: separate;
 }
 
-.cms_article tr.title {
+.cms_article_table_list tr.title {
     background: #F5F5F5 url(/media/cms_content/img/table_title_bg.jpg) repeat-x scroll center bottom;
 }
 
-.cms_article tr.row1 {
-
+.cms_article_table_list tr.row1 {
+    background: #FFFFFF;
 }
 
-.cms_article tr.row2 {
+.cms_article_table_list tr.row2 {
     background: #E5ECF9;
 }
