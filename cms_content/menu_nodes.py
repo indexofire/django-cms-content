@@ -7,8 +7,36 @@ from django.contrib.sites.models import Site
 from menus.menu_pool import menu_pool
 from menus.base import NavigationNode
 from menus.menu_pool import MenuPool
+
 from cms_content.models import CMSArticle
 
+
+def queryset_nodes(queryset):
+    """
+    Build the queryset's menu nodes
+    """
+    for article in queryset:
+        article_nodes.append(NavigationNode(
+            article.title,
+            aritcle.url,
+            article.menu.menuid,
+            article.menu.parent,
+            )
+        )
+    return article_nodes
+
+def category_node(article, nodes):
+    """
+    Get a category node which including queryset's articles
+    """
+    print article.menu.parent
+    for node in nodes:
+        print node
+        print node.id
+        if node.id == article.menu.parent:
+            parent_node = node
+            return node
+    return None
 
 def cache_nodes(request, queryset):
     """
@@ -36,18 +64,13 @@ def cache_nodes(request, queryset):
         # article_nodes are already in cache nodes, return.
         cached_nodes = cache.get(key, None)
         if cached_nodes:
-            cached_nodes = str(cached_nodes)
-            if str(article_nodes[0]) in cached_nodes:
+            str_cached_nodes = str(cached_nodes)
+            if str(article_nodes[0]) in str_cached_nodes:
                 return
-            for node in cached_nodes:
-                if node.namespace == 'CMSContentMenu':
-                    if node.title == article.category.slug:
-                        parent_node = node
-                        break
-                else:
-                    parent_node = None
         else:
             cached_nodes = menu_pool.get_nodes(request)
+  
+        parent_node = category_node(article, cached_nodes)
 
         # add parent_node to the article node and save into cached_node
         for node in article_nodes:

@@ -22,7 +22,7 @@ class CMSContentMenu(CMSAttachMenu):
         nodes = []
         sections = list(CMSSection.objects.all().select_related(depth=1))
         categories = list(CMSCategory.objects.all().select_related(depth=1))
-        articles = list(CMSArticle.objects.all()[:10].select_related(depth=1))
+        #articles = list(CMSArticle.objects.all()[:10].select_related(depth=1))
         
         for section in sections:
             nodes.append(NavigationNode(
@@ -39,14 +39,14 @@ class CMSContentMenu(CMSAttachMenu):
                 category.menu.parent,
                 )
             )
-        for article in articles:
-            nodes.append(NavigationNode(
-                article.title,
-                article.url,
-                article.menu.menuid,
-                article.menu.parent,
-                )
-            )
+        #for article in articles:
+        #    nodes.append(NavigationNode(
+        #        article.title,
+        #        article.url,
+        #        article.menu.menuid,
+        #        article.menu.parent,
+        #        )
+        #    )
         return nodes
 
 

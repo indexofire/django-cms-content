@@ -88,6 +88,7 @@ def article_detail(request, year, month, day, slug):
     article = CMSArticle.objects.select_related(depth=2).get(slug=slug)
     article.hits = F('hits') + 1
     article.save()
+    #cache_nodes(request, article)
     return {
         'section': article.category.section,
         'category': article.category,
