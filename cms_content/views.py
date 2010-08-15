@@ -19,7 +19,7 @@ from cms_content.settings import ROOT_URL
 from cms_content.settings import ARTICLE_PERPAGE
 from cms_content.menu_nodes import cache_nodes
 
-
+#@cache_page(60*30)
 @render_to('cms_content/content_index.html')
 def content_index(request):
     articles = list(CMSArticle.objects.all())[:10]
@@ -54,6 +54,7 @@ def section_detail(request, slug):
         'categories': categories,
     }
 
+#@cache_page(60*30)
 @render_to('cms_content/category_detail.html')
 def category_detail(request, slug):
     """View of list articles of category with name slug
