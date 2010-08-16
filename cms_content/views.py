@@ -14,10 +14,12 @@ from django.views.decorators.cache import cache_page
 
 from cms_content.models import *
 from cms_content.utils.render import render_to
+#from cms_content.utils.cache import cache_nodes
+from cms_content.menu_nodes import cache_nodes
 from cms_content.forms import CMSArticleFrontendForm
 from cms_content.settings import ROOT_URL
 from cms_content.settings import ARTICLE_PERPAGE
-from cms_content.menu_nodes import cache_nodes
+
 
 #@cache_page(60*30)
 @render_to('cms_content/content_index.html')
@@ -88,7 +90,7 @@ def article_detail(request, year, month, day, slug):
     article = CMSArticle.objects.select_related(depth=2).get(slug=slug)
     article.hits = F('hits') + 1
     article.save()
-    #cache_nodes(request, article)
+    #cache_nodes(request, article.slug)
     return {
         'section': article.category.section,
         'category': article.category,

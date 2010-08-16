@@ -29,10 +29,7 @@ def category_node(article, nodes):
     """
     Get a category node which including queryset's articles
     """
-    print article.menu.parent
     for node in nodes:
-        print node
-        print node.id
         if node.id == article.menu.parent:
             parent_node = node
             return node
