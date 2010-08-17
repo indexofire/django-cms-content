@@ -231,6 +231,18 @@ class CMSArticle(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.created_by.username, self.title)
 
+    def get_parent_node(self, nodes):
+        """Get a category node which including queryset's articles
+    
+        Example:
+        parent_node = category_node(article, nodes)
+    
+        """
+        for node in nodes:
+            if node.title == self.category.name:
+                return node
+        return None
+
     @property
     def previous_article(self):
         """Return the previous article"""

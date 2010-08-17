@@ -10,7 +10,7 @@ from menus.base import NavigationNode
 from cms_content.models import CMSArticle
 
 
-def get_cache_key(lang=None, site=None, prefix='menu_cache'):
+def get_cache_key(lang=None, site=None):
     """
     Determine cache key's prefix and surfix
     """
@@ -37,7 +37,7 @@ def get_or_set_cache(request, cache_key, model=CMSArticle, seconds_to_cache=60*3
     return q
 
 
-def build_queryset_nodes(queryset=None):
+def build_queryset_nodes(queryset=None, cache=None):
     """Build the queryset's menu nodes
 
     Example:
@@ -45,8 +45,11 @@ def build_queryset_nodes(queryset=None):
 
     """
     nodes = []
+    final_nodes = []
     if queryset is None:
         return
+    parent_node = queryset[0].get_parent_node(cache)
+    
     for node in queryset:
         nodes.append(NavigationNode(
             node.title,
@@ -55,20 +58,11 @@ def build_queryset_nodes(queryset=None):
             node.menu.parent,
             )
         )
-    return nodes
-
-
-def category_node(article, nodes):
-    """Get a category node which including queryset's articles
-    
-    Example:
-    parent_node = category_node(article, nodes)
-    
-    """
     for node in nodes:
-        if node.title == article.category.name:
-            return node
-    return None
+        node.parent = parent_node
+        node.namespace = getattr(parent_node, 'namespace', None)
+        final_nodes.append(node)
+    return final_nodes
 
 
 def cache_nodes(request, qs):
@@ -90,28 +84,24 @@ def cache_nodes(request, qs):
         key = get_cache_key()
 
         # build article_nodes from queryset in menu cache
-        article_nodes = build_queryset_nodes(qs)
+        
 
         # get the original cache nodes. if blank, get the whole nodes. if
         # article_nodes are already in cache nodes, return.
         #cached_nodes = cache.get(key, None)
         cached_nodes = get_or_set_cache(request, key)
-        for i in cached_nodes:
-            print "cached_node:", i, i.title, i.id, i.parent_id, i.namespace, i.parent
+        article_nodes = build_queryset_nodes(qs, cached_nodes)
+
         if cached_nodes:
             str_cached_nodes = str(cached_nodes)
             if str(article_nodes[0]) in str_cached_nodes:
                 return
-
-        parent_node = category_node(qs[0], cached_nodes)
-        print parent_node
+        
         # add parent_node to the article node and save into cached_node
-        for node in article_nodes:
-            node.parent = parent_node
-            node.namespace = getattr(parent_node, 'namespace', None)
-            cached_nodes.append(node)
 
+        cached_nodes += article_nodes
         duration = getattr(settings, "MENU_CACHE_DURATION", 60*60)
         cache.set(key, cached_nodes, duration)
+        print "successful"
     else:
         return

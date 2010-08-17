@@ -5,6 +5,11 @@
 <link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
 {% endblock extra_head %}
 
+
+{% block breadcrumb %}
+{{ block.super }}
+
+{% endblock breadcrumb %}
 {% block content %}
 <div class="span-4">
   <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu 1 2 0 1 %}</ul></div>

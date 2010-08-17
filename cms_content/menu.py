@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.cache import cache
 from django.utils.translation import ugettext_lazy as _
 
 from cms.menu_bases import CMSAttachMenu
@@ -8,6 +9,7 @@ from menus.menu_pool import menu_pool
 
 from cms_content.settings import ROOT_URL
 from cms_content.models import CMSMenuID, CMSSection, CMSCategory, CMSArticle
+from cms_content.utils.cache import get_cache_key
 
 
 class CMSContentMenu(CMSAttachMenu):
@@ -17,12 +19,12 @@ class CMSContentMenu(CMSAttachMenu):
     """
     
     name = _(u"CMS Content Menu")
-    
+
     def get_nodes(self, request):
         nodes = []
         sections = list(CMSSection.objects.all().select_related(depth=1))
         categories = list(CMSCategory.objects.all().select_related(depth=1))
-        #articles = list(CMSArticle.objects.all()[:10].select_related(depth=1))
+        articles = list(CMSArticle.objects.all().select_related(depth=1))
         
         for section in sections:
             nodes.append(NavigationNode(
@@ -39,15 +41,14 @@ class CMSContentMenu(CMSAttachMenu):
                 category.menu.parent,
                 )
             )
-        #for article in articles:
-        #    nodes.append(NavigationNode(
-        #        article.title,
-        #        article.url,
-        #        article.menu.menuid,
-        #        article.menu.parent,
-        #        )
-        #    )
+        for article in articles:
+            nodes.append(NavigationNode(
+                article.title,
+                article.url,
+                article.menu.menuid,
+                article.menu.parent,
+                )
+            )
         return nodes
-
 
 menu_pool.register_menu(CMSContentMenu)

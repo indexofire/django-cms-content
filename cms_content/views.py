@@ -15,7 +15,7 @@ from django.views.decorators.cache import cache_page
 from cms_content.models import *
 from cms_content.utils.render import render_to
 #from cms_content.utils.cache import cache_nodes
-from cms_content.menu_nodes import cache_nodes
+#from cms_content.menu_nodes import cache_nodes
 from cms_content.forms import CMSArticleFrontendForm
 from cms_content.settings import ROOT_URL
 from cms_content.settings import ARTICLE_PERPAGE
@@ -75,7 +75,7 @@ def category_detail(request, slug):
     except (EmptyPage, InvalidPage):
         article_page = paginator.page(paginator.num_pages)
         queryset = articles[(paginator.num_pages-1)*ARTICLE_PERPAGE:paginator.num_pages*ARTICLE_PERPAGE]
-    cache_nodes(request, queryset)
+    #cache_nodes(request, queryset)
     return {
         'pages': article_page,
         #'paginator': paginator,
