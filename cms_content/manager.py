@@ -11,7 +11,7 @@ def get_available_articles(queryset):
     """
     now = datetime.now()
     return queryset.filter(
-        status=PUBLISHED,
+        status='pub',
         publish_start_date__lte=now,
         publish_end_date__gt=now,
         sites=Site.objects.get_current(),

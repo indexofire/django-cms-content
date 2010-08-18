@@ -11,6 +11,7 @@ from django.core.paginator import InvalidPage
 from django.core.paginator import EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
+from django.utils.translation import ugettext_lazy as _
 
 from cms_content.models import *
 from cms_content.utils.render import render_to
@@ -63,7 +64,8 @@ def category_detail(request, slug):
     
     """
     category = CMSCategory.objects.select_related(depth=1).get(slug=slug)
-    articles = list(CMSArticle.objects.select_related(depth=1).filter(category=category).filter(pub_status="pub"))
+    articles = CMSArticle.objects.select_related(depth=1).filter(category=category)
+    #articles = list(CMSArticle.objects.select_related(depth=1).filter(category=category).filter(pub_status="pub"))
     paginator = Paginator(articles, ARTICLE_PERPAGE)
     try:
         request_page = int(request.GET.get('page', 1))
