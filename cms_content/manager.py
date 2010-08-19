@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from django.db import models
 
-from django.contrib.site.models import Site
-
-from cms_content.models import CMSArticle
 
 def get_available_articles(queryset):
     """Get All Avaiable Articles
@@ -11,19 +9,18 @@ def get_available_articles(queryset):
     """
     now = datetime.now()
     return queryset.filter(
-        status='pub',
-        publish_start_date__lte=now,
-        publish_end_date__gt=now,
-        sites=Site.objects.get_current(),
+        pub_status='pub',
+        pub_start_date__lte=now,
+        pub_end_date__gt=now,
     )
 
 class CMSArticleManager(models.Manager):
     """Models CMSArticle Manager
     
     """
-    def get_queryset(self):
+    def get_query_set(self):
         return get_available_articles(
-            super(CMSArticleManager, self).getqueryset()
+            super(CMSArticleManager, self).get_query_set()
         )
     
     def search(self, pattern):

@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.comments.signals import comment_was_posted
 from django.utils.translation import ugettext_lazy as _
-
+from taggit.managers import TaggableManager
 from cms_content.settings import ROOT_URL
 from cms_content.settings import UPLOAD_TO
-
+from cms_content.manager import CMSArticleManager
 
 __all__ = [
     'CMSMenuID',
@@ -206,6 +206,7 @@ class CMSArticle(models.Model):
         _(u"Article Status"),
         max_length=3,
         choices=PUB_STATUS,
+        default='pub'
     )
     hits = models.IntegerField(
         _(u"Article His Number"),
@@ -222,6 +223,8 @@ class CMSArticle(models.Model):
         null=True,
     )
     menu = models.OneToOneField(CMSMenuID)
+    tags = TaggableManager()
+    objects = CMSArticleManager()
     
     class Meta:
         ordering = ['-created_date']
