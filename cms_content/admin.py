@@ -159,4 +159,4 @@ class CMSMenuIDAdmin(admin.ModelAdmin):
 admin.site.register(CMSSection, CMSSectionAdmin)
 admin.site.register(CMSCategory, CMSCategoryAdmin)
 admin.site.register(CMSArticle, CMSArticleAdmin)
-admin.site.register(CMSMenuID, CMSMenuIDAdmin)
+#admin.site.register(CMSMenuID, CMSMenuIDAdmin)

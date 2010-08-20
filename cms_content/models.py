@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -9,7 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 from cms_content.settings import ROOT_URL
 from cms_content.settings import UPLOAD_TO
-from cms_content.manager import CMSArticleManager
+from cms_content.manager import CMSArticlePubManager
+from cms_content.manager import PUB, HID, DRA, DEL
 
 __all__ = [
     'CMSMenuID',
@@ -40,14 +42,15 @@ class CMSMenuID(models.Model):
 class CMSSection(models.Model):
     """Models For Django CMS Sections:
 
-    Section is the first level of cms_content structure which contains category.
-    Create a section first before to build your categories belong.
+    Section is the top level to contruct cms's content. Create a section before 
+    adding your categories.
     """
 
     name = models.CharField(
         _(u"Section Name"),
         max_length=255,
         blank=False,
+        help_text=_(u"Section's Name"),
     )
     slug = models.SlugField(
         _(u"Slug"),
@@ -59,12 +62,13 @@ class CMSSection(models.Model):
     description = models.TextField(
         _(u"Section Description"),
         blank=False,
+        help_text=_(u"Your Section's Description"),
     )
     image = models.ImageField(
         _(u"Image"),
         upload_to=UPLOAD_TO,
         blank=True,
-        help_text=_(u"Section Image Display in Pages"),
+        help_text=_(u"Section Image Displayed In Pages"),
     )
     created_date = models.DateTimeField(
         _(u"Create Time"),
@@ -93,13 +97,14 @@ class CMSCategory(models.Model):
     """Models for CMS's Categories:
 
     Category is the second level of cms_content structure. Before publish any
-    article, create a category to which is belong a section.
+    articles, you should create a category.
     """
 
     name = models.CharField(
         _(u"Category Name"),
         max_length=255,
         blank=False,
+        help_text=_(u"Category's Name"),
     )
     slug = models.SlugField(
         _(u"Slug"),
@@ -113,10 +118,12 @@ class CMSCategory(models.Model):
         verbose_name=_(u"Section"),
         related_name="category_of_section",
         blank=False,
+        help_text=_(u"Pick a Section Used as the Category's Parent Level"),
     )
     description = models.TextField(
         _(u"Category Description"),
         blank=False,
+        help_text=_(u"Your Category Description")
     )
     image = models.ImageField(
         _(u"Image"),
@@ -155,15 +162,17 @@ class CMSArticle(models.Model):
     """
 
     PUB_STATUS = (
-        (_(u'pub'), u'published'),
-        (_(u'del'), u'deleted'),
-        (_(u'dra'), u'draft'),
+        (PUB, _(u'published')),
+        (HID, _(u'hidden')),
+        (DRA, _(u'draft')),
+        (DEL, _(u'deleted')),
     )
     
     title = models.CharField(
         _(u"Article Title"),
         max_length=255,
         blank=False,
+        help_text=_(u"Article's Title"),
     )
     slug = models.SlugField(
         _(u"Slug"),
@@ -177,7 +186,6 @@ class CMSArticle(models.Model):
         blank=False,
         help_text=_(u"Article's Content"),
     )
-
     created_by = models.ForeignKey(
         User,
         verbose_name=_(u"Author Name"),
@@ -201,12 +209,13 @@ class CMSArticle(models.Model):
         CMSCategory,
         verbose_name=_(u"Category"),
         related_name="article_of_category",
+        help_text=_(u"Pick a Category as the Article's Parent Level"),
     )
     pub_status = models.CharField(
         _(u"Article Status"),
         max_length=3,
         choices=PUB_STATUS,
-        default='pub'
+        default=PUB,
     )
     hits = models.IntegerField(
         _(u"Article His Number"),
@@ -214,17 +223,19 @@ class CMSArticle(models.Model):
     )
     pub_start_date = models.DateTimeField(
         _(u"Article Publish Start Date"),
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
+        default=datetime.now,
     )
     pub_end_date = models.DateTimeField(
         _(u"Article Publish End Date"),
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
+        default=datetime(2030,12,31)
     )
     menu = models.OneToOneField(CMSMenuID)
     tags = TaggableManager()
-    objects = CMSArticleManager()
+    pub_manager = CMSArticlePubManager()
     
     class Meta:
         ordering = ['-created_date']
@@ -249,14 +260,14 @@ class CMSArticle(models.Model):
     @property
     def previous_article(self):
         """Return the previous article"""
-        articles = CMSArticle.objects.filter(created_date_lt=self.created_date)
+        articles = CMSArticle.pub_manager.filter(created_date_lt=self.created_date)
         if articles:
             return articles[0]
     
     @property
     def next_article(self):
         """Return the next article"""
-        articles = CMSArticle.objects.filter(created_date_gt=self.created_date)
+        articles = CMSArticle.pub_manager.filter(created_date_gt=self.created_date)
         if articles:
             return articles[0]
     

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-17 14:41+0800\n"
+"POT-Creation-Date: 2010-08-20 10:33+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mark Renton <indexofire@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr "标记文章为已发表"
 msgid "CMS Content App"
 msgstr "CMS内容菜单"
 
-#: menu.py:19
+#: menu.py:21
 msgid "CMS Content Menu"
 msgstr "CMS内容菜单"
 
@@ -50,7 +50,7 @@ msgstr "菜单ID"
 msgid "Section Name"
 msgstr "版块名称"
 
-#: models.py:53 models.py:105 models.py:169
+#: models.py:53 models.py:105 models.py:170
 msgid "Slug"
 msgstr "文章别名"
 
@@ -93,75 +93,82 @@ msgstr "类别描述"
 msgid "Category Image Display in Pages"
 msgstr "分类标志图片"
 
-#: models.py:138 models.py:139 models.py:202
+#: models.py:138 models.py:139 models.py:203
 msgid "Category"
 msgstr "类别"
 
 #: models.py:158
-msgid "pub"
-msgstr "发布"
+#, fuzzy
+msgid "published"
+msgstr "发表"
 
 #: models.py:159
-msgid "del"
-msgstr "删除"
+msgid "hidden"
+msgstr "隐藏"
 
 #: models.py:160
-msgid "dra"
+#, fuzzy
+msgid "draft"
 msgstr "草稿"
 
-#: models.py:164 templates/cms_content/category_detail.html:19
+#: models.py:161
+#, fuzzy
+msgid "deleted"
+msgstr "删除"
+
+#: models.py:165 templates/cms_content/category_detail.html:19
 msgid "Article Title"
 msgstr "文章标题"
 
-#: models.py:173
+#: models.py:174
 #, fuzzy
 msgid "Article's Slug"
 msgstr "文章标题"
 
-#: models.py:176
+#: models.py:177
 msgid "Article Content"
 msgstr "文章内容"
 
-#: models.py:178
+#: models.py:179
 #, fuzzy
 msgid "Article's Content"
 msgstr "文章内容"
 
-#: models.py:183
+#: models.py:184
 msgid "Author Name"
 msgstr "作者"
 
-#: models.py:188
+#: models.py:189
 msgid "Created Date"
 msgstr "创建日期"
 
-#: models.py:193
+#: models.py:194
 msgid "Last Modified By"
 msgstr "最后修改人"
 
-#: models.py:197
+#: models.py:198
 msgid "Last Modified Date"
 msgstr "最后修改日期"
 
-#: models.py:206
+#: models.py:207
 #, fuzzy
 msgid "Article Status"
 msgstr "文章名称"
 
-#: models.py:211
+#: models.py:213
 #, fuzzy
 msgid "Article His Number"
 msgstr "文章名称"
 
-#: models.py:215
+#: models.py:217
 msgid "Article Publish Start Date"
 msgstr "文章开始发布日期"
 
-#: models.py:220
+#: models.py:222
 msgid "Article Publish End Date"
 msgstr "文章结束发布日期"
 
-#: models.py:228 models.py:229
+#: models.py:232 models.py:233
 msgid "Article"
 msgstr "文章"
 
@@ -259,9 +266,3 @@ msgstr "图标"
 #, fuzzy
 msgid "No Articles."
 msgstr "文章"
-
-#~ msgid "Translate the article by google"
-#~ msgstr "翻译文章"
-
-#~ msgid "CMS Section"
-#~ msgstr "CMS版块"

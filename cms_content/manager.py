@@ -1,26 +1,44 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
-def get_available_articles(queryset):
+PUB = 1
+HID = 2
+DRA = 3
+DEL = 4
+
+def get_pub_articles(queryset):
     """Get All Avaiable Articles
     
     """
     now = datetime.now()
+    STATUS = PUB
+
     return queryset.filter(
-        pub_status='pub',
-        pub_start_date__lte=now,
-        pub_end_date__gt=now,
+        pub_status=STATUS
+        #pub_start_date__lte=now,
+        #pub_end_date__gt=now,
     )
 
-class CMSArticleManager(models.Manager):
+def get_del_articles(queryset):
+    """Get All Avaiable Articles
+    
+    """
+    STATUS = DEL
+    return queryset.filter(
+        pub_status=STATUS
+    )
+
+
+class CMSArticlePubManager(models.Manager):
     """Models CMSArticle Manager
     
     """
     def get_query_set(self):
-        return get_available_articles(
-            super(CMSArticleManager, self).get_query_set()
+        return get_pub_articles(
+            super(CMSArticlePubManager, self).get_query_set()
         )
     
     def search(self, pattern):
@@ -31,4 +49,4 @@ class CMSArticleManager(models.Manager):
                 lookup = q
             else:
                 lookup |= q
-        return self.get_queryset().filter(lookup)
+        return self.get_query_set().filter(lookup)
