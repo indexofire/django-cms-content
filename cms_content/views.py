@@ -25,7 +25,7 @@ from cms_content.settings import ARTICLE_PERPAGE
 #@cache_page(60*30)
 @render_to('cms_content/content_index.html')
 def content_index(request):
-    articles = list(CMSArticle.objects.all())
+    articles = list(CMSArticle.pub_manager.all())
     return {
         'articles': articles,
     }

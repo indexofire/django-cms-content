@@ -4,22 +4,17 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-PUB = 1
-HID = 2
-DRA = 3
-DEL = 4
-
 def get_pub_articles(queryset):
     """Get All Avaiable Articles
     
     """
     now = datetime.now()
-    STATUS = PUB
+    STATUS = 'pub'
 
     return queryset.filter(
-        pub_status=STATUS
-        #pub_start_date__lte=now,
-        #pub_end_date__gt=now,
+        pub_status=STATUS,
+        pub_start_date__lte=now,
+        pub_end_date__gt=now,
     )
 
 def get_del_articles(queryset):

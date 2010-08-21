@@ -151,9 +151,9 @@ class CMSArticleAdmin(admin.ModelAdmin):
     make_draft.short_description = _(u"Make the article as draft")
 
 
-class CMSMenuIDAdmin(admin.ModelAdmin):
-    list_display = ('menuid', 'parent', 'menu_entry')
-    list_per_page = 20
+#class CMSMenuIDAdmin(admin.ModelAdmin):
+#    list_display = ('menuid', 'parent', 'menu_entry')
+#    list_per_page = 20
 
 
 admin.site.register(CMSSection, CMSSectionAdmin)

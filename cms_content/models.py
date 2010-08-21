@@ -11,7 +11,7 @@ from taggit.managers import TaggableManager
 from cms_content.settings import ROOT_URL
 from cms_content.settings import UPLOAD_TO
 from cms_content.manager import CMSArticlePubManager
-from cms_content.manager import PUB, HID, DRA, DEL
+
 
 __all__ = [
     'CMSMenuID',
@@ -162,10 +162,10 @@ class CMSArticle(models.Model):
     """
 
     PUB_STATUS = (
-        (PUB, _(u'published')),
-        (HID, _(u'hidden')),
-        (DRA, _(u'draft')),
-        (DEL, _(u'deleted')),
+        ('pub', _(u'published')),
+        ('hid', _(u'hidden')),
+        ('dra', _(u'draft')),
+        ('del', _(u'deleted')),
     )
     
     title = models.CharField(
@@ -215,7 +215,7 @@ class CMSArticle(models.Model):
         _(u"Article Status"),
         max_length=3,
         choices=PUB_STATUS,
-        default=PUB,
+        default='pub',
     )
     hits = models.IntegerField(
         _(u"Article His Number"),
@@ -235,6 +235,7 @@ class CMSArticle(models.Model):
     )
     menu = models.OneToOneField(CMSMenuID)
     tags = TaggableManager()
+    objects = models.Manager()
     pub_manager = CMSArticlePubManager()
     
     class Meta:
