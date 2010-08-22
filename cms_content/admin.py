@@ -95,7 +95,7 @@ class CMSArticleAdmin(admin.ModelAdmin):
     #list_editable = ('category',)
     actions = ['make_publish', 'make_draft', 'translate_content']
     form = CMSArticleAdminForm
-    exclude = ('pub_start_date', 'pub_end_date', 'hits', 'menu')
+    exclude = ('created_by', 'pub_start_date', 'pub_end_date', 'hits', 'menu', 'last_modified_by', 'last_modified_date')
 
     def belong_to_section(self, obj):
         return obj.category.section
@@ -110,6 +110,8 @@ class CMSArticleAdmin(admin.ModelAdmin):
                 parent=obj.category.menu.menuid,
                 type='cmsarticle',
             )
+            obj.created_by = request.user
+            obj.created_date = datetime.now()
             obj.save()
         else:
             # change the article
