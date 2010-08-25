@@ -112,6 +112,8 @@ class CMSArticleAdmin(admin.ModelAdmin):
             )
             obj.created_by = request.user
             obj.created_date = datetime.now()
+            obj.last_modified_by = obj.created_by
+            obj.last_modified_date = obj.created_date
             obj.save()
         else:
             # change the article
