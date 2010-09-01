@@ -18,8 +18,8 @@ class LatestArticle(CMSPlugin):
     This model will save latest articles' id for plugin
     """
 
-    category = models.ManyToManyField(CMSCategory, verbose_name=_('category'))
-    author = models.ManyToManyField(User, verbose_name=_('authors'))
+    category = models.ManyToManyField(CMSCategory, verbose_name=_('category'), blank=True)
+    author = models.ManyToManyField(User, verbose_name=_('authors'), blank=True)
     article_num = models.IntegerField(_(u'number of articles'), default=5)
     template = models.CharField(_(u'template'), blank=True, max_length=250, 
         choices=TEMPLATES, default='latest articles',
@@ -38,7 +38,6 @@ class TopHitArticle(CMSPlugin):
     """
     
     category = models.ManyToManyField(CMSCategory, verbose_name=_(u'category'))
-    author = models.ManyToManyField(User, verbose_name=_(u'authors'))
     article_num = models.IntegerField(_(u'number of articles'), default=5)
     template = models.CharField(_(u'template'), blank=True, max_length=250,
         choices=TEMPLATES, default='tophit articles',
