@@ -21,4 +21,4 @@ class CMSArticleFrontendForm(forms.ModelForm):
     
     class Meta:
         model = CMSArticle
-        fields = ('title', 'slug', 'content', 'category', 'menu')
+        fields = ('title', 'slug', 'content', 'category',)

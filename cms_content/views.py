@@ -110,17 +110,21 @@ def article_add(request):
     if request.method=="POST":
         form = CMSArticleFrontendForm(request.POST)
         if form.is_valid():
+            menu_count = CMSMenuID.objects.count() + 1
+            category = form.cleaned_data['category']
+            cate = CMSCategory.objects.get(name=category)
+            menu = CMSMenuID.objects.create(menuid=menu_count, parent=cate.menu.menuid)
             article = CMSArticle.objects.create(
                 title = form.cleaned_data['title'],
                 content = form.cleaned_data['content'], 
                 slug = form.cleaned_data['slug'], 
-                category = form.cleaned_data['category'],
+                category = category,
                 created_by = request.user,
                 created_date = datetime.now(),
                 last_modified_by = request.user,
                 last_modified_date = datetime.now(),
                 pub_status = 'pub',
-                menu = form.cleaned_data['menu'],
+                menu = menu,
             )
             article.save()
         else:
