@@ -23,4 +23,5 @@ urlpatterns = patterns ('',
     url(r'^article/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$', article_detail, name='cms_content_article_detail'),
     url(r'^article/add/$', article_add, name='cms_content_article_add'),
     url(r'^article/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/del/$', article_del, name='cms_content_article_del'),
+    url(r'^article/tags/(?P<tag>[\w]+)/$', article_by_tag, name='cms_content_article_by_tag'),
 )

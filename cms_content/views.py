@@ -92,11 +92,16 @@ def article_detail(request, year, month, day, slug):
     article = CMSArticle.objects.select_related(depth=2).get(slug=slug)
     article.hits = F('hits') + 1
     article.save()
+    new = CMSArticle.objects.select_related(depth=2).get(slug=slug)
+    hits = new.hits
+    tags = article.tags.all()
     #cache_nodes(request, article.slug)
     return {
         'section': article.category.section,
         'category': article.category,
         'article': article,
+        'tags': tags,
+        'hits': hits,
     }
 
 @login_required
@@ -136,3 +141,10 @@ def article_del(request, slug, path, name):
         article = CMSArticle.objects.get(slug=name)
         article.delete()
         return HttpResponseRedirect(ROOT_URL)
+
+@render_to('cms_content/article_by_tag.html')
+def article_by_tag(request, tag):
+    articles = CMSArticle.objects.filter(tags__in=[tag])
+    return {
+        'articles': articles,
+    }

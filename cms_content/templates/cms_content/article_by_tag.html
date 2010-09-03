@@ -1,0 +1,37 @@
+{% extends 'cms_content/cms_content_base.html' %}
+{% load i18n menu_tags %}
+
+{% block extra_head %}{{ block.super }}{% endblock extra_head %}
+
+{% block cms_content_menu %}
+  <ul>{% show_menu 1 1 0 0 %}</ul>
+{% endblock cms_content_menu %}
+
+{% block col_right %}
+<div class="block">
+  <h3 class="block_title">{% trans "CMS Content" %}</h3>
+  <div class="block_content inner">
+  <table class="cms_article_table_list">
+  <tr class="title">
+    <th>{% trans "Article Title" %}</th>
+    <th>{% trans "Author" %}</th>
+    <th>{% trans "Published Date" %}</th>
+    <th>{% trans "Read Number" %}</th>
+  </tr>
+  {% for article in articles %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+    <td><a href="/user/{{ article.created_by }}">{{ article.created_by }}</td>
+    <td>{{ article.created_date|date:"Y.m.d" }}</td>
+    <td>{{ article.hits }}</td>
+  </tr>
+  {% endfor %}
+  </table>
+  </div>
+</div>
+{% endblock col_right %}
+
+{% block control %}
+<a href="{% url cms_content_article_add %}">add article</a> | 
+<a href="../../delete/">delete article</a>
+{% endblock control %}
