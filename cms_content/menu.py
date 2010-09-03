@@ -41,14 +41,14 @@ class CMSContentMenu(CMSAttachMenu):
                 category.menu.parent,
                 )
             )
-        for article in articles:
-            nodes.append(NavigationNode(
-                article.title,
-                article.url,
-                article.menu.menuid,
-                article.menu.parent,
-                )
-            )
+        #for article in articles:
+        #    nodes.append(NavigationNode(
+        #        article.title,
+        #        article.url,
+        #        article.menu.menuid,
+        #        article.menu.parent,
+        #        )
+        #    )
         return nodes
 
 menu_pool.register_menu(CMSContentMenu)
