@@ -261,16 +261,20 @@ class CMSArticle(models.Model):
     @property
     def previous_article(self):
         """Return the previous article"""
-        articles = CMSArticle.pub_manager.filter(created_date_lt=self.created_date)
+        articles = CMSArticle.pub_manager.select_related().filter(created_date__lt=self.created_date)
         if articles:
             return articles[0]
+        else:
+            return
     
     @property
     def next_article(self):
         """Return the next article"""
-        articles = CMSArticle.pub_manager.filter(created_date_gt=self.created_date)
+        articles = CMSArticle.pub_manager.select_related().filter(created_date__gt=self.created_date)
         if articles:
             return articles[0]
+        else:
+            return
     
     @property
     def url(self):
