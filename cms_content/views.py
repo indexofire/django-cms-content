@@ -58,7 +58,7 @@ def section_detail(request, slug):
     }
 
 #@cache_page(60*30)
-@render_to('cms_content/category_detail.html')
+@render_to('cms_content/article_list.html')
 def category_detail(request, slug):
     """View of list articles of category with name slug
     

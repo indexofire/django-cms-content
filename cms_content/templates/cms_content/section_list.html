@@ -1,37 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'cms_content/cms_content_base.html' %}
 {% load i18n menu_tags %}
 
-{% block extra_head %}
-<link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
-{% endblock extra_head %}
+{% block extra_head %}{{ block.super }}{% endblock extra_head %}
 
-{% block content %}
-<div class="span-4">
-  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu 1 2 0 0 %}</ul></div>
-</div>
+{% block cms_content_menu %}
+<ul>{% show_menu 1 2 0 1 %}</ul>
+{% endblock cms_content_menu %}
 
-<div class="span-20 last">
-  <div style="padding: 0px 10px 10px 0px">
-  <h2>Section List</h2>
-  <table class="cms_category">
-  <tr class="title">
-    <th>{% trans "Icon" %}</th>
-    <th>{% trans "Name" %}</th>
-    <th>{% trans "Introduction" %}</th>
-  </tr>
-  {% for section in sections %}
-  <tr class="{% cycle 'row1' 'row2' %}">
-    <td><img src="{{ MEDIA_URL }}{{ section.image }}"></td>
-    <td><a href="{{ section.get_absolute_url }}">{{ section.name }}</a></td>
-    <td>{{ section.description }}</td>
-  </tr>
-  {% endfor %}
-  </table>
+{% block col_right %}
+<div class="block">
+  <h3 class="block_title">{% trans "CMS Content" %}</h3>
+  <div class="block_content">
+    <table class="cms_category">
+      <tr class="title">
+        <th>{% trans "Icon" %}</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Introduction" %}</th>
+      </tr>
+      {% for section in object_list %}
+      <tr class="{% cycle 'row1' 'row2' %}">
+        <td><img src="{{ MEDIA_URL }}{{ section.image }}"></td>
+        <td><a href="{{ section.get_absolute_url }}">{{ section.name }}</a></td>
+        <td>{{ section.description }}</td>
+      </tr>
+      {% endfor %}
+    </table>
   </div>
 </div>
-{% endblock content%}
+{% endblock col_right %}
 
-{% block panel %}
+{% block control %}
 <a href="{% url cms_content_article_add %}">add article</a> | 
 <a href="../delete/">delete article</a>
-{% endblock panel %}
+{% endblock control %}

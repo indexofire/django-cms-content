@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n menu_tags %}
+
+{% block extra_head %}
+  <link href="{{ MEDIA_URL }}css/cms_content.css" rel="stylesheet" type="text/css" />
+{% endblock extra_head %}
+
+{% block content %}
+<div class="span-6">
+  <div class="block">
+    <h3 class="block_title">{% trans "cms menu" %}</h3>
+    <div class="block_content" id="menu_tree">
+    {% block cms_content_menu %}
+      <ul>{% show_menu 1 2 0 2 %}</ul>
+    {% endblock cms_content_menu %}
+    </div>
+  </div>
+  {% block col_left %}{% endblock col_left %}
+</div>
+
+<div class="span-18 last">
+  {% block col_right %}{% endblock col_right %}
+</div>
+{% endblock content %}

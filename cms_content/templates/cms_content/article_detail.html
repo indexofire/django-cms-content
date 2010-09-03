@@ -1,39 +1,33 @@
-{% extends 'base.html' %}
-{% load i18n menu_tags cms_tags content_tags comments %}
+{% extends 'cms_content/cms_content_base.html' %}
+{% load i18n menu_tags cms_tags content_tags avatar_tags %}
+
+{% block title %}{{ article.title }}{% endblock title %}
 
 {% block extra_head %}
-<link href="{{ MEDIA_URL }}cms_content/css/cms_content_style.css" rel="stylesheet" type="text/css" />
+  <link href="{{ MEDIA_URL }}css/cms_content.css" rel="stylesheet" type="text/css" />
 {% endblock extra_head %}
 
+{% block breadcrumb %}{{ block.super }}{% endblock breadcrumb %}
 
-{% block breadcrumb %}
-{{ block.super }}
+{% block cms_content_menu %}<div id="menu_tree"><ul>{% show_menu 1 2 0 1 %}</ul></div>{% endblock cms_content_menu %}
 
-{% endblock breadcrumb %}
-{% block content %}
-<div class="span-4">
-  <div id="menu_tree"><ul><li class="title">{% trans "cms menu" %}</li>{% show_menu 1 2 0 1 %}</ul></div>
+{% block col_right %}
+<div class="block">
+  <h3 class="block_title">{% trans "Article" %}:<a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+  <div class="block_content">
+    <h3 class="article_title"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+    <div class="article_info">
+      <span>{% trans 'written by author' %}: <a href="{% url profile_detail article.created_by %}">{{ article.created_by }}</a></span>
+      <span>{{ article.created_date }}</span>
+      <span>{% trans "Read Times" %}: <a href="">{{ article.hits }}</a><span>
+      <span>{% trans "Published in" %}: <a href="{{ article.category.get_absolute_url }}">{{ article.category }}</a></span>
+    </div>
+    <div class="article_tags">Tags:{{ article.tags.name }}</div>
+    <div class="article_content">{{ article.content|code_highlight }}</div>
+  </div>
 </div>
-
-<div class="article span-20 last">
-  {{ section }}{{ category }}
-  <h2>{{ article.title }}</h2>
-  <h5>{% trans 'Author' %}: <a href="{% url profiles_profile_detail article.created_by %}">{{ article.created_by }}</a> | 
-  Created Time: {{ article.created_date|date:"Y.m.d" }}</h5>
-  
-  {{ article.content|code_highlight }}
-
-  <h3>comments:</h3>
-  <p>There are {% get_comment_count for article as comment_count %}{{ comment_count }} comments</p>
-  {% get_comment_list for article as comment_list %}
-  {% for comment in comment_list %}
-  <p>Posted by: {{ comment.user_name }} on {{ comment.submit_date }}</p>
-  <p>Comment: {{ comment.comment }}</p>
-  {% endfor %}
-<!--{% render_comment_list for article %}-->
-  {% render_comment_form for article %}
-</div>
-{% endblock %}
+{% if request.user.is_authenticated %}{% include "cms_content/includes/comment_form.html" %}{% endif %}
+{% endblock col_right %}
 
 {% block topbar %}
 {{ block.super }}
@@ -51,7 +45,7 @@
 {% endblock %}
 
 
-{% block panel %}
+{% block control %}
 <a href="{% url cms_content_article_add %}">add article</a> | 
 <a href="../../../delete/">delete article</a>
-{% endblock panel %}
+{% endblock control %}
