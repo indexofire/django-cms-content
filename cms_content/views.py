@@ -144,7 +144,7 @@ def article_del(request, slug, path, name):
 
 @render_to('cms_content/article_by_tag.html')
 def article_by_tag(request, tag):
-    articles = CMSArticle.objects.filter(tags__in=[tag])
+    articles = CMSArticle.pub_manager.filter(tags__in=[tag])
     return {
         'articles': articles,
     }
