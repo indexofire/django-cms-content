@@ -94,13 +94,13 @@ def article_detail(request, year, month, day, slug):
     article.save()
     new = CMSArticle.objects.select_related(depth=2).get(slug=slug)
     hits = new.hits
-    tags = article.tags.all()
+    article_tags = article.tags.all()
     #cache_nodes(request, article.slug)
     return {
         'section': article.category.section,
         'category': article.category,
         'article': article,
-        'tags': tags,
+        'article_tags': article_tags,
         'hits': hits,
     }
 
