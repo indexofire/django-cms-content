@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import F
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
+from django.shortcuts import get_list_or_404
 from django.template.context import RequestContext
 from django.core.paginator import Paginator
 from django.core.paginator import InvalidPage
@@ -85,6 +86,19 @@ def category_detail(request, slug):
         'section': category.section,
         'category': category,
         'articles': queryset,
+    }
+
+@render_to('cms_content/article_list.html')
+def article_list(request, slug):
+    """Display articles in a named slug's category. 
+    
+    """
+    category = CMSCategory.objects.select_related(depth=1).get(slug=slug)
+    articles = CMSArticle.pub_manager.select_related(depth=1).filter(category=category)
+    return {
+        'category': category,
+        'articles': articles,
+        'per_page': ARTICLE_PERPAGE,
     }
 
 @render_to('cms_content/article_detail.html')
