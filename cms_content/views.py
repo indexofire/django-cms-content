@@ -26,34 +26,25 @@ from cms_content.settings import ARTICLE_PERPAGE
 #@cache_page(60*30)
 @render_to('cms_content/content_index.html')
 def content_index(request):
-    articles = list(CMSArticle.pub_manager.all())
+    articles = list(CMSArticle.pub_manager.all()[:10])
     return {
         'articles': articles,
     }
 
-#@cache_page(60*30)
+@cache_page(24*60*60)
 @render_to('cms_content/section_list.html')
 def section_list(request):
-    #request_page = request.GET.get('page', 1)
     sections = list(CMSSection.objects.all())
-    #paginator = Paginator(sections, 10)
     return {
         'sections': sections,
-        #'paginator': paginator,
-        #'page': paginator.page(request_page), # add 1 query
     }
 
-#@cache_page(60*30)
+@cache_page(24*60*60)
 @render_to('cms_content/section_detail.html')
 def section_detail(request, slug):
-    #request_page = request.GET.get('page', 1)
     section = CMSSection.objects.get(slug=slug)
     categories = CMSCategory.objects.select_related(depth=1).filter(section=section)
-    #paginator = Paginator(categories, CATEGORY_PERPAGE) # add 0 query
     return {
-        #'page': paginator.page(request_page), # add 1 query
-        #'paginator': paginator,
-        #'request_page': int(request_page),
         'section': section,
         'categories': categories,
     }
@@ -65,8 +56,7 @@ def category_detail(request, slug):
     
     """
     category = CMSCategory.objects.select_related(depth=1).get(slug=slug)
-    articles = CMSArticle.objects.select_related(depth=1).filter(category=category)
-    #articles = list(CMSArticle.objects.select_related(depth=1).filter(category=category).filter(pub_status="pub"))
+    articles = CMSArticle.pub_manager.select_related(depth=1).filter(category=category)
     paginator = Paginator(articles, ARTICLE_PERPAGE)
     try:
         request_page = int(request.GET.get('page', 1))
@@ -87,7 +77,8 @@ def category_detail(request, slug):
         'category': category,
         'articles': queryset,
     }
-
+    
+#@cache_page(60*30)
 @render_to('cms_content/article_list.html')
 def article_list(request, slug):
     """Display articles in a named slug's category. 
@@ -103,19 +94,17 @@ def article_list(request, slug):
 
 @render_to('cms_content/article_detail.html')
 def article_detail(request, year, month, day, slug):
-    article = CMSArticle.objects.select_related(depth=2).get(slug=slug)
-    article.hits = F('hits') + 1
+    article = CMSArticle.pub_manager.select_related(depth=2).get(slug=slug)
+    article.hits += 1
     article.save()
-    new = CMSArticle.objects.select_related(depth=2).get(slug=slug)
-    hits = new.hits
-    article_tags = article.tags.all()
+    article_tags = article.tags.select_related().all()
     #cache_nodes(request, article.slug)
     return {
         'section': article.category.section,
         'category': article.category,
         'article': article,
         'article_tags': article_tags,
-        'hits': hits,
+        'hits': article.hits,
     }
 
 @login_required
