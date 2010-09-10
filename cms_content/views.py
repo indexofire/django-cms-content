@@ -154,4 +154,5 @@ def article_by_tag(request, tag):
     articles = CMSArticle.pub_manager.filter(tags__in=[tag])
     return {
         'articles': articles,
+        'tag': tag,
     }
