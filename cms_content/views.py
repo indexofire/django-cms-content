@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-
 from django.http import HttpResponseRedirect
 from django.db.models import F
 from django.shortcuts import render_to_response
@@ -13,7 +12,6 @@ from django.core.paginator import EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.utils.translation import ugettext_lazy as _
-
 from cms_content.models import *
 from cms_content.utils.render import render_to
 #from cms_content.utils.cache import cache_nodes
