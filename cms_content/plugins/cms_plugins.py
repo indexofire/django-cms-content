@@ -36,7 +36,14 @@ class TopHitArticlePlugin(CMSPluginBase):
     render_template = 'cms_content/plugins/tophit_article.html'
     
     def render(self, context, instance, placeholder):
-        context.update({})
+        articles = CMSArticle.pub_manager.select_related().all()
+        sort = 'hits'
+        context.update({
+            'articles': articles,
+            'object': instance,
+            'placeholder': placeholder,
+            }
+        )
         return context
 
 plugin_pool.register_plugin(TopHitArticlePlugin)
