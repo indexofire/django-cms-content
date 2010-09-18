@@ -1,0 +1,302 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Mark Renton <indexofire@gmail.com>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-03 07:31+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mark Renton <indexofire@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:30
+msgid "Article Name"
+msgstr "文章名称"
+
+#: admin.py:39 models.py:104
+msgid "Category Name"
+msgstr "类别名称"
+
+#: admin.py:144
+msgid "Make the article published"
+msgstr "标记文章为已发表"
+
+#: admin.py:155
+#, fuzzy
+msgid "Make the article as draft"
+msgstr "标记文章为已发表"
+
+#: cms_app.py:10
+#, fuzzy
+msgid "CMS Content App"
+msgstr "CMS内容菜单"
+
+#: menu.py:21
+msgid "CMS Content Menu"
+msgstr "CMS内容菜单"
+
+#: models.py:30 models.py:31
+msgid "Menu ID"
+msgstr "菜单ID"
+
+#: models.py:50
+msgid "Section Name"
+msgstr "版块名称"
+
+#: models.py:53
+#, fuzzy
+msgid "Section's Name"
+msgstr "版块名称"
+
+#: models.py:56 models.py:110 models.py:178
+msgid "Slug"
+msgstr "文章别名"
+
+#: models.py:60
+#, fuzzy
+msgid "Section's Slug"
+msgstr "版块"
+
+#: models.py:63
+msgid "Section Description"
+msgstr "版块描述"
+
+#: models.py:65
+#, fuzzy
+msgid "Your Section's Description"
+msgstr "版块描述"
+
+#: models.py:68 models.py:129
+msgid "Image"
+msgstr "图标"
+
+#: models.py:71
+#, fuzzy
+msgid "Section Image Displayed In Pages"
+msgstr "版块标志图片"
+
+#: models.py:74 models.py:135
+#, fuzzy
+msgid "Create Time"
+msgstr "创建日期"
+
+#: models.py:84 models.py:85 models.py:118
+msgid "Section"
+msgstr "版块"
+
+#: models.py:107
+#, fuzzy
+msgid "Category's Name"
+msgstr "类别名称"
+
+#: models.py:114
+#, fuzzy
+msgid "Category's Slug"
+msgstr "类别"
+
+#: models.py:121
+msgid "Pick a Section Used as the Category's Parent Level"
+msgstr "选择类别所属的版块"
+
+#: models.py:124
+msgid "Category Description"
+msgstr "类别描述"
+
+#: models.py:126
+#, fuzzy
+msgid "Your Category Description"
+msgstr "类别描述"
+
+#: models.py:132
+msgid "Category Image Display in Pages"
+msgstr "分类标志图片"
+
+#: models.py:145 models.py:146 models.py:210
+msgid "Category"
+msgstr "类别"
+
+#: models.py:165
+#, fuzzy
+msgid "published"
+msgstr "发表"
+
+#: models.py:166
+msgid "hidden"
+msgstr "隐藏"
+
+#: models.py:167
+#, fuzzy
+msgid "draft"
+msgstr "草稿"
+
+#: models.py:168
+#, fuzzy
+msgid "deleted"
+msgstr "删除"
+
+#: models.py:172 templates/cms_content/category_detail.html:19
+msgid "Article Title"
+msgstr "文章标题"
+
+#: models.py:175
+#, fuzzy
+msgid "Article's Title"
+msgstr "文章标题"
+
+#: models.py:182
+#, fuzzy
+msgid "Article's Slug"
+msgstr "文章标题"
+
+#: models.py:185
+msgid "Article Content"
+msgstr "文章内容"
+
+#: models.py:187
+#, fuzzy
+msgid "Article's Content"
+msgstr "文章内容"
+
+#: models.py:191
+msgid "Author Name"
+msgstr "作者"
+
+#: models.py:196
+msgid "Created Date"
+msgstr "创建日期"
+
+#: models.py:201
+msgid "Last Modified By"
+msgstr "最后修改人"
+
+#: models.py:205
+msgid "Last Modified Date"
+msgstr "最后修改日期"
+
+#: models.py:212
+msgid "Pick a Category as the Article's Parent Level"
+msgstr "选择文章所属的类别"
+
+#: models.py:215
+#, fuzzy
+msgid "Article Status"
+msgstr "文章名称"
+
+#: models.py:221
+#, fuzzy
+msgid "Article His Number"
+msgstr "文章名称"
+
+#: models.py:225
+msgid "Article Publish Start Date"
+msgstr "文章开始发布日期"
+
+#: models.py:231
+msgid "Article Publish End Date"
+msgstr "文章结束发布日期"
+
+#: models.py:243 models.py:244
+msgid "Article"
+msgstr "文章"
+
+#: plugins/cms_plugins.py:17
+#, fuzzy
+msgid "Latest Article"
+msgstr "文章"
+
+#: plugins/cms_plugins.py:35
+#, fuzzy
+msgid "Top Hits Article"
+msgstr "文章"
+
+#: plugins/models.py:21 plugins/models.py:40
+#, fuzzy
+msgid "category"
+msgstr "类别"
+
+#: plugins/models.py:22
+#, fuzzy
+msgid "authors"
+msgstr "作者"
+
+#: plugins/models.py:23 plugins/models.py:41
+msgid "number of articles"
+msgstr "文章数"
+
+#: plugins/models.py:24 plugins/models.py:42
+msgid "template"
+msgstr "模板"
+
+#: plugins/models.py:26 plugins/models.py:44
+msgid "Template used to display the plugin"
+msgstr "插件模板"
+
+#: plugins/models.py:29 plugins/models.py:47
+#, fuzzy, python-format
+msgid "%d articles"
+msgstr "文章"
+
+#: templates/cms_content/article_detail.html:15
+#: templates/cms_content/category_detail.html:10
+#: templates/cms_content/content_index.html:10
+#: templates/cms_content/section_detail.html:10
+#: templates/cms_content/section_list.html:10
+msgid "cms menu"
+msgstr "CMS菜单"
+
+#: templates/cms_content/article_detail.html:21
+#: templates/cms_content/category_detail.html:20
+#, fuzzy
+msgid "Author"
+msgstr "作者"
+
+#: templates/cms_content/article_detail.html:43
+msgid "Edit"
+msgstr "编辑"
+
+#: templates/cms_content/article_detail.html:46
+msgid "Add another"
+msgstr "新增"
+
+#: templates/cms_content/category_detail.html:21
+#, fuzzy
+msgid "Published Date"
+msgstr "发表"
+
+#: templates/cms_content/category_detail.html:22
+msgid "Read Number"
+msgstr "阅读数"
+
+#: templates/cms_content/category_detail.html:35
+msgid "previous"
+msgstr "前"
+
+#: templates/cms_content/category_detail.html:37
+msgid "next"
+msgstr "后"
+
+#: templates/cms_content/section_detail.html:18
+#: templates/cms_content/section_list.html:19
+msgid "Name"
+msgstr "名称"
+
+#: templates/cms_content/section_detail.html:19
+#: templates/cms_content/section_list.html:20
+msgid "Introduction"
+msgstr "介绍"
+
+#: templates/cms_content/section_list.html:18
+msgid "Icon"
+msgstr "图标"
+
+#: templates/cms_content/plugins/latest_article.html:14
+#, fuzzy
+msgid "No Articles."
+msgstr "文章"

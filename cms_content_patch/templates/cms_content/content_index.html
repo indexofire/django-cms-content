@@ -1,0 +1,33 @@
+{% extends 'cms_content/cms_content_base.html' %}
+{% load i18n menu_tags content_tags %}
+
+{% block title %}{% trans "CMS Content" %}{% endblock title %}
+
+{% block extra_head %}
+{{ block.super }}
+  <script src="{{ MEDIA_URL }}js/accordion.js" type="text/javascript"></script>
+{% endblock extra_head %}
+
+{% block cms_content_menu %}{{ block.super }}{% endblock cms_content_menu %}
+
+{% block col_right %}
+<div class="block">
+  <h3 class="block_title">{% trans "Latest Articles" %}</h3>
+  <div class="block_content" id="latest_article">
+      <div class="accordion">
+      {% for article in articles %}
+        <div class="accordion_title item"><h3>{{ article.title }} - {{ article.created_by }}:{{ article.created_date }}</h3></div>
+        <div class="accordion_content item">
+          <div class="content">{{ article.content|code_highlight|truncatewords_html:200 }}</div>
+          <span class="read_more"><a href="{{ article.get_absolute_url }}" target="_self">{% trans "read more" %}</a></span>
+        </div>
+      {% endfor %}
+      </div>
+  </div>
+</div>
+{% endblock col_right %}
+
+{% block control %}
+<a href="{% url cms_content_article_add %}">add article</a> | 
+<a href="../delete/">delete article</a>
+{% endblock control %}

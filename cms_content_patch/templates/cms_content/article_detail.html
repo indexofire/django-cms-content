@@ -1,0 +1,51 @@
+{% extends 'cms_content/cms_content_base.html' %}
+{% load i18n menu_tags cms_tags content_tags avatar_tags %}
+
+{% block title %}{{ article.title }}{% endblock title %}
+
+{% block extra_head %}
+  <link href="{{ MEDIA_URL }}css/cms_content.css" rel="stylesheet" type="text/css" />
+{% endblock extra_head %}
+
+{% block breadcrumb %}{{ block.super }}{% endblock breadcrumb %}
+
+{% block cms_content_menu %}<div id="menu_tree"><ul>{% show_menu 1 2 0 1 %}</ul></div>{% endblock cms_content_menu %}
+
+{% block col_right %}
+<div class="block">
+  <h3 class="block_title">{% trans "Article" %}:<a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+  <div class="block_content">
+    <h3 class="article_title"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+    <div class="article_info">
+      <span>{% trans 'written by author' %}: <a href="{% url profile_detail article.created_by %}">{{ article.created_by }}</a></span>
+      <span>{{ article.created_date }}</span>
+      <span>{% trans "Read Times" %}: <a href="">{{ article.hits }}</a><span>
+      <span>{% trans "Published in" %}: <a href="{{ article.category.get_absolute_url }}">{{ article.category }}</a></span>
+    </div>
+    <div class="article_tags">Tags:{{ article.tags.name }}</div>
+    <div class="article_content">{{ article.content|code_highlight }}</div>
+  </div>
+</div>
+{% if request.user.is_authenticated %}{% include "cms_content/includes/comment_form.html" %}{% endif %}
+{% endblock col_right %}
+
+{% block topbar %}
+{{ block.super }}
+  {% if request.user.is_staff %}
+  <div id="admin-toolbar">
+    {% if article %}
+    <a href="{{ article.get_admin_change_url }}">{% trans "Edit" %}</a> |
+    <a href="{{ article.get_admin_delete_url }}">Delete</a> |
+    <a href="{{ article.get_admin_history_url }}">History</a> |
+    <a href="{{ article.get_admin_add_url }}">{% trans "Add another" %} {{ article.get_verbose_name }}</a> |
+    <a href="{{ article.get_admin_changelist_url }}">Manage {{ article.get_verbose_name_plural }}</a> |
+    {% endif %}
+  </div>
+  {% endif %}
+{% endblock %}
+
+
+{% block control %}
+<a href="{% url cms_content_article_add %}">add article</a> | 
+<a href="../../../delete/">delete article</a>
+{% endblock control %}
